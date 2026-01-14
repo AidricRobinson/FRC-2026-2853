@@ -1,0 +1,132 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot;
+
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.GamepadConstants;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.AutoCommands.Autos;
+import frc.robot.commands.TeleOpCommands.ConveyorBackwardCommand;
+import frc.robot.commands.TeleOpCommands.ConveyorForwardCommand;
+import frc.robot.commands.TestCommands.RotationSetPointTestCommands.RotationBottomCommand;
+import frc.robot.commands.TestCommands.RotationSetPointTestCommands.RotationTopCommand;
+import frc.robot.commands.TestCommands.RotationTestCommands.RotationTestSetSpeed;
+import frc.robot.commands.TestCommands.RotationTestCommands.RotationTestSetSpeedNeg;
+// import frc.robot.commands.SwerveControlCommand;
+import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
+import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestShutdown;
+import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSpeedDown;
+import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSpeedUp;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.RotationSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+// import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.SwerveModule;
+import frc.robot.Constants.SwerveModuleConstants;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+
+public class RobotContainer {
+
+  private final ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
+  private final ShuffleboardTab testTranPos = Shuffleboard.getTab("Test_Tran_Pos");
+  private final ShuffleboardTab testTranVel = Shuffleboard.getTab("Test_Tran_Vel");
+  private final ShuffleboardTab testRotPos = Shuffleboard.getTab("Test_Rot_Pos");
+  private final ShuffleboardTab testRotVel = Shuffleboard.getTab("Test_Rot_Vel");
+  private final ShuffleboardTab testPos = Shuffleboard.getTab("Test_Pos");
+  private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
+
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+  private final RotationSubsystem m_RotationSubsystem = new RotationSubsystem();
+  private final ConveyorSubsystem m_ConveyorSubsystem = new ConveyorSubsystem();
+  //  private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
+  //   testTranPos,
+  //   testTranVel,
+  //   testRotPos,
+  //   testRotVel, 
+  //   testPos,
+  //   testGyroData
+  // );
+  private final GenericHID controller0 = new GenericHID(0);
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    configureBindings();
+      //  m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
+      // m_SwerveDriveSubsystem,
+    //   controller0
+    //   )
+    // );
+
+  }
+
+  
+  private void configureBindings() {
+    //Adjusting powers, currently not working for the time being :(
+    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
+  
+
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+            .onTrue(new RotationTestSetSpeed(m_RotationSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
+            .onTrue(new RotationTestSetSpeedNeg(m_RotationSubsystem, controller0));     
+            
+    new POVButton(controller0, GamepadConstants.kDpadDown)
+            .onTrue(new RotationTopCommand(m_RotationSubsystem));
+    new POVButton(controller0, GamepadConstants.kDpadUp)
+            .onTrue(new RotationBottomCommand(m_RotationSubsystem));
+    
+    
+    
+    new POVButton(controller0, GamepadConstants.kDpadLeft)
+            .onTrue(new ConveyorBackwardCommand(m_ConveyorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadRight)
+            .onTrue(new ConveyorForwardCommand(m_ConveyorSubsystem, controller0));
+      
+
+
+
+
+
+
+
+
+
+    new Trigger(m_exampleSubsystem::exampleCondition)
+        .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+  }
+
+  
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+    return Autos.exampleAuto(m_exampleSubsystem);
+  }
+}
