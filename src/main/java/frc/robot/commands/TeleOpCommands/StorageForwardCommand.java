@@ -22,6 +22,6 @@ public class StorageForwardCommand extends Command{
         m_conveyorSubsystem.shutdown();
     }
     public boolean isFinished(){
-        return !controller.getRawButton(GamepadConstants.kRightBumperPort); //pls change// no
+        return !controller.getRawButton(GamepadConstants.kAButtonPort); //pls change// no
     } 
 }

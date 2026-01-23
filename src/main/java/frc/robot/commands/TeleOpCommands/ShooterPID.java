@@ -1,4 +1,4 @@
-package frc.robot.commands.TestCommands.ShooterTestCommands;
+package frc.robot.commands.TeleOpCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -11,6 +11,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShooterPID extends Command {
     private ShooterSubsystem shooterSubsystem;
     private GenericHID controller;
+    
 
     public ShooterPID(ShooterSubsystem shooterSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
@@ -22,19 +23,21 @@ public class ShooterPID extends Command {
     @Override
     public void initialize() {
         shooterSubsystem.setPoint(2500);
-        shooterSubsystem.resetPID();
     }
 
     @Override
     public void execute() {
+        shooterSubsystem.updateError(); 
         shooterSubsystem.setPower(
-            shooterSubsystem.getOutput() > 1 ? -1
-            : shooterSubsystem.getOutput() < -1 ? -1
-            : shooterSubsystem.getOutput()
+        shooterSubsystem.getOutput() > 1 ? 1
+        : shooterSubsystem.getOutput() < 0 ? 0
+        : shooterSubsystem.getOutput()
         );
+        
     }
     @Override
     public void end(boolean interrupted) {
+        shooterSubsystem.resetPID();
         shooterSubsystem.shutdown();
     }
 

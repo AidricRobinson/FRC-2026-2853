@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
    rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
 
-   pidController = new PIDController(0.0000275, 0.0000875, 0.0003);
+   pidController = new PIDController(0.00002 , 0.0000175, 1);
 
     leftMotorConfig = new SparkFlexConfig();
     leftMotorConfig
@@ -101,6 +101,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getError () {
     return pidController.getError();
   }
+  public double getSetpoint(){
+    return pidController.getSetpoint();
+  }
 
   public void resetPID() {
     pidController.reset();
@@ -108,5 +111,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getOutput () {
     return pidController.calculate(getRPM());
+  }
+  public void updateError(){
+    pidController.calculate(getRPM(), getSetpoint());
   }
 }
