@@ -7,21 +7,28 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.PID;
 import frc.robot.Constants.PortConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SparkFlex leftMotor; 
   private SparkFlex rightMotor;
+  private PIDController pidController;
   private SparkFlexConfig leftMotorConfig;
   private SparkFlexConfig rightMotorConfig;
   double testSpeed = 0;
+
+  private double setPoint;
 
   
   public ShooterSubsystem() {
     leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
    rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
+
+   pidController = new PIDController(0.0000275, 0.0000875, 0.0003);
 
     leftMotorConfig = new SparkFlexConfig();
     leftMotorConfig
@@ -48,13 +55,17 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 0.1;
+    testSpeed += 0.05;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 0.1;
+    testSpeed -= 0.05;
   }
   public void shooterTestSpeedShutdown(){
     testSpeed = 0;
+  }
+
+  public double getRPM() {
+    return Math.abs(rightMotor.getEncoder().getVelocity()); //be careful
   }
   public double getShooterTestSpeed(){
     return testSpeed;
@@ -71,11 +82,31 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("ShooterTestSpeed", getShooterTestSpeed());
     SmartDashboard.putNumber("ShooterSliderTestingSpeed", testSpeed);
+    SmartDashboard.putNumber("RPM of flywheel", getRPM());
+    SmartDashboard.putNumber("SetPoint", setPoint);
+    SmartDashboard.putNumber("Error", getError());
     SmartDashboard.updateValues();
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void setPoint(double target) {
+    pidController.setSetpoint(target);
+    setPoint = target;
+  }
+
+  public double getError () {
+    return pidController.getError();
+  }
+
+  public void resetPID() {
+    pidController.reset();
+  }
+
+  public double getOutput () {
+    return pidController.calculate(getRPM());
   }
 }

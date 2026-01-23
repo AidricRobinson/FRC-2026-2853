@@ -37,9 +37,7 @@ public final class Constants {
     public static final int leftMotorPort = 24;
     public static final int rightMotorPort = 10;
 
-    // public static final int rotationMotorPort = 9; 
-
-    public static final int StorageMotorPort = 12; //placeholder
+    public static final int StorageMotorPort = 12; 
     
     public static final int intakeMotorPort = 13; //placeholder
   }

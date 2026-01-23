@@ -11,7 +11,7 @@ import frc.robot.commands.AutoCommands.Autos;
 import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.StorageBackwardCommand;
 import frc.robot.commands.TeleOpCommands.StorageForwardCommand;
-
+import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterPID;
 // import frc.robot.commands.SwerveControlCommand;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestShutdown;
@@ -117,11 +117,18 @@ public class RobotContainer {
     /// Stil needs to be tested, do not rely on this yet
     /// STORAGE
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-            .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller1));
+            .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-            .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller1));
+            .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
     // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
     //         .onTrue(new ShooterCommand(m_ShooterSubsystem, controller1));
+
+
+
+
+
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+            .onTrue(new ShooterPID(m_ShooterSubsystem, controller1));
       
   }  
   public Command getAutonomousCommand() {
