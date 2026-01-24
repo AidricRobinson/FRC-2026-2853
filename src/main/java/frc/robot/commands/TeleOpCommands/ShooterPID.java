@@ -22,7 +22,7 @@ public class ShooterPID extends Command {
 
     @Override
     public void initialize() {
-        shooterSubsystem.setPoint(3000);
+        shooterSubsystem.setPoint(3500);
     }
 
     @Override
