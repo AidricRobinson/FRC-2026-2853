@@ -21,7 +21,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkFlexConfig rightMotorConfig;
   double testSpeed = 0;
 
-  double kFF = 0.0001175;
   private double setPoint;
 
   
@@ -29,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
    rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
 
-   pidController = new PIDController(0.0001, 0.00004, 20000);
+   pidController = new PIDController(0.0001, 0.00004, 1);
 
     leftMotorConfig = new SparkFlexConfig();
     leftMotorConfig
@@ -56,10 +55,13 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 0.05;
+    testSpeed += 200;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 0.05;
+    testSpeed -= 50;
+  }
+  public double getTestRPM() {
+    return testSpeed;
   }
   public void shooterTestSpeedShutdown(){
     testSpeed = 0;
@@ -89,6 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("RPM of flywheel", getRPM());
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Error", getError());
+    SmartDashboard.putNumber("Derivative", pidController.getD());
     SmartDashboard.updateValues();
   }
 
@@ -114,9 +117,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getOutput () {
-    return pidController.calculate(getRPM(), getSetpoint()) + kFF * getSetpoint();
+    pidController.getD();
+    return pidController.calculate(getRPM(), getSetpoint());
   }
   public void updateError(){
+    pidController.getD();
     pidController.calculate(getRPM(), getSetpoint());
   }
 

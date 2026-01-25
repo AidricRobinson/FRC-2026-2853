@@ -16,12 +16,12 @@ public class StorageForwardCommand extends Command{
 
     }
     public void execute(){
-        m_conveyorSubsystem.setPower(0.25);
+        m_conveyorSubsystem.setPower(0.35);
     }
     public void end(boolean interupted){
         m_conveyorSubsystem.shutdown();
     }
     public boolean isFinished(){
-        return !controller.getRawButton(GamepadConstants.kAButtonPort); //pls change// no
+        return !controller.getRawButton(GamepadConstants.kRightBumperPort); //pls change// no
     } 
 }

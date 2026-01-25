@@ -118,8 +118,8 @@ public class RobotContainer {
     /// STORAGE
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
             .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-            .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller1));
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+            .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
     // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
     //         .onTrue(new ShooterCommand(m_ShooterSubsystem, controller1));
 
