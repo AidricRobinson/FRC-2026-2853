@@ -22,7 +22,7 @@ public class IntakeTestSpeedDown extends Command {
   @Override
   public void initialize() {
     m_IntakeSubsystem.testSpeedShutdown();
-
+    m_IntakeSubsystem.downSpeed();
     ///////////////////////////////////////////////
     /// ///////////////////////////////////////
     /// /ASDFHASDLFKJASDKLFjdsfljkasdjkl;fjklas:a/sdfhkljlas;diklfil;asdfjilasfd

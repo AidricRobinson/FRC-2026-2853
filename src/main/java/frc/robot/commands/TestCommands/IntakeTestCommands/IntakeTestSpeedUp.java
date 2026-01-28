@@ -22,6 +22,7 @@ public class IntakeTestSpeedUp extends Command {
   @Override
   public void initialize() {
     m_IntakeSubsystem.setMotorTestSpeed();
+    m_IntakeSubsystem.upSpeed();
      ///////////////////////////////////////////////
     /// ///////////////////////////////////////
     /// /ASDFHASDLFKJASDKLFjdsfljkasdjkl;fjklas:a/sdfhkljlas;diklfil;asdfjilasfd
