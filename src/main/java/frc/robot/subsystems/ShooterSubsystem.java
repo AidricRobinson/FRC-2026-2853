@@ -22,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
   double testSpeed = 0;
 
   private double setPoint;
+  private double kFF = 0.00012;
 
   
   public ShooterSubsystem() {
@@ -118,7 +119,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getOutput () {
     pidController.getD();
-    return pidController.calculate(getRPM(), getSetpoint());
+    return pidController.calculate(getRPM(), getSetpoint()) + kFF * pidController.getSetpoint();
   }
   public void updateError(){
     pidController.getD();
