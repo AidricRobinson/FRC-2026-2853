@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -60,5 +61,12 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     public void shutdown(){
         intakeMotor.set(0);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("IntakeTestSpeed", getIntakeTestSpeed());
+        SmartDashboard.putNumber("IntakeRPM", getRPM());
+        SmartDashboard.updateValues();
     }
 }
