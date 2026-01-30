@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutoCommands.Autos;
+import frc.robot.commands.TeleOpCommands.IntakePID;
 import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.ShooterPID;
 import frc.robot.commands.TeleOpCommands.StorageBackwardCommand;
@@ -104,15 +105,16 @@ public class RobotContainer {
     //     .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
 
 
-    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-        .onTrue(new IntakeTestSpeedDown(m_IntakeSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-        .onTrue(new IntakeTestSetSpeed(m_IntakeSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-        .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-        .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+    //     .onTrue(new IntakeTestSpeedDown(m_IntakeSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+    //     .onTrue(new IntakeTestSetSpeed(m_IntakeSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+    //     .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+    //     .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller0));
 
+    
     //STORAGE
     // new POVButton(controller0, GamepadConstants.kDpadRight)
     //    .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0));
@@ -141,8 +143,10 @@ public class RobotContainer {
 
 
 
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-            .onTrue(new ShooterPID(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+            .onTrue(new ShooterPID(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+            .onTrue(new IntakePID(m_IntakeSubsystem, controller0));
       
   }  
   public Command getAutonomousCommand() {

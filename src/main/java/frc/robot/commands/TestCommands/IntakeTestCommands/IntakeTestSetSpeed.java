@@ -33,7 +33,7 @@ public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controll
       //   );
 
       //UPDATE ADHFASJDFJAF
-      m_IntakeSubsystem.power(m_IntakeSubsystem.getIntakeTestSpeed());
+      m_IntakeSubsystem.setPower(m_IntakeSubsystem.getIntakeTestSpeed());
   }
 
   @Override

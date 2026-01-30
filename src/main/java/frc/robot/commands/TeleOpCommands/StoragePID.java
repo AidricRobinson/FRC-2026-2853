@@ -43,7 +43,7 @@ public class StoragePID extends Command {
 
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(GamepadConstants.kAButtonPort);
+        return !controller.getRawButton(GamepadConstants.kYButtonPort);
     }
 
 
