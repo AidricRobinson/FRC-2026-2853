@@ -21,6 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private PIDController pidController;
     private SparkFlexConfig intakeMotorConfig;
 
+    private double setPoint;
+
     public IntakeSubsystem(){
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
         testSpeed = 0.2;
@@ -38,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getRPM() {
      return Math.abs(intakeMotor.getEncoder().getVelocity()); //be careful
     }
-    public void power(double power){
+    public void setPower(double power){
         intakeMotor.set(power);
     }
     public void setMotorTestSpeed(){
@@ -69,4 +71,27 @@ public class IntakeSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("IntakeRPM", getRPM());
         SmartDashboard.updateValues();
     }
+
+    public double getError() {
+        return pidController.getError();
+    }
+    public double getOutput() {
+        return pidController.calculate(getRPM(), getSetPoint());
+    }
+    public double getSetPoint() {
+        return pidController.getSetpoint();
+    }
+     public void setPoint(double target) {
+        pidController.setSetpoint(target);
+        setPoint = target;
+    }
+    public void updateError(){
+        pidController.getD();
+        pidController.calculate(getRPM(), getSetPoint());
+    }
+    public void reset() {
+        pidController.reset();
+    }
+
+
 }
