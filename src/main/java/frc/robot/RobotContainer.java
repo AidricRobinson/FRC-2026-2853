@@ -12,7 +12,7 @@ import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.ShooterPID;
 import frc.robot.commands.TeleOpCommands.StorageBackwardCommand;
 import frc.robot.commands.TeleOpCommands.StorageForwardCommand;
-// import frc.robot.commands.SwerveControlCommand;
+import frc.robot.commands.SwerveControlCommand;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestShutdown;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSpeedDown;
@@ -25,41 +25,41 @@ import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-// import frc.robot.subsystems.SwerveDriveSubsystem;
-// import frc.robot.subsystems.SwerveModule;
-// import frc.robot.Constants.SwerveModuleConstants;
+import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.SwerveModule;
+import frc.robot.Constants.SwerveModuleConstants;
 import edu.wpi.first.wpilibj.GenericHID;
-// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 public class RobotContainer {
 
-  // private final ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
-  // private final ShuffleboardTab testTranPos = Shuffleboard.getTab("Test_Tran_Pos");
-  // private final ShuffleboardTab testTranVel = Shuffleboard.getTab("Test_Tran_Vel");
-  // private final ShuffleboardTab testRotPos = Shuffleboard.getTab("Test_Rot_Pos");
-  // private final ShuffleboardTab testRotVel = Shuffleboard.getTab("Test_Rot_Vel");
-  // private final ShuffleboardTab testPos = Shuffleboard.getTab("Test_Pos");
-  // private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
+  private final ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
+  private final ShuffleboardTab testTranPos = Shuffleboard.getTab("Test_Tran_Pos");
+  private final ShuffleboardTab testTranVel = Shuffleboard.getTab("Test_Tran_Vel");
+  private final ShuffleboardTab testRotPos = Shuffleboard.getTab("Test_Rot_Pos");
+  private final ShuffleboardTab testRotVel = Shuffleboard.getTab("Test_Rot_Vel");
+  private final ShuffleboardTab testPos = Shuffleboard.getTab("Test_Pos");
+  private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
-  //  private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
-  //   testTranPos,
-  //   testTranVel,
-  //   testRotPos,
-  //   testRotVel, 
-  //   testPos,
-  //   testGyroData
-  // );
+   private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
+    testTranPos,
+    testTranVel,
+    testRotPos,
+    testRotVel, 
+    testPos,
+    testGyroData
+  );
   private final GenericHID controller0 = new GenericHID(0);
   private final GenericHID controller1 = new GenericHID(1);
 
@@ -73,11 +73,11 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
-      //  m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
-      // m_SwerveDriveSubsystem,
-    //   controller0
-    //   )
-    // );
+       m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
+      m_SwerveDriveSubsystem,
+      controller0
+      )
+    );
 
   }
 
