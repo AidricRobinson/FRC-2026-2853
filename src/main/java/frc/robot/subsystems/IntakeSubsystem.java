@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -20,6 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private PIDController pidController;
     private SparkFlexConfig intakeMotorConfig;
 
+    private double setPoint;
+
     public IntakeSubsystem(){
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
         testSpeed = 0.2;
@@ -37,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getRPM() {
      return Math.abs(intakeMotor.getEncoder().getVelocity()); //be careful
     }
-    public void power(double power){
+    public void setPower(double power){
         intakeMotor.set(power);
     }
     public void setMotorTestSpeed(){
@@ -61,4 +64,34 @@ public class IntakeSubsystem extends SubsystemBase {
     public void shutdown(){
         intakeMotor.set(0);
     }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("IntakeTestSpeed", getIntakeTestSpeed());
+        SmartDashboard.putNumber("IntakeRPM", getRPM());
+        SmartDashboard.updateValues();
+    }
+
+    public double getError() {
+        return pidController.getError();
+    }
+    public double getOutput() {
+        return pidController.calculate(getRPM(), getSetPoint());
+    }
+    public double getSetPoint() {
+        return pidController.getSetpoint();
+    }
+     public void setPoint(double target) {
+        pidController.setSetpoint(target);
+        setPoint = target;
+    }
+    public void updateError(){
+        pidController.getD();
+        pidController.calculate(getRPM(), getSetPoint());
+    }
+    public void reset() {
+        pidController.reset();
+    }
+
+
 }

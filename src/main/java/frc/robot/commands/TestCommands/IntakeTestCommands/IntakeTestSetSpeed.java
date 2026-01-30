@@ -18,27 +18,28 @@
 //   }
 
 
-//   @Override
-//   public void initialize() {
-//     m_IntakeSubsystem.setPoint(m_IntakeSubsystem.getTestRPM());
-// }
+  @Override
+  public void initialize() {
+    // m_IntakeSubsystem.setPoint(m_IntakeSubsystem.getTestRPM());
+}
 
-//   @Override
-//   public void execute() {
-//       m_IntakeSubsystem.updateError(); 
-//         m_IntakeSubsystem.setPower(
-//         m_IntakeSubsystem.getOutput() > 1 ? 1
-//         : m_IntakeSubsystem.getOutput() < 0 ? 0
-//         : m_IntakeSubsystem.getOutput()
-//         );
-//       //UPDATE ADHFASJDFJAF
-//   }
+  @Override
+  public void execute() {
+      // m_IntakeSubsystem.updateError(); 
+      //   m_IntakeSubsystem.setPower(
+      //   m_IntakeSubsystem.getOutput() > 1 ? 1
+      //   : m_IntakeSubsystem.getOutput() < 0 ? 0
+      //   : m_IntakeSubsystem.getOutput()
+      //   );
 
-//   @Override
-//   public void end(boolean interrupted) {
-//     m_IntakeSubsystem.resetPID();
-//     m_IntakeSubsystem.shutdown();
-//   }
+      //UPDATE ADHFASJDFJAF
+      m_IntakeSubsystem.setPower(m_IntakeSubsystem.getIntakeTestSpeed());
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_IntakeSubsystem.shutdown();
+  }
 
 //   @Override
 //   public boolean isFinished() {
