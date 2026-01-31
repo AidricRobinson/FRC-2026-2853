@@ -53,7 +53,7 @@ private final CANBus canivore;
       this.canivore = canivore;
       //initializing absolute encoder parameters 
      this.CANCoderReversed = CANCoderReversed;
-     angleCANCoder = new CANcoder(CANCoderPort);
+     angleCANCoder = new CANcoder(CANCoderPort, canivore);
       
      // Configure the CANcoder for basic use
      CANcoderConfiguration configs = new CANcoderConfiguration();

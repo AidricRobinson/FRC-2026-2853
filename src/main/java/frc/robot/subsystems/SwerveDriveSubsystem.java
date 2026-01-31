@@ -35,7 +35,7 @@ import frc.robot.Constants.SwerveModuleConstants;
 
 public class SwerveDriveSubsystem extends SubsystemBase{
     //Canivore?
-    private CANBus canivore;
+    final private CANBus canivore;
     //Swerve modules
     private SwerveModule leftFrontModule;
     private SwerveModule rightFrontModule;
