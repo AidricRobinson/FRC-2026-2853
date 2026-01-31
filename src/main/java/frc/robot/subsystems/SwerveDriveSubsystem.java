@@ -77,9 +77,9 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     
     //constructor
     public SwerveDriveSubsystem(ShuffleboardTab testTranPos, ShuffleboardTab testTranVel, ShuffleboardTab testRotPos, 
-                                 ShuffleboardTab testRotVel, ShuffleboardTab testPos, ShuffleboardTab testGyroData) {
+                                 ShuffleboardTab testRotVel, ShuffleboardTab testPos, ShuffleboardTab testGyroData, CANBus canivore) {
         
-        canivore = new CANBus("drivetrain");
+        this.canivore = canivore;
         //Front Left Module Initializing
         leftFrontModule = new SwerveModule(
             SwerveModuleConstants.kLeftFrontWheelPort, 

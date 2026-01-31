@@ -35,6 +35,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.Constants.SwerveModuleConstants;
+
+import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -54,6 +57,7 @@ public class RobotContainer {
   private final ShuffleboardTab testRotVel = Shuffleboard.getTab("Test_Rot_Vel");
   private final ShuffleboardTab testPos = Shuffleboard.getTab("Test_Pos");
   private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
+  private final CANBus canivore = new CANBus("drivetrain");
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -65,7 +69,8 @@ public class RobotContainer {
     testRotPos,
     testRotVel, 
     testPos,
-    testGyroData
+    testGyroData,
+    canivore
   );
   private final GenericHID controller0 = new GenericHID(0);
   private final GenericHID controller1 = new GenericHID(1);
