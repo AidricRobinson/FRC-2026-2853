@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
+
 // import static edu.wpi.first.units.Units.Rotation;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -37,7 +39,7 @@ public class SwerveModule {
  private final TalonFX rotationMotor;
  private final TalonFXConfiguration rotationMotorConfig;
 
-
+private final CANBus canivore;
  //PID controller
  private final PIDController rotationPID;
  //angle offsets
@@ -47,11 +49,12 @@ public class SwerveModule {
 
  //constructor
  public SwerveModule(int drivePort, int rotationPort, boolean driveReversed, boolean rotationReversed,
-    int CANCoderPort, double CANCoderOffset, boolean CANCoderReversed) {
-     //initializing absolute encoder parameters 
+    int CANCoderPort, double CANCoderOffset, boolean CANCoderReversed, CANBus canivore) {
+      this.canivore = canivore;
+      //initializing absolute encoder parameters 
      this.CANCoderReversed = CANCoderReversed;
      angleCANCoder = new CANcoder(CANCoderPort);
-   
+      
      // Configure the CANcoder for basic use
      CANcoderConfiguration configs = new CANcoderConfiguration();
      
@@ -66,7 +69,7 @@ public class SwerveModule {
      angleCANCoder.getConfigurator().apply(configs);
      
      //initializing TalonFX
-     driveMotor = new TalonFX(drivePort);
+     driveMotor = new TalonFX(drivePort, canivore);
      driveMotorConfig = new TalonFXConfiguration();
      
 

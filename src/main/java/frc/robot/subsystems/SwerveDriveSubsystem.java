@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
-
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,6 +34,8 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
 
 public class SwerveDriveSubsystem extends SubsystemBase{
+    //Canivore?
+    private CANBus canivore;
     //Swerve modules
     private SwerveModule leftFrontModule;
     private SwerveModule rightFrontModule;
@@ -76,6 +78,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     //constructor
     public SwerveDriveSubsystem(ShuffleboardTab testTranPos, ShuffleboardTab testTranVel, ShuffleboardTab testRotPos, 
                                  ShuffleboardTab testRotVel, ShuffleboardTab testPos, ShuffleboardTab testGyroData) {
+        
+        canivore = new CANBus("drivetrain");
         //Front Left Module Initializing
         leftFrontModule = new SwerveModule(
             SwerveModuleConstants.kLeftFrontWheelPort, 
@@ -84,7 +88,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
             SwerveModuleConstants.kLeftFrontRotationReversed, 
             SwerveModuleConstants.kLeftFrontCANCoderPort, 
             SwerveModuleConstants.kLeftFrontCANCoderOffset, 
-            SwerveModuleConstants.kLeftFrontCANCoderReversed
+            SwerveModuleConstants.kLeftFrontCANCoderReversed, 
+            canivore
         );
 
         //Front Right Module Initializing
@@ -95,7 +100,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
             SwerveModuleConstants.kRightFrontRotationReversed,   
             SwerveModuleConstants.kRightFrontCANCoderPort, 
             SwerveModuleConstants.kRightFrontCANCoderOffset, 
-            SwerveModuleConstants.kRightFrontCANCoderReversed
+            SwerveModuleConstants.kRightFrontCANCoderReversed,
+            canivore
         );
 
         //Back Left Module Initializing
@@ -106,7 +112,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
             SwerveModuleConstants.kLeftBackRotationReversed, 
             SwerveModuleConstants.kLeftBackCANCoderPort, 
             SwerveModuleConstants.kLeftBackCANCoderOffset, 
-            SwerveModuleConstants.kLeftBackCANCoderReversed
+            SwerveModuleConstants.kLeftBackCANCoderReversed,
+            canivore
         );
 
         //Back Right Module Initializing
@@ -117,8 +124,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
             SwerveModuleConstants.kRightBackRotationReversed, 
             SwerveModuleConstants.kRightBackCANCoderPort, 
             SwerveModuleConstants.kRightBackCANCoderOffset, 
-
-            SwerveModuleConstants.kRightBackCANCoderReversed
+            SwerveModuleConstants.kRightBackCANCoderReversed,
+            canivore
         );
 
         //adding modules to the array
