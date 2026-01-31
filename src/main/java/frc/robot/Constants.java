@@ -33,6 +33,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
   public static class PortConstants {
     public static final int leftMotorPort = 24;
     public static final int rightMotorPort = 10;

@@ -1,21 +1,21 @@
-// package frc.robot.commands.TestCommands.IntakeTestCommands;
+package frc.robot.commands.TestCommands.IntakeTestCommands;
 
-// import frc.robot.subsystems.IntakeSubsystem;
-// import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj.GenericHID;
-// import frc.robot.Constants.GamepadConstants;
+import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.Constants.GamepadConstants;
 
-// public class IntakeTestSetSpeed extends Command {
-//   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-//   private final IntakeSubsystem m_IntakeSubsystem;
-//   private GenericHID controller;
+public class IntakeTestSetSpeed extends Command {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final IntakeSubsystem m_IntakeSubsystem;
+  private GenericHID controller;
 
-// public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
-//     m_IntakeSubsystem = intakeSubsystem;
-//     controller = m_controller;
+public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
+    m_IntakeSubsystem = intakeSubsystem;
+    controller = m_controller;
    
-//     addRequirements(intakeSubsystem);
-//   }
+    addRequirements(intakeSubsystem);
+  }
 
 
   @Override
@@ -41,9 +41,9 @@
     m_IntakeSubsystem.shutdown();
   }
 
-//   @Override
-//   public boolean isFinished() {
-//     return !controller.getRawButton(GamepadConstants.kXButtonPort);
-//   }
-// }
+  @Override
+  public boolean isFinished() {
+    return !controller.getRawButton(GamepadConstants.kXButtonPort);
+  }
+}
 
