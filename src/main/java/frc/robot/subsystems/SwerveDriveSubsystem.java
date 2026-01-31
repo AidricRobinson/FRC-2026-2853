@@ -134,7 +134,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         };
         
         //initializing and resetting Navx
-        pigeon = new Pigeon2(0, "rio");
+        pigeon = new Pigeon2(0, canivore);
         pigeon.reset();
 
         poseEstimator = new SwerveDrivePoseEstimator(

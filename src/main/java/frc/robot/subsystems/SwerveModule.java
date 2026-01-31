@@ -95,7 +95,7 @@ private final CANBus canivore;
     //   driveEncoder.getPosition();
     //   driveEncoder.getVelocity()
 
-     rotationMotor = new TalonFX(rotationPort);
+     rotationMotor = new TalonFX(rotationPort, canivore);
      rotationMotorConfig = new TalonFXConfiguration();
 
      rotationMotorConfig.MotorOutput.Inverted = driveReversed
