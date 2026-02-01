@@ -28,7 +28,7 @@ public class StorageSubsystem extends SubsystemBase {
             .inverted(true)
             .idleMode(IdleMode.kBrake);
         storageMotor.configure(storageMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pidController = new PIDController(0.000075,0.0001,0);
+        pidController = new PIDController(0.00005,0.000275,10);
     }
     public void setPower(double power){
         storageMotor.set(power);

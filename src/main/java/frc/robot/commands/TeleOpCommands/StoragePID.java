@@ -22,7 +22,7 @@ public class StoragePID extends Command {
 
     @Override
     public void initialize() {
-        storageSubsystem.setPoint(2000);
+        storageSubsystem.setPoint(2500);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class StoragePID extends Command {
 
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(GamepadConstants.kYButtonPort);
+        return !controller.getRawButton(GamepadConstants.kRightBumperPort);
     }
 
 

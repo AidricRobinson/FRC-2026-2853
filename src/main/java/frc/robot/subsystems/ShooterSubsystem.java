@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
    rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
 
-   pidController = new PIDController(0.0001, 0.00004, 1);
+   pidController = new PIDController(0.000075, 0.0000575, 1);
 
     leftMotorConfig = new SparkFlexConfig();
     leftMotorConfig

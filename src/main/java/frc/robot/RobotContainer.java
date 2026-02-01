@@ -18,6 +18,9 @@ import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSetSpeed;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestShutdown;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSpeedDown;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSpeedUp;
+import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
+import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
+import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
 import frc.robot.commands.SwerveControlCommand;
 import frc.robot.commands.SwerveControlCommand;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
@@ -31,6 +34,7 @@ import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestSpeedUp;
 import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.SwerveModule;
@@ -63,6 +67,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
+  private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
     testTranPos,
     testTranVel,
@@ -102,24 +107,10 @@ public class RobotContainer {
 
     //Adjusting powers, currently not working for the time being :( ?
     //SHOOTER
-    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-    //     .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-    //     .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-    //     .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-    //     .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
 
 
-    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-    //     .onTrue(new IntakeTestSpeedDown(m_IntakeSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-    //     .onTrue(new IntakeTestSetSpeed(m_IntakeSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-    //     .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-    //     .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller0));
+
+
 
     
     //STORAGE
@@ -137,24 +128,37 @@ public class RobotContainer {
     /// //////////////////////////////////////////////////////////////////////////////////////
 
 
-    /// Stil needs to be tested, do not rely on this yet
-    /// STORAGE
-    // new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-    //         .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-    //         .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
-    // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
-    //         .onTrue(new ShooterCommand(m_ShooterSubsystem, controller1));
 
 
-
-
-
-    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-            .onTrue(new ShooterPID(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
             .onTrue(new StoragePID(m_ConveyorSubsystem, controller0));
-      
+   
+    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0)); 
+
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
+        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
+        .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
+        .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller1));
+
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+        .onTrue(new IntakeTestSpeedDown(m_IntakeSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
+        .onTrue(new IntakeTestSetSpeed(m_IntakeSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
+        .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
+        .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller1));
   }  
   public Command getAutonomousCommand() {
     return Autos.exampleAuto(m_exampleSubsystem);

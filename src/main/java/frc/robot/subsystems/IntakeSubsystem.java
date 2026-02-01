@@ -17,7 +17,7 @@ import frc.robot.Constants.PortConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private SparkFlex intakeMotor;
-    private double testSpeed;
+    private double testRPM;
     private PIDController pidController;
     private SparkFlexConfig intakeMotorConfig;
 
@@ -25,8 +25,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(){
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
-        testSpeed = 0.2;
-        pidController = new PIDController(0.0001, 0.00004, 1);
+        testRPM = 2000;
+        pidController = new PIDController(0.00005,0.000275,10);
 
         intakeMotorConfig = new SparkFlexConfig();
         intakeMotorConfig
@@ -44,22 +44,22 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(power);
     }
     public void setMotorTestSpeed(){
-        intakeMotor.set(testSpeed);
+        intakeMotor.set(testRPM);
     }
     public void setMotorTestSpeedNeg(){
-        intakeMotor.set(-testSpeed);
+        intakeMotor.set(-testRPM);
     }
     public void upSpeed(){
-        testSpeed += 0.05;
+        testRPM += 200;
     }
     public void downSpeed(){
-        testSpeed -= 0.05;
+        testRPM -= 50;
     }
     public void testSpeedShutdown(){
-        testSpeed = 0;
+        testRPM = 0;
     }
     public double getIntakeTestSpeed(){
-        return testSpeed;
+        return testRPM;
     }
     public void shutdown(){
         intakeMotor.set(0);

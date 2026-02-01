@@ -39,7 +39,10 @@ public final class Constants {
     public static final int rightMotorPort = 10;
 
     public static final int StorageMotorPort = 12; 
-    
+
+    public static final int leftPivotPort = 12345; //placeholder
+    public static final int rightPivotPort = 12345; //placeholder
+
     public static final int intakeMotorPort = 18; //placeholder
   }
   public static class RotationConstants {
