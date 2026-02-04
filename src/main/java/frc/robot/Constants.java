@@ -34,18 +34,18 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class PortConstants {
-    public static final int leftMotorPort = 24;
+  public static class PortConstants {public static final int leftMotorPort = 24;
     public static final int rightMotorPort = 10;
 
     public static final int StorageMotorPort = 12; 
 
-    public static final int leftPivotPort = 12345; //placeholder
-    public static final int rightPivotPort = 12345; //placeholder
+    public static final int leftPivotPort = 142455; //placeholder
+    public static final int rightPivotPort = 1344525; //placeholder
 
     public static final int intakeMotorPort = 18; //placeholder
   }
   public static class RotationConstants {
+
     public static final double kRotationTolerance = 0.5;
     public static final double kMaximumOutput = 0.05;
     public static final double kRotationDownPosition = 15;
