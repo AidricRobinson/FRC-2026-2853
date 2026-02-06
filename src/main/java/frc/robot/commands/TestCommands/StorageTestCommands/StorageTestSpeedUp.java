@@ -34,6 +34,6 @@ public class StorageTestSpeedUp extends Command {
 
   @Override
   public boolean isFinished() {
-    return (controller.getRawButton(GamepadConstants.kDpadUp));
+    return (controller.getPOV() == GamepadConstants.kDpadUp);
   }
 }

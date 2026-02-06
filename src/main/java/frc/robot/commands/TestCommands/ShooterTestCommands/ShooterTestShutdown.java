@@ -21,7 +21,6 @@ public class ShooterTestShutdown extends Command {
 
   @Override
   public void initialize() {
-    m_ShooterSubsystem.shooterTestSpeedShutdown();
     m_ShooterSubsystem.shutdown();
   }
 

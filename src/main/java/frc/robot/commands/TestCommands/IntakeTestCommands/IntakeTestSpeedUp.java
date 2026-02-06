@@ -22,10 +22,10 @@ public class IntakeTestSpeedUp extends Command {
   @Override
   public void initialize() {
     m_IntakeSubsystem.upSpeed();
-     ///////////////////////////////////////////////
+      ///////////////////////////////////////////////
     /// ///////////////////////////////////////
     /// /ASDFHASDLFKJASDKLFjdsfljkasdjkl;fjklas:a/sdfhkljlas;diklfil;asdfjilasfd
-}
+  }
 
   @Override
   public void execute() {
@@ -37,6 +37,6 @@ public class IntakeTestSpeedUp extends Command {
 
   @Override
   public boolean isFinished() {
-    return !controller.getRawButton(GamepadConstants.kXButtonPort);
+    return controller.getRawButton(GamepadConstants.kXButtonPort);
   }
 }

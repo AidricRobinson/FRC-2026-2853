@@ -75,7 +75,7 @@ public class StorageSubsystem extends SubsystemBase {
     }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("StorageTestSpeed", getTestSpeed());
+    SmartDashboard.putNumber("Storage Test Speed", getTestSpeed());
     SmartDashboard.putNumber("Storage Error", getError());
     SmartDashboard.putNumber("Storage RPM", getRPM());
     SmartDashboard.putNumber("Storage SetPoint", getSetPoint());

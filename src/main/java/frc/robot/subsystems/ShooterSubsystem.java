@@ -56,10 +56,10 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 200;
+    testSpeed += 0.05;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 50;
+    testSpeed -= 0.05;
   }
   public double getTestRPM() {
     return testSpeed;
@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getRPM() {
-    return Math.abs(rightMotor.getEncoder().getVelocity()); //be careful
+    return Math.abs(leftMotor.getEncoder().getVelocity()); //be careful
   }
   public double getShooterTestSpeed(){
     return testSpeed;
@@ -87,9 +87,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("ShooterTestSpeed", getShooterTestSpeed());
-    SmartDashboard.putNumber("ShooterSliderTestingSpeed", testSpeed);
-    SmartDashboard.putNumber("RPM of flywheel", getRPM());
+    SmartDashboard.putNumber("Shooter Test Speed", testSpeed);
+    SmartDashboard.putNumber("Shooter RPM", getRPM());
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Error", getError());
     SmartDashboard.putNumber("Derivative", pidController.getD());

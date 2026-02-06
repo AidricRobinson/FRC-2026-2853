@@ -16,7 +16,7 @@ public class StorageBackwardCommand extends Command{
 
     }
     public void execute(){
-        m_conveyorSubsystem.setPower(-0.25);
+        m_conveyorSubsystem.setPower(-0.4);
     }
     public void end(boolean interupted){
         m_conveyorSubsystem.shutdown();

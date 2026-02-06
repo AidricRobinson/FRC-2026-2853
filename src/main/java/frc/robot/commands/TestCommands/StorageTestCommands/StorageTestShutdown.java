@@ -36,6 +36,6 @@ public class StorageTestShutdown extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kDpadRight);
+    return (controller.getPOV() == GamepadConstants.kDpadRight);
   }
 }

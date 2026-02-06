@@ -20,17 +20,18 @@ public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controll
 
   @Override
   public void initialize() {
-    m_IntakeSubsystem.setPoint(m_IntakeSubsystem.getIntakeTestSpeed());
+    // m_IntakeSubsystem.setPoint(m_IntakeSubsystem.getIntakeTestSpeed());
 }
 
   @Override
   public void execute() {
-      m_IntakeSubsystem.updateError(); 
-        m_IntakeSubsystem.setPower(
-        m_IntakeSubsystem.getOutput() > 1 ? 1
-        : m_IntakeSubsystem.getOutput() < 0 ? 0
-        : m_IntakeSubsystem.getOutput()
-        );
+      // m_IntakeSubsystem.updateError(); 
+      //   m_IntakeSubsystem.setPower(
+      //   m_IntakeSubsystem.getOutput() > 1 ? 1
+      //   : m_IntakeSubsystem.getOutput() < 0 ? 0
+      //   : m_IntakeSubsystem.getOutput()
+      //   );
+      m_IntakeSubsystem.setPower(m_IntakeSubsystem.getIntakeTestSpeed());
   }
 
   @Override
