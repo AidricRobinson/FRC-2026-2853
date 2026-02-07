@@ -8,6 +8,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutoCommands.Autos;
+import frc.robot.commands.TeleOpCommands.IntakeBackwardCommand;
+import frc.robot.commands.TeleOpCommands.IntakeForwardCommand;
 import frc.robot.commands.TeleOpCommands.IntakePID;
 import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.ShooterPID;
@@ -171,9 +173,9 @@ public class RobotContainer {
 
 
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-        .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0)); 
+        .onTrue(new IntakeBackwardCommand(m_IntakeSubsystem, controller0)); 
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-        .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0)); 
+        .onTrue(new IntakeForwardCommand(m_IntakeSubsystem, controller0)); 
     // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
     //         .onTrue(new StoragePID(m_ConveyorSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadUp) 
