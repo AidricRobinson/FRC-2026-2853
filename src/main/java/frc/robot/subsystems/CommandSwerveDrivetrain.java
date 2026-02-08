@@ -45,6 +45,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
+
+    private static double maxSpeedThingy = 0.3;
+
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
@@ -130,6 +133,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        
     }
 
     /**
@@ -239,6 +243,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+    }
+
+    public static void setSlowMode() {
+        maxSpeedThingy = 0.1;
+    }
+    public static void setNormalSpeed() {
+        maxSpeedThingy = 0.3;
+    }
+    public static double getMaxSpeedThingy() {
+        return maxSpeedThingy;
     }
 
     private void startSimThread() {

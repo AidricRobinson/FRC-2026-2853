@@ -37,6 +37,6 @@ public class IntakeTestSpeedUp extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kXButtonPort);
+    return controller.getRawButton(GamepadConstants.kYButtonPort);
   }
 }
