@@ -184,13 +184,13 @@ public class RobotContainer {
     new JoystickButton(controller0, GamepadConstants.kBButtonPort)
         .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0)); 
 
-    new JoystickButton(controller0, GamepadConstants.kDpadDown)
+    new POVButton(controller0, GamepadConstants.kDpadDown)
         .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kDpadLeft)
+    new POVButton(controller0, GamepadConstants.kDpadLeft)
         .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kDpadUp)
+    new POVButton(controller0, GamepadConstants.kDpadUp)
         .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kDpadRight)
+    new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
 
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
