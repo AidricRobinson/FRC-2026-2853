@@ -25,7 +25,7 @@ public class StorageSubsystem extends SubsystemBase {
         testSpeed= 0.2;
         storageMotorConfig = new SparkFlexConfig();
         storageMotorConfig
-            .inverted(true)
+            .inverted(false)
             .idleMode(IdleMode.kBrake);
         storageMotor.configure(storageMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         pidController = new PIDController(0.00005,0.000275,10);

@@ -23,7 +23,7 @@ public class IntakePID extends Command {
 
     @Override
     public void initialize() {
-        intakeSubsystem.setPoint(2000);
+        intakeSubsystem.setPoint(1000);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class IntakePID extends Command {
 
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(GamepadConstants.kAButtonPort);
+        return !controller.getRawButton(GamepadConstants.kLeftBumperPort);
     }
 
 

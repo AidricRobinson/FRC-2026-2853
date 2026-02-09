@@ -22,6 +22,7 @@ public class IntakeTestShutdown extends Command {
   @Override
   public void initialize() {
     m_IntakeSubsystem.shutdown();
+    m_IntakeSubsystem.testSpeedShutdown();
   }
 
 

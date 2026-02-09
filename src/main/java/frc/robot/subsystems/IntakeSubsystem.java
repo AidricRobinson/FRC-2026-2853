@@ -26,11 +26,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem(){
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
         testRPM = 0;
-        pidController = new PIDController(0.00005,0.000275,10);
+        pidController = new PIDController(0.00005,0.0001,10);
 
         intakeMotorConfig = new SparkFlexConfig();
         intakeMotorConfig
-            .inverted(true)
+            .inverted(false)
             .idleMode(IdleMode.kCoast);
 
         intakeMotor.configure(intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -50,10 +50,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(-testRPM);
     }
     public void upSpeed(){
-        testRPM += 0.05;
+        testRPM += 250;
     }
     public void downSpeed(){
-        testRPM -= 0.05;
+        testRPM -= 250;
     }
     public void testSpeedShutdown(){
         testRPM = 0;

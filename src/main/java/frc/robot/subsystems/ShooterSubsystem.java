@@ -56,10 +56,10 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 0.05;
+    testSpeed += 250;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 0.05;
+    testSpeed -= 250;
   }
   public double getTestRPM() {
     return testSpeed;

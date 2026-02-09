@@ -246,7 +246,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public static void setSlowMode() {
-        maxSpeedThingy = 0.1;
+        maxSpeedThingy = 0.2;
     }
     public static void setNormalSpeed() {
         maxSpeedThingy = 0.3;

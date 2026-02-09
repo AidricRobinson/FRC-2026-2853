@@ -75,7 +75,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
 
-  private double MaxSpeed = 0.3 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+  private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
 
   
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -201,6 +201,29 @@ public class RobotContainer {
         .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kBButtonPort)
         .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller1));
+
+    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
+        .onTrue(new ShooterPID(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
+        .onTrue(new IntakePID(m_IntakeSubsystem, controller1));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        System.err.println();
 
 
 

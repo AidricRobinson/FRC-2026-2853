@@ -22,7 +22,7 @@ public class StoragePID extends Command {
 
     @Override
     public void initialize() {
-        storageSubsystem.setPoint(2500);
+        storageSubsystem.setPoint(500);
     }
 
     @Override
@@ -33,7 +33,6 @@ public class StoragePID extends Command {
         : storageSubsystem.getOutput() < 0 ? 0
         : storageSubsystem.getOutput()
         );
-        
     }
     @Override
     public void end(boolean interrupted) {
