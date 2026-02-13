@@ -1,28 +1,28 @@
-package frc.robot.commands.TestCommands.IntakeTestCommands;
+package frc.robot.commands.TestCommands.IndexorTestCommands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IndexorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
 
-public class IntakeTestShutdown extends Command {
+public class IndexorTestShutdown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_IntakeSubsystem;
+  private final IndexorSubsystem indexorSubsystem;
   private GenericHID controller;
 
    
-  public IntakeTestShutdown(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
-    m_IntakeSubsystem = intakeSubsystem;
+  public IndexorTestShutdown(IndexorSubsystem indexorSubsystem, GenericHID m_controller) {
+    this.indexorSubsystem = indexorSubsystem;
     controller = m_controller;
    
-    addRequirements(intakeSubsystem);
+    addRequirements(indexorSubsystem);
   }
 
 
   @Override
   public void initialize() {
-    m_IntakeSubsystem.shutdown();
-    m_IntakeSubsystem.testSpeedShutdown();
+    indexorSubsystem.shutdown();
+    indexorSubsystem.testSpeedShutdown();
   }
 
 

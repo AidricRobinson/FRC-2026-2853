@@ -249,7 +249,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         maxSpeedThingy = 0.2;
     }
     public static void setNormalSpeed() {
-        maxSpeedThingy = 0.3;
+        maxSpeedThingy = 1;
     }
     public static double getMaxSpeedThingy() {
         return maxSpeedThingy;
