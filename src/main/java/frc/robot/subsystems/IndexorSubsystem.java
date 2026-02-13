@@ -58,7 +58,7 @@ public class IndexorSubsystem extends SubsystemBase {
     public void testSpeedShutdown(){
         testRPM = 0;
     }
-    public double getIntakeTestSpeed(){
+    public double getTestSpeed(){
         return testRPM;
     }
     public void shutdown(){
@@ -67,7 +67,7 @@ public class IndexorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Indexor Test Speed", getIntakeTestSpeed());
+        SmartDashboard.putNumber("Indexor Test Speed", getTestSpeed());
         SmartDashboard.putNumber("Indexor RPM", getRPM());
         SmartDashboard.updateValues();
     }

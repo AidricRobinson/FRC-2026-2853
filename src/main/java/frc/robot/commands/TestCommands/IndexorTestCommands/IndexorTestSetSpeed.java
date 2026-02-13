@@ -20,7 +20,7 @@ public IndexorTestSetSpeed(IndexorSubsystem indexorSubsystem, GenericHID m_contr
 
   @Override
   public void initialize() {
-    indexorSubsystem.setPoint(indexorSubsystem.getIntakeTestSpeed());
+    indexorSubsystem.setPoint(indexorSubsystem.getTestSpeed());
 }
 
   @Override
