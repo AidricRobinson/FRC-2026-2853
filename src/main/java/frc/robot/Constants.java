@@ -34,10 +34,13 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class PortConstants {public static final int leftMotorPort = 24;
+  public static class PortConstants {
+    public static final int leftMotorPort = 24;
     public static final int rightMotorPort = 10;
 
     public static final int StorageMotorPort = 12; 
+
+    public static final int feederPort = 123; // placeholder
 
     public static final int leftPivotPort = 142455; //placeholder
     public static final int rightPivotPort = 1344525; //placeholder

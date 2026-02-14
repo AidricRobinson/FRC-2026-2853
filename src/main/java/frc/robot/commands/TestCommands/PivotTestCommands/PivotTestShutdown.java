@@ -21,7 +21,7 @@ public class PivotTestShutdown extends Command {
 
   @Override
   public void initialize() {
-    pivotSubsystem.shutdown();
+    pivotSubsystem.testOutputShutdown();
   }
 
 
