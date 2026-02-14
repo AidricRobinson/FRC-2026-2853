@@ -23,6 +23,7 @@ public class LimelightSubsystem extends SubsystemBase {
     public LimelightSubsystem () {
         networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         setPipeline(Pipeline.DRIVER_VIEW);
+        
     }
 
     public void setPipeline(Pipeline pipeline) {

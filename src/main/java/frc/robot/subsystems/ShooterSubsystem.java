@@ -11,7 +11,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PID;
+import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.PortConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SparkFlex leftMotor; 
@@ -44,6 +46,16 @@ public class ShooterSubsystem extends SubsystemBase {
       .idleMode(IdleMode.kCoast);
      
    rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  }
+  public double calculateRPM(double tA) {
+    if (tA == 0) {
+      return ((tA * Math.pow(ShooterConstants.A, 2))
+      + (tA * ShooterConstants.B)
+      + (ShooterConstants.C));
+    }
+    else {
+      return 0;
+    }
   }
   public void setPower(double power) {
     leftMotor.set(power);

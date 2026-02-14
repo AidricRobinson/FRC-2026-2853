@@ -46,6 +46,11 @@ public final class Constants {
 
     public static final int indexorMotorPort = 18; 
   }
+  public static class ShooterConstants {
+    public static final double A = 0;
+    public static final double B = 0;
+    public static final double C = 0;
+  }
   public static class RotationConstants {
 
     public static final double kRotationTolerance = 0.5;
