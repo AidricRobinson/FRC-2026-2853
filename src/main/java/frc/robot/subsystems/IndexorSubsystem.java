@@ -15,38 +15,39 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import frc.robot.Constants.PortConstants;
 
 
-public class IntakeSubsystem extends SubsystemBase {
-    private SparkFlex intakeMotor;
+public class IndexorSubsystem extends SubsystemBase {
+    private SparkFlex indexor;
     private double testRPM;
     private PIDController pidController;
-    private SparkFlexConfig intakeMotorConfig;
+    private SparkFlexConfig indexorMotorConfig;
 
     private double setPoint;
 
-    public IntakeSubsystem(){
-        intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
+    public IndexorSubsystem(){
+        indexor = new SparkFlex(PortConstants.indexorMotorPort, MotorType.kBrushless);
         testRPM = 0;
         pidController = new PIDController(0.00005,0.0001,10);
 
-        intakeMotorConfig = new SparkFlexConfig();
-        intakeMotorConfig
+        indexorMotorConfig = new SparkFlexConfig();
+        indexorMotorConfig
             .inverted(false)
-            .idleMode(IdleMode.kBrake);
-        intakeMotor.configure(intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+            .idleMode(IdleMode.kCoast);
+
+        indexor.configure(indexorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
     }
     public double getRPM() {
-     return Math.abs(intakeMotor.getEncoder().getVelocity()); //be careful
+     return Math.abs(indexor.getEncoder().getVelocity()); //be careful
     }
     public void setPower(double power){
-        intakeMotor.set(power);
+        indexor.set(power);
     }
     public void setMotorTestSpeed(){
-        intakeMotor.set(testRPM);
+        indexor.set(testRPM);
     }
     public void setMotorTestSpeedNeg(){
-        intakeMotor.set(-testRPM);
+        indexor.set(-testRPM);
     }
     public void upSpeed(){
         testRPM += 250;
@@ -57,16 +58,16 @@ public class IntakeSubsystem extends SubsystemBase {
     public void testSpeedShutdown(){
         testRPM = 0;
     }
-    public double getIntakeTestSpeed(){
+    public double getTestSpeed(){
         return testRPM;
     }
     public void shutdown(){
-        intakeMotor.set(0);
+        indexor.set(0);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Indexor Test Speed", getIntakeTestSpeed());
+        SmartDashboard.putNumber("Indexor Test Speed", getTestSpeed());
         SmartDashboard.putNumber("Indexor RPM", getRPM());
         SmartDashboard.updateValues();
     }

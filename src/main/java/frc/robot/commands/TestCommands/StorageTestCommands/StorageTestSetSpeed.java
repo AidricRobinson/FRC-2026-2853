@@ -20,20 +20,24 @@ public StorageTestSetSpeed(StorageSubsystem storageSubsystem, GenericHID m_contr
 
   @Override
   public void initialize() {
-    m_StorageSubsystem.setMotorTestSpeed();
+    // m_StorageSubsystem.setMotorTestSpeed();
   }
 
   @Override
   public void execute() {
+    m_StorageSubsystem.setPower(
+      m_StorageSubsystem.getTestSpeed()
+    );
   }
 
   @Override
   public void end(boolean interrupted) {
+    m_StorageSubsystem.shutdown();
   }
 
   @Override
   public boolean isFinished() {
-    return !controller.getRawButton(GamepadConstants.kDpadLeft);
+    return !(controller.getPOV() == GamepadConstants.kDpadLeft);
   }
 }
 

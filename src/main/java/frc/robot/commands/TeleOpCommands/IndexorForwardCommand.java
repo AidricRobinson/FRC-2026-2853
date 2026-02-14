@@ -3,23 +3,23 @@ package frc.robot.commands.TeleOpCommands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.subsystems.StorageSubsystem;
+import frc.robot.subsystems.IndexorSubsystem;
 
-public class StorageForwardCommand extends Command{
-   private StorageSubsystem m_conveyorSubsystem;
+public class IndexorForwardCommand extends Command{
+   private IndexorSubsystem indexorSubsystem;
     private GenericHID controller;
-    public StorageForwardCommand(StorageSubsystem conveyorSubsystem, GenericHID m_controller){
-        m_conveyorSubsystem = conveyorSubsystem;
+    public IndexorForwardCommand(IndexorSubsystem indexorSubsystem, GenericHID m_controller){
+        this.indexorSubsystem = indexorSubsystem;
         controller = m_controller;
     }
     public void initialize(){
 
     }
     public void execute(){
-        m_conveyorSubsystem.setPower(0.4);
+        indexorSubsystem.setPower(0.5);
     }
     public void end(boolean interupted){
-        m_conveyorSubsystem.shutdown();
+        indexorSubsystem.shutdown();
     }
     public boolean isFinished(){
         return !controller.getRawButton(GamepadConstants.kRightBumperPort); //pls change// no

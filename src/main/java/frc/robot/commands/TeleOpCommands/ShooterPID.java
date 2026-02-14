@@ -22,7 +22,7 @@ public class ShooterPID extends Command {
 
     @Override
     public void initialize() {
-        shooterSubsystem.setPoint(3000);
+        shooterSubsystem.setPoint(500);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ShooterPID extends Command {
 
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(GamepadConstants.kAButtonPort);
+        return !controller.getRawButton(GamepadConstants.kRightBumperPort);
     }
 
 

@@ -45,7 +45,9 @@ public final class Constants {
     public static final int leftPivotPort = 142455; //placeholder
     public static final int rightPivotPort = 1344525; //placeholder
 
-    public static final int intakeMotorPort = 18; //placeholder
+    public static final int intakeMotorPort = 123; // placeholder
+
+    public static final int indexorMotorPort = 18; 
   }
   public static class RotationConstants {
 

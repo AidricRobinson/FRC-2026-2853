@@ -1,27 +1,28 @@
-package frc.robot.commands.TestCommands.ShooterTestCommands;
+package frc.robot.commands.TestCommands.IndexorTestCommands;
 
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IndexorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
 
-public class ShooterTestShutdown extends Command {
+public class IndexorTestShutdown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterSubsystem m_ShooterSubsystem;
+  private final IndexorSubsystem indexorSubsystem;
   private GenericHID controller;
 
    
-  public ShooterTestShutdown(ShooterSubsystem shooterSubsystem, GenericHID m_controller) {
-    m_ShooterSubsystem = shooterSubsystem;
+  public IndexorTestShutdown(IndexorSubsystem indexorSubsystem, GenericHID m_controller) {
+    this.indexorSubsystem = indexorSubsystem;
     controller = m_controller;
    
-    addRequirements(shooterSubsystem);
+    addRequirements(indexorSubsystem);
   }
 
 
   @Override
   public void initialize() {
-    m_ShooterSubsystem.shutdown();
+    indexorSubsystem.shutdown();
+    indexorSubsystem.testSpeedShutdown();
   }
 
 
@@ -38,4 +39,3 @@ public class ShooterTestShutdown extends Command {
     return controller.getRawButton(GamepadConstants.kBButtonPort);
   }
 }
-

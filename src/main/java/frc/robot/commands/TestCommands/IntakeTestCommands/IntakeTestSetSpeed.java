@@ -7,11 +7,11 @@ import frc.robot.Constants.GamepadConstants;
 
 public class IntakeTestSetSpeed extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_IntakeSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
   private GenericHID controller;
 
 public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
-    m_IntakeSubsystem = intakeSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     controller = m_controller;
    
     addRequirements(intakeSubsystem);
@@ -20,28 +20,27 @@ public IntakeTestSetSpeed(IntakeSubsystem intakeSubsystem, GenericHID m_controll
 
   @Override
   public void initialize() {
-    m_IntakeSubsystem.setPoint(m_IntakeSubsystem.getIntakeTestSpeed());
-}
+    // m_StorageSubsystem.setMotorTestSpeed();
+  }
 
   @Override
   public void execute() {
-      m_IntakeSubsystem.updateError(); 
-        m_IntakeSubsystem.setPower(
-        m_IntakeSubsystem.getOutput() > 1 ? 1
-        : m_IntakeSubsystem.getOutput() < 0 ? 0
-        : m_IntakeSubsystem.getOutput()
+    intakeSubsystem.updateError(); 
+        intakeSubsystem.setPower(
+        intakeSubsystem.getOutput() > 1 ? 1
+        : intakeSubsystem.getOutput() < 0 ? 0
+        : intakeSubsystem.getOutput()
         );
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSubsystem.shutdown();
-    m_IntakeSubsystem.reset();
+    intakeSubsystem.shutdown();
   }
 
   @Override
   public boolean isFinished() {
-    return !controller.getRawButton(GamepadConstants.kXButtonPort);
+    return !(controller.getPOV() == GamepadConstants.kDpadLeft);
   }
 }
 

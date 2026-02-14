@@ -8,19 +8,21 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutoCommands.Autos;
-import frc.robot.commands.TeleOpCommands.IntakePID;
+import frc.robot.commands.TeleOpCommands.IndexorPID;
 import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.ShooterPID;
 import frc.robot.commands.TeleOpCommands.StorageBackwardCommand;
 import frc.robot.commands.TeleOpCommands.StorageForwardCommand;
 import frc.robot.commands.TeleOpCommands.StoragePID;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSetSpeed;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestShutdown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSpeedDown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSpeedUp;
+import frc.robot.commands.TeleOpCommands.SwerveSlowModeCommand;
+import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSetSpeed;
+import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestShutdown;
+import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedDown;
+import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedUp;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
+import com.pathplanner.lib.auto.AutoBuilder;
 // import frc.robot.commands.SwerveControlCommand;
 // import frc.robot.commands.SwerveControlCommand;
 import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
@@ -34,7 +36,7 @@ import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestSpeedUp;
 import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -43,8 +45,10 @@ import frc.robot.Constants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -72,8 +76,10 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
 public class RobotContainer {
+   
+  private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
 
-  private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+  
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -103,7 +109,7 @@ public class RobotContainer {
 //   private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
 //   private final CANBus canivore = new CANBus("drivetrain");
 
-  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final IndexorSubsystem m_IntakeSubsystem = new IndexorSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
@@ -170,8 +176,6 @@ public class RobotContainer {
 
 
 
-    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-            .onTrue(new StoragePID(m_ConveyorSubsystem, controller0));
    
     new JoystickButton(controller0, GamepadConstants.kAButtonPort)
         .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
@@ -182,30 +186,63 @@ public class RobotContainer {
     new JoystickButton(controller0, GamepadConstants.kBButtonPort)
         .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0)); 
 
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller1));
+    new POVButton(controller0, GamepadConstants.kDpadDown)
+        .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadLeft)
+        .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadUp)
+        .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadRight)
+        .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
 
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new IntakeTestSpeedDown(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSpeedDown(m_IntakeSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new IntakeTestSetSpeed(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSetSpeed(m_IntakeSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new IntakeTestSpeedUp(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSpeedUp(m_IntakeSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new IntakeTestShutdown(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestShutdown(m_IntakeSubsystem, controller1));
+
+    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
+        .onTrue(new ShooterPID(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
+        .onTrue(new IndexorPID(m_IntakeSubsystem, controller1));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        System.err.println();
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    /// 
+    /// ////////////////////////////////////////////////////////////////////////////////////
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+            .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
+
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
+            
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(-joystick.getLeftY() * (CommandSwerveDrivetrain.getMaxSpeedThingy() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))) // Drive forward with negative Y (forward)
+                    .withVelocityY(-joystick.getLeftX() *  (CommandSwerveDrivetrain.getMaxSpeedThingy() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -218,9 +255,9 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // ));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -236,20 +273,21 @@ public class RobotContainer {
     }  
   public Command getAutonomousCommand() {
     // Simple drive forward auton
-        final var idle = new SwerveRequest.Idle();
-        return Commands.sequence(
-            // Reset our field centric heading to match the robot
-            // facing away from our alliance station wall (0 deg).
-            drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-            // Then slowly drive forward (away from us) for 5 seconds.
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
-                    .withVelocityY(0)
-                    .withRotationalRate(0)
-            )
-            .withTimeout(5.0),
-            // Finally idle for the rest of auton
-            drivetrain.applyRequest(() -> idle)
-        );
+        // final var idle = new SwerveRequest.Idle();
+        // return Commands.sequence(
+        //     // Reset our field centric heading to match the robot
+        //     // facing away from our alliance station wall (0 deg).
+        //     drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
+        //     // Then slowly drive forward (away from us) for 5 seconds.
+        //     drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(0.5)
+        //             .withVelocityY(0)
+        //             .withRotationalRate(0)
+        //     )
+        //     .withTimeout(5.0),
+        //     // Finally idle for the rest of auton
+        //     drivetrain.applyRequest(() -> idle)
+        // );
+        return new PathPlannerAuto("AAAAHHHH");
   }
 }

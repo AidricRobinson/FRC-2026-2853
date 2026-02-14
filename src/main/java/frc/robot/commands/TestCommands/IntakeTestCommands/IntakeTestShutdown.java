@@ -7,12 +7,12 @@ import frc.robot.Constants.GamepadConstants;
 
 public class IntakeTestShutdown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_IntakeSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
   private GenericHID controller;
 
    
   public IntakeTestShutdown(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
-    m_IntakeSubsystem = intakeSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     controller = m_controller;
    
     addRequirements(intakeSubsystem);
@@ -21,7 +21,8 @@ public class IntakeTestShutdown extends Command {
 
   @Override
   public void initialize() {
-    m_IntakeSubsystem.testSpeedShutdown();
+    intakeSubsystem.testSpeedShutdown();
+    intakeSubsystem.shutdown();
   }
 
 
@@ -35,6 +36,6 @@ public class IntakeTestShutdown extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kBButtonPort);
+    return (controller.getPOV() == GamepadConstants.kDpadRight);
   }
 }

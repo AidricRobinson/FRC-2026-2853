@@ -28,11 +28,14 @@ public class ShooterTestSetSpeed extends Command {
   @Override
   public void execute() {
     m_ShooterSubsystem.updateError(); 
-        m_ShooterSubsystem.setPower(
-        m_ShooterSubsystem.getOutput() > 1 ? 1
-        : m_ShooterSubsystem.getOutput() < 0 ? 0
-        : m_ShooterSubsystem.getOutput()
-        );
+      m_ShooterSubsystem.setPower(
+      m_ShooterSubsystem.getOutput() > 1 ? 1
+      : m_ShooterSubsystem.getOutput() < 0 ? 0
+      : m_ShooterSubsystem.getOutput()
+      );
+    // m_ShooterSubsystem.setPower(
+    //   m_ShooterSubsystem.getShooterTestSpeed()
+    // );
   }
 
   @Override
