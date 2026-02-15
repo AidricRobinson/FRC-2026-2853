@@ -159,7 +159,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             this::getPose, // Robot pose supplier
             this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) ->  super.getKinematics().toSwerveModuleStates(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            (speeds, feedforwards) ->  driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                     new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
@@ -327,20 +327,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     .withVelocityY(0.0)
     .withRotationalRate(0.0);
 
-// In your periodic loop (e.g., teleopPeriodic):
+    // In your periodic loop (e.g., teleopPeriodic):
 
-// Get current joystick values or path planner outputs
-double desiredX = ;
-double desiredY = ;
-double desiredOmega = ;
+    // Get current joystick values or path planner outputs
+    double desiredX = targetSpeeds.vxMetersPerSecond;
+    double desiredY = targetSpeeds.vyMetersPerSecond;
+    double desiredOmega = targetSpeeds.omegaRadiansPerSecond;
 
-// Mutate the request with the new values
-fieldCentricDrive
-    .withVelocityX(desiredX)
-    .withVelocityY(desiredY)
-    .withRotationalRate(desiredOmega);
-        applyRequest(targetState);
-    }
+    // Mutate the request with the new values
+    fieldCentricDrive
+        .withVelocityX(desiredX)
+        .withVelocityY(desiredY)
+        .withRotationalRate(desiredOmega);
+    super.setControl(fieldCentricDrive);
+}
     
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
