@@ -1,17 +1,17 @@
-package frc.robot.commands.TestCommands.IntakeTestCommands;
+package frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
 
-public class IntakeTestSpeedUp extends Command {
+public class IntakeTestOutputDown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
   private GenericHID controller;
 
    
-  public IntakeTestSpeedUp(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
+  public IntakeTestOutputDown(IntakeSubsystem intakeSubsystem, GenericHID m_controller) {
     this.intakeSubsystem = intakeSubsystem;
     controller = m_controller;
    
@@ -21,8 +21,9 @@ public class IntakeTestSpeedUp extends Command {
 
   @Override
   public void initialize() {
-    intakeSubsystem.upSpeed();
+    intakeSubsystem.dowmOutput();
   }
+
 
   @Override
   public void execute() {
@@ -34,6 +35,6 @@ public class IntakeTestSpeedUp extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kYButtonPort);
+    return (controller.getPOV() == GamepadConstants.kDpadDown);  
   }
 }

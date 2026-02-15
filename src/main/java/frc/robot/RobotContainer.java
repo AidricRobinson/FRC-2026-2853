@@ -19,6 +19,14 @@ import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSetSpeed;
 import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestShutdown;
 import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedDown;
 import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedUp;
+import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSetRPM;
+import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMShutdown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMDown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMUp;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestSetOutput;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputShutdown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputDown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
@@ -37,6 +45,7 @@ import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -111,11 +120,12 @@ public class RobotContainer {
 //   private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
 //   private final CANBus canivore = new CANBus("drivetrain");
 
-  private final IndexorSubsystem m_IntakeSubsystem = new IndexorSubsystem();
+  private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
 //    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
 //     testTranPos,
 //     testTranVel,
@@ -199,21 +209,43 @@ public class RobotContainer {
         .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
 
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new IndexorTestSpeedDown(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new IndexorTestSetSpeed(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSetSpeed(m_IndexorSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new IndexorTestSpeedUp(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new IndexorTestShutdown(m_IntakeSubsystem, controller1));
-
-    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
-        .onTrue(new ShooterPID(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
-        .onTrue(new IndexorPID(m_IntakeSubsystem, controller1));
+        .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller1));
 
 
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///                                RPM PID COMMANDS                                    ///
+    /// //////////////////////////////////////////////////////////////////////////////////////
+        
+        
+    // new POVButton(controller1, GamepadConstants.kDpadDown)
+    //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadLeft)
+    //     .onTrue(new IntakeTestSetRPM(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadUp)
+    //     .onTrue(new IntakeTestRPMUp(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadRight)
+    //     .onTrue(new IntakeTestRPMShutdown(m_IntakeSubsystem, controller1)); 
+    
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///                            SET SPEED COMMANDS                                      ///
+    /// //////////////////////////////////////////////////////////////////////////////////////
+
+    new POVButton(controller1, GamepadConstants.kDpadDown)
+        .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadLeft)
+        .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadUp)
+        .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadRight)
+        .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller1)); 
 
 
 
