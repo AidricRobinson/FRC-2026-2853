@@ -20,6 +20,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -45,15 +46,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private double m_lastSimTime;
     private SwerveDrivePoseEstimator poseEstimator;
     private RobotConfig config;
-    //configuring path planner
-    {  
-        try{
-        config = RobotConfig.fromGUISettings();
-        } 
-        catch (Exception e){
-        e.printStackTrace();
-        }
-    }
     
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -150,12 +142,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+
+
+
+    //Pathplanner configuration
+    try{
+        config = RobotConfig.fromGUISettings();
+    } 
+    catch (Exception e){
+        e.printStackTrace();
+    }
+    
     // Configure AutoBuilder last
     AutoBuilder.configure(
             this::getPose, // Robot pose supplier
             this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) ->   super.getKinematics().toSwerveModuleStates(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            (speeds, feedforwards) ->  super.getKinematics().toSwerveModuleStates(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                     new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
@@ -298,8 +302,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return maxSpeedThingy;
     }
      public Pose2d getPose(){
-        Pose2d pose = super.getState().Pose;
-        return pose;
+        return super.getState().Pose;
     }
     public void resetOdometry(Pose2d pose) {
         // odometry.resetPosition(getYawRotation(), getModulePosition(), pose);
@@ -307,11 +310,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         super.getPigeon2().reset();
         poseEstimator.resetPosition(super.getPigeon2().getRotation2d(), super.getState().ModulePositions, pose);
     }
-
     public ChassisSpeeds getCurrentSpeed(){
         return super.getState().Speeds;
     }
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeed) {
+        // ChassisSpeeds targetSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(robotRelativeSpeed, getRotation2dRev());
+        // targetSpeeds = ChassisSpeeds.discretize(targetSpeeds, 0.02);    
 
+        // SwerveModuleState[] targetState = SwerveModuleConstants.kinematics.toSwerveModuleStates(targetSpeeds);
+        // setModuleStates(targetState);
+
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeed, 0.02);
+        SwerveModuleState[] targetState = super.getKinematics().toSwerveModuleStates(targetSpeeds);
+        var fieldCentricDrive = new SwerveRequest.FieldCentric()
+    .withVelocityX(0.0) // Initial values
+    .withVelocityY(0.0)
+    .withRotationalRate(0.0);
+
+// In your periodic loop (e.g., teleopPeriodic):
+
+// Get current joystick values or path planner outputs
+double desiredX = ;
+double desiredY = ;
+double desiredOmega = ;
+
+// Mutate the request with the new values
+fieldCentricDrive
+    .withVelocityX(desiredX)
+    .withVelocityY(desiredY)
+    .withRotationalRate(desiredOmega);
+        applyRequest(targetState);
+    }
+    
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 
