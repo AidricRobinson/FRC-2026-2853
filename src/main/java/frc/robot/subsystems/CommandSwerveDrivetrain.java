@@ -14,6 +14,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -27,10 +28,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.Robot;
 import frc.robot.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -45,7 +47,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     private SwerveDrivePoseEstimator poseEstimator;
-    private RobotConfig config;
     
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -54,6 +55,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
+    private RobotConfig config;
+    private Field2d field;
 
     private static double maxSpeedThingy = 0.3;
 
@@ -138,47 +141,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
+
+
+
         super(drivetrainConstants, modules);
         if (Utils.isSimulation()) {
             startSimThread();
         }
-
-
-
-
-    //Pathplanner configuration
-    try{
-        config = RobotConfig.fromGUISettings();
-    } 
-    catch (Exception e){
-        e.printStackTrace();
-    }
-    
-    // Configure AutoBuilder last
-    AutoBuilder.configure(
-            this::getPose, // Robot pose supplier
-            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) ->  driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-            ),
-            config, // The robot configuration
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-            this // Reference to this subsystem to set requirements
-    );
 
     }
 
@@ -236,8 +205,42 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-    }
 
+        //configuring path planner
+        try{
+        config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+        // Handle exception as needed
+        e.printStackTrace();
+        }
+
+        configurePathplanner();
+
+        //Path Planner logging
+        field = new Field2d();
+
+        //Logging callback for current robot pose
+        PathPlannerLogging.setLogCurrentPoseCallback(
+            (pose) -> {
+                field.setRobotPose(pose);
+            }
+        );
+
+        //Logging callback for target robot posesma
+        PathPlannerLogging.setLogTargetPoseCallback(
+        (pose) -> {
+            field.getObject("target pose").setPose(pose);
+        }
+        );
+
+        //Logging callback for the active path, this is sent as a list of poses 
+        PathPlannerLogging.setLogActivePathCallback(
+        (poses) -> {
+            field.getObject("path").setPoses(poses);
+        }
+        );
+    }
+    
     /**
      * Returns a command that applies the specified control request to this swerve drivetrain.
      *
@@ -341,6 +344,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .withRotationalRate(desiredOmega);
     super.setControl(fieldCentricDrive);
 }
+    public void configurePathplanner(){
+       // Configure AutoBuilder last
+    AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) ->  driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
+ 
+    }
     
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
