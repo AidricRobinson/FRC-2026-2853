@@ -46,7 +46,11 @@ import frc.robot.Constants.SwerveModuleConstants;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -63,6 +67,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -80,7 +85,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class RobotContainer {
    
   private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-
   
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -96,6 +100,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private RobotConfig config;
+
 
 
     //////////////////////////////////////////////////////
@@ -116,6 +122,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
+
 //    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
 //     testTranPos,
 //     testTranVel,
@@ -133,17 +140,32 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    
 
-
+    private final SendableChooser<Command> autoChooser;
 
 
   public RobotContainer() {
-    configureBindings();
+
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    // As an example, this will only show autos that start with "comp" while at
+    // competition as defined by the programmer
+
+   configureBindings();
     //    m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
     //   m_SwerveDriveSubsystem,
     //   controller0
     //   )
     // );
+     try{
+        config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+        // Handle exception as needed
+        e.printStackTrace();
+        }
+    drivetrain.configurePathplanner(config);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Path", autoChooser);
 
   }
 
@@ -212,22 +234,6 @@ public class RobotContainer {
     new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
         .onTrue(new IndexorPID(m_IntakeSubsystem, controller1));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         System.err.println();
 
 
@@ -291,6 +297,7 @@ public class RobotContainer {
         //     // Finally idle for the rest of auton
         //     drivetrain.applyRequest(() -> idle)
         // );
-        return new PathPlannerAuto("AAAAHHHH");
+        return autoChooser.getSelected();
+        // new PathPlannerAuto("AAAAHHHH.auto");
   }
 }

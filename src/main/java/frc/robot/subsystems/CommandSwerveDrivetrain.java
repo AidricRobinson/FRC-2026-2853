@@ -55,7 +55,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
-    private RobotConfig config;
+    // private RobotConfig config;
     private Field2d field;
 
     private static double maxSpeedThingy = 0.3;
@@ -207,14 +207,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
 
         //configuring path planner
-        try{
-        config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-        // Handle exception as needed
-        e.printStackTrace();
-        }
+        // try{
+        // config = RobotConfig.fromGUISettings();
+        // } catch (Exception e) {
+        // // Handle exception as needed
+        // e.printStackTrace();
+        // }
 
-        configurePathplanner();
+        // configurePathplanner();
 
         //Path Planner logging
         field = new Field2d();
@@ -344,16 +344,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .withRotationalRate(desiredOmega);
     super.setControl(fieldCentricDrive);
 }
-    public void configurePathplanner(){
+    public void configurePathplanner(RobotConfig config){
        // Configure AutoBuilder last
     AutoBuilder.configure(
             this::getPose, // Robot pose supplier
-            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::resetOdometry, // Method to reset odometry (w4ill be called if your auto has a starting pose)
             this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             (speeds, feedforwards) ->  driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                    new PIDConstants(50.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(50.0, 0.0, 0.0) // Rotation PID constants
             ),
             config, // The robot configuration
             () -> {
