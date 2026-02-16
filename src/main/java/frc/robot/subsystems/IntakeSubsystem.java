@@ -18,6 +18,7 @@ import frc.robot.Constants.PortConstants;
 public class IntakeSubsystem extends SubsystemBase {
     private SparkFlex intakeMotor;
     private double testRPM;
+    private double testOutput;
     private PIDController pidController;
     private SparkFlexConfig intakeMotorConfig;
 
@@ -26,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem(){
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
         testRPM = 0;
+        testOutput = 0;
         pidController = new PIDController(0.00005,0.0001,10);
 
         intakeMotorConfig = new SparkFlexConfig();
@@ -48,26 +50,43 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setMotorTestSpeedNeg(){
         intakeMotor.set(-testRPM);
     }
-    public void upSpeed(){
+    public void upRPM(){
         testRPM += 250;
     }
-    public void downSpeed(){
+    public void downRPM(){
         testRPM -= 250;
     }
-    public void testSpeedShutdown(){
+    public void testRPMShutdown(){
         testRPM = 0;
     }
-    public double getIntakeTestSpeed(){
+    public double getIntakeTestRPM(){
         return testRPM;
     }
+
+
+    public void upOutput(){
+        testOutput += 0.05;
+    }
+    public void dowmOutput(){
+        testOutput -= 0.05;
+    }
+    public void testOutputShutdown(){
+        testOutput = 0;
+    }
+    public double getIntakeTestOutput(){
+        return testOutput;
+    }
+
+
     public void shutdown(){
         intakeMotor.set(0);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Indexor Test Speed", getIntakeTestSpeed());
-        SmartDashboard.putNumber("Indexor RPM", getRPM());
+        SmartDashboard.putNumber("Intake Test Speed", getIntakeTestRPM());
+        SmartDashboard.putNumber("Intake RPM", getRPM());
+        SmartDashboard.putNumber("Intake Output", getIntakeTestOutput());
         SmartDashboard.updateValues();
     }
 
