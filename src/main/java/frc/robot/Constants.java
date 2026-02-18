@@ -40,12 +40,10 @@ public final class Constants {
 
     public static final int StorageMotorPort = 12; 
 
-    public static final int feederPort = 123; // placeholder
 
-    public static final int leftPivotPort = 142455; //placeholder
-    public static final int rightPivotPort = 1344525; //placeholder
+    public static final int pivotPort = 15; 
 
-    public static final int intakeMotorPort = 123; // placeholder
+    public static final int intakeMotorPort = 14; 
 
     public static final int indexorMotorPort = 18; 
   }

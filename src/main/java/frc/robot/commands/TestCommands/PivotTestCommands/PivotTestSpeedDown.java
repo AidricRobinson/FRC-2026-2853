@@ -35,7 +35,7 @@ public class PivotTestSpeedDown extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kAButtonPort);
+    return controller.getPOV() == GamepadConstants.kDpadDown;
   }
 }
 

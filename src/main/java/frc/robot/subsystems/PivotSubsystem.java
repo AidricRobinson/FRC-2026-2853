@@ -13,46 +13,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PortConstants;
 
 public class PivotSubsystem extends SubsystemBase {
-    private SparkFlex leftPivot;
-    private SparkFlex rightPivot;
-    private SparkFlexConfig leftConfig;
-    private SparkFlexConfig rightConfig;
+    private SparkFlex pivot;
+    private SparkFlexConfig pivotConfig;
     private PIDController pidController;
     private double testOutput;
 
     public PivotSubsystem () {
-        leftPivot = new SparkFlex(PortConstants.leftPivotPort, MotorType.kBrushless);
-        rightPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
+        pivot = new SparkFlex(PortConstants.pivotPort, MotorType.kBrushless);
         pidController = new PIDController(0, 0, 0);
         testOutput = 0;
-        leftConfig = new SparkFlexConfig();
-        rightConfig = new SparkFlexConfig();
-        leftConfig
+        pivotConfig = new SparkFlexConfig();
+        pivotConfig
             .inverted(false)
             .idleMode(IdleMode.kBrake);
-        rightConfig
-            .inverted(false)
-            .idleMode(IdleMode.kBrake);
-        leftPivot.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 
     public double getRotation() {
-        return leftPivot.getEncoder().getPosition();
+        return pivot.getEncoder().getPosition();
     }
     public void setPower(double power) {
-        leftPivot.set(power);
-        rightPivot.set(power);
+        pivot.set(power);
     }
     public void shutdown() {
-        leftPivot.set(0);
-        rightPivot.set(0);
+        pivot.set(0);
     }
 
     public void setTestOutput() {
-        leftPivot.set(testOutput);
-        rightPivot.set(testOutput);
+        pivot.set(testOutput);
     }
     public void increaseOutput() {
         testOutput += 0.05;

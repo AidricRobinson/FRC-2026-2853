@@ -29,6 +29,7 @@ import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.Int
 import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
+import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedDown;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
 import com.pathplanner.lib.auto.AutoBuilder;
 // import frc.robot.commands.SwerveControlCommand;
@@ -199,14 +200,29 @@ public class RobotContainer {
     new JoystickButton(controller0, GamepadConstants.kBButtonPort)
         .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0)); 
 
-    new POVButton(controller0, GamepadConstants.kDpadDown)
-        .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadDown)
+    //     .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadLeft)
+    //     .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadUp)
+    //     .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadRight)
+    //     .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
+
+    
+    new JoystickButton(controller0, GamepadConstants.kDpadDown)
+        .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadLeft)
-        .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
+        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadUp)
-        .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
+        .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadRight)
-        .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
+        .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller0)); 
+
+    new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
+        .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+        .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
 
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller1));
@@ -217,13 +233,9 @@ public class RobotContainer {
     new JoystickButton(controller1, GamepadConstants.kBButtonPort)
         .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller1));
 
-
-
-
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                                RPM PID COMMANDS                                    ///
     /// //////////////////////////////////////////////////////////////////////////////////////
-        
         
     // new POVButton(controller1, GamepadConstants.kDpadDown)
     //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller1));
