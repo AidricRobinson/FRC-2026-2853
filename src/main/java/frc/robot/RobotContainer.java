@@ -8,6 +8,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutoCommands.Autos;
+import frc.robot.commands.TeleOpCommands.IndexorBackwardCommand;
+import frc.robot.commands.TeleOpCommands.IndexorForwardCommand;
 import frc.robot.commands.TeleOpCommands.IndexorPID;
 import frc.robot.commands.TeleOpCommands.ShooterCommand;
 import frc.robot.commands.TeleOpCommands.ShooterPID;
@@ -47,6 +49,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -131,6 +134,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
+  private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
 //    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
@@ -244,6 +248,11 @@ public class RobotContainer {
         .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
+
+    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
+        .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
+        .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, controller1));
 
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller1));

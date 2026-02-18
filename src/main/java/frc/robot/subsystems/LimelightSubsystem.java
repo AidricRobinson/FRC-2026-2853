@@ -22,8 +22,9 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public LimelightSubsystem () {
         networkTable = NetworkTableInstance.getDefault().getTable("limelight");
-        setPipeline(Pipeline.DRIVER_VIEW);
         
+        setPipeline(Pipeline.DRIVER_VIEW);
+        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
     }
 
     public void setPipeline(Pipeline pipeline) {
@@ -43,6 +44,9 @@ public class LimelightSubsystem extends SubsystemBase {
     } 
     @Override
     public void periodic(){
+        getTa();
+        getTx();
+        getTy();
         SmartDashboard.putNumber("tx", getTx());
         SmartDashboard.putNumber("ty", getTy());
         SmartDashboard.putNumber("ta", getTa());

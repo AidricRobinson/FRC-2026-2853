@@ -27,9 +27,7 @@ public IndexorTestSetSpeed(IndexorSubsystem indexorSubsystem, GenericHID m_contr
   public void execute() {
       indexorSubsystem.updateError(); 
         indexorSubsystem.setPower(
-        indexorSubsystem.getOutput() > 1 ? 1
-        : indexorSubsystem.getOutput() < 0 ? 0
-        : indexorSubsystem.getOutput()
+        indexorSubsystem.getOutput() 
         );
       // indexorSubsystem.setPower(indexorSubsystem.getIntakeTestSpeed());
   }

@@ -35,17 +35,19 @@ public final class Constants {
   }
 
   public static class PortConstants {
-    public static final int leftMotorPort = 24;
+    public static final int leftMotorPort = 9;
     public static final int rightMotorPort = 10;
 
-    public static final int StorageMotorPort = 12; 
+    public static final int intakeMotorPort = 11; 
 
+    public static final int StorageMotorPort = 12;
 
-    public static final int pivotPort = 15; 
+    public static final int indexorMotorPort = 13; 
+    public static final int pivotPort = 14;
 
-    public static final int intakeMotorPort = 14; 
+    // public static final int leftpPivotPort = 14;
+    // public static final int rightPivotPort = 15; 
 
-    public static final int indexorMotorPort = 18; 
   }
   public static class ShooterConstants {
     public static final double A = 0;

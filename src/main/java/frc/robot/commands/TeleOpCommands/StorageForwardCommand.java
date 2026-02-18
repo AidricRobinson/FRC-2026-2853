@@ -16,7 +16,7 @@ public class StorageForwardCommand extends Command{
 
     }
     public void execute(){
-        m_conveyorSubsystem.setPower(0.1);
+        m_conveyorSubsystem.setPower(0.3);
     }
     public void end(boolean interupted){
         m_conveyorSubsystem.shutdown();

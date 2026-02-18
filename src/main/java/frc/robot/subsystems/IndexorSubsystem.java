@@ -38,7 +38,7 @@ public class IndexorSubsystem extends SubsystemBase {
 
     }
     public double getRPM() {
-     return Math.abs(indexor.getEncoder().getVelocity()); //be careful
+     return indexor.getEncoder().getVelocity(); //be careful
     }
     public void setPower(double power){
         indexor.set(power);
