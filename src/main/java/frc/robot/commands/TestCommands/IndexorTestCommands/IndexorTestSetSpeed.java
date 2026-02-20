@@ -40,7 +40,7 @@ public IndexorTestSetSpeed(IndexorSubsystem indexorSubsystem, GenericHID m_contr
 
   @Override
   public boolean isFinished() {
-    return !(controller.getRawButton(GamepadConstants.kXButtonPort));
+    return !(controller.getPOV() == GamepadConstants.kDpadLeft);
   }
 }
 

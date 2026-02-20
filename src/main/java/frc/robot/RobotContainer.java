@@ -58,6 +58,7 @@ import frc.robot.Constants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -101,6 +102,11 @@ public class RobotContainer {
   
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
+
+    
+
+
+
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -113,8 +119,10 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private RobotConfig config;
+    // private RobotConfig config;
 
+
+    private final SendableChooser<Command> autoChooser;
 
 
     //////////////////////////////////////////////////////
@@ -156,7 +164,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
     
 
-    private final SendableChooser<Command> autoChooser;
 
 
   public RobotContainer() {
@@ -164,6 +171,8 @@ public class RobotContainer {
     // Build an auto chooser. This will use Commands.none() as the default option.
     // As an example, this will only show autos that start with "comp" while at
     // competition as defined by the programmer
+ autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
    configureBindings();
     //    m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
@@ -171,16 +180,7 @@ public class RobotContainer {
     //   controller0
     //   )
     // );
-     try{
-        config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-        // Handle exception as needed
-        e.printStackTrace();
-        }
-    drivetrain.configurePathplanner(config);
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Path", autoChooser);
-
+        FollowPathCommand.warmupCommand().schedule();
   }
 
   
@@ -235,33 +235,33 @@ public class RobotContainer {
     //     .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
 
     
-    new JoystickButton(controller0, GamepadConstants.kDpadDown)
-        .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller0));
-    new POVButton(controller0, GamepadConstants.kDpadLeft)
-        .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller0));
-    new POVButton(controller0, GamepadConstants.kDpadUp)
-        .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller0));
-    new POVButton(controller0, GamepadConstants.kDpadRight)
-        .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller0)); 
+    // new JoystickButton(controller0, GamepadConstants.kDpadDown)
+    //     .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadLeft)
+    //     .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadUp)
+    //     .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller0));
+    // new POVButton(controller0, GamepadConstants.kDpadRight)
+    //     .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller0)); 
 
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
         .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
 
-    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
-        .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
-        .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
+    //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
+    //     .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, controller1));
 
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new IndexorTestSetSpeed(m_IndexorSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller1));
+    new POVButton(controller0, GamepadConstants.kDpadDown)
+        .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadLeft)
+        .onTrue(new IndexorTestSetSpeed(m_IndexorSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadUp)
+        .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller0  ));
+    new POVButton(controller0, GamepadConstants.kDpadRight)
+        .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller0));
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                                RPM PID COMMANDS                                    ///
@@ -280,14 +280,14 @@ public class RobotContainer {
     ///                            SET SPEED COMMANDS                                      ///
     /// //////////////////////////////////////////////////////////////////////////////////////
 
-    new POVButton(controller1, GamepadConstants.kDpadDown)
-        .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadLeft)
-        .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadUp)
-        .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadRight)
-        .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller1)); 
+    // new POVButton(controller1, GamepadConstants.kDpadDown)
+    //     .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadLeft)
+    //     .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadUp)
+    //     .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadRight)
+    //     .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller1)); 
 
 
 

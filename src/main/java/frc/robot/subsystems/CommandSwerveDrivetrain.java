@@ -10,14 +10,13 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -28,11 +27,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Robot;
+
 import frc.robot.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -46,8 +44,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-    private SwerveDrivePoseEstimator poseEstimator;
-    
+
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -55,15 +52,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
-    // private RobotConfig config;
-    private Field2d field;
-
-    private static double maxSpeedThingy = 0.3;
+    /** Swerve request to apply during robot-centric path following */
+    private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
 
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+
+        private static double maxSpeedThingy = 0.3;
+
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -141,14 +139,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-
-
-
         super(drivetrainConstants, modules);
         if (Utils.isSimulation()) {
             startSimThread();
         }
-
+        configureAutoBuilder();
     }
 
     /**
@@ -173,6 +168,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        configureAutoBuilder();
     }
 
     /**
@@ -205,42 +201,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-
-        //configuring path planner
-        // try{
-        // config = RobotConfig.fromGUISettings();
-        // } catch (Exception e) {
-        // // Handle exception as needed
-        // e.printStackTrace();
-        // }
-
-        // configurePathplanner();
-
-        //Path Planner logging
-        field = new Field2d();
-
-        //Logging callback for current robot pose
-        PathPlannerLogging.setLogCurrentPoseCallback(
-            (pose) -> {
-                field.setRobotPose(pose);
-            }
-        );
-
-        //Logging callback for target robot posesma
-        PathPlannerLogging.setLogTargetPoseCallback(
-        (pose) -> {
-            field.getObject("target pose").setPose(pose);
-        }
-        );
-
-        //Logging callback for the active path, this is sent as a list of poses 
-        PathPlannerLogging.setLogActivePathCallback(
-        (poses) -> {
-            field.getObject("path").setPoses(poses);
-        }
-        );
+        configureAutoBuilder();
     }
-    
+
+    private void configureAutoBuilder() {
+        try {
+            var config = RobotConfig.fromGUISettings();
+            AutoBuilder.configure(
+                () -> getState().Pose,   // Supplier of current robot pose
+                this::resetPose,         // Consumer for seeding pose against auto
+                () -> getState().Speeds, // Supplier of current robot speeds
+                // Consumer of ChassisSpeeds and feedforwards to drive the robot
+                (speeds, feedforwards) -> setControl(
+                    m_pathApplyRobotSpeeds.withSpeeds(ChassisSpeeds.discretize(speeds, 0.020))
+                        .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
+                ),
+                new PPHolonomicDriveController(
+                    // PID constants for translation
+                    new PIDConstants(10, 0, 0),
+                    // PID constants for rotation
+                    new PIDConstants(7, 0, 0)
+                ),
+                config,
+                // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this // Subsystem for requirements
+            );
+        } catch (Exception ex) {
+            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
+        }
+    }
+
     /**
      * Returns a command that applies the specified control request to this swerve drivetrain.
      *
@@ -292,10 +284,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
-        
     }
-
-    public static void setSlowMode() {
+     public static void setSlowMode() {
         maxSpeedThingy = 0.2;
     }
     public static void setNormalSpeed() {
@@ -304,15 +294,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public static double getMaxSpeedThingy() {
         return maxSpeedThingy;
     }
-     public Pose2d getPose(){
-        return super.getState().Pose;
-    }
-    public void resetOdometry(Pose2d pose) {
-        // odometry.resetPosition(getYawRotation(), getModulePosition(), pose);
-        // poseEstimator.resetPosition(getYawRotation(), getModulePosition(), pose);
-        super.getPigeon2().reset();
-        poseEstimator.resetPosition(super.getPigeon2().getRotation2d(), super.getState().ModulePositions, pose);
-    }
+    
     public ChassisSpeeds getCurrentSpeed(){
         return super.getState().Speeds;
     }
@@ -344,35 +326,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .withRotationalRate(desiredOmega);
     super.setControl(fieldCentricDrive);
 }
-    public void configurePathplanner(RobotConfig config){
-       // Configure AutoBuilder last
-    AutoBuilder.configure(
-            this::getPose, // Robot pose supplier
-            this::resetOdometry, // Method to reset odometry (w4ill be called if your auto has a starting pose)
-            this::getCurrentSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) ->  driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(50.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(50.0, 0.0, 0.0) // Rotation PID constants
-            ),
-            config, // The robot configuration
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-            this // Reference to this subsystem to set requirements
-    );
+  
  
-    }
-    
+
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 

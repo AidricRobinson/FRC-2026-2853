@@ -37,6 +37,6 @@ public class IndexorTestSpeedUp extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kYButtonPort);
+    return controller.getPOV() == GamepadConstants.kDpadUp;
   }
 }

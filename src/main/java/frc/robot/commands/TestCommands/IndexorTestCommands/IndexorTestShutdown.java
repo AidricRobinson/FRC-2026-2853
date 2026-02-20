@@ -36,6 +36,6 @@ public class IndexorTestShutdown extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getRawButton(GamepadConstants.kBButtonPort);
+    return controller.getPOV() == GamepadConstants.kDpadRight;
   }
 }
