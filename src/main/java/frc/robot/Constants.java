@@ -50,9 +50,9 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double A = 0;
-    public static final double B = 0;
-    public static final double C = 0;
+    public static final double A = 104;
+    public static final double B = -2063;
+    public static final double C = 5133;
   }
   public static class RotationConstants {
 

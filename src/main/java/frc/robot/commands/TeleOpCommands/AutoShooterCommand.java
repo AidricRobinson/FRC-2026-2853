@@ -1,5 +1,6 @@
-package frc.robot.commands.AutoCommands;
+package frc.robot.commands.TeleOpCommands;
 
+import edu.wpi.first.units.measure.LinearMomentum;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,13 +22,14 @@ public class AutoShooterCommand extends Command {
 
     @Override 
     public void initialize() {
-        
+        shooterSubsystem.setPoint(shooterSubsystem.calculateRPM(limelight.getTa()));
+        System.out.println("KORGJEOWIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEORIGJEOWRIGJEOWRIGJEW");
     }
 
     @Override
     public void execute () {
-        double tA = limelight.getTa();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateRPM(tA));
+        System.out.println("executing");
+
 
         shooterSubsystem.updateError(); 
         shooterSubsystem.setPower(
@@ -35,6 +37,8 @@ public class AutoShooterCommand extends Command {
         : shooterSubsystem.getOutput() < 0 ? 0
         : shooterSubsystem.getOutput()
         );
+
+
     }
 
     @Override
