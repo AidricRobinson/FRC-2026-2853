@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutoCommands.Autos;
+import frc.robot.commands.TeleOpCommands.AutoShooterCommand;
 import frc.robot.commands.TeleOpCommands.IndexorBackwardCommand;
 import frc.robot.commands.TeleOpCommands.IndexorForwardCommand;
 import frc.robot.commands.TeleOpCommands.IndexorPID;
@@ -217,14 +218,14 @@ public class RobotContainer {
 
 
    
-    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0)); 
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
+        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
+        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller1));
+    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
+        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller1)); 
 
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
@@ -263,6 +264,10 @@ public class RobotContainer {
         .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller0  ));
     new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller0));
+
+
+    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+        .onTrue(new AutoShooterCommand(m_ShooterSubsystem, m_LimelightSubsystem, controller0));
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                                RPM PID COMMANDS                                    ///

@@ -13,41 +13,53 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PortConstants;
 
 public class PivotSubsystem extends SubsystemBase {
-    private SparkFlex pivot;
-    private SparkFlexConfig pivotConfig;
+    private SparkFlex leftPivot;
+    private SparkFlex rightPivot;
+    private SparkFlexConfig leftConfig;
+    private SparkFlexConfig rightConfig;
     private PIDController pidController;
     private double testOutput;
 
     public PivotSubsystem () {
-        pivot = new SparkFlex(PortConstants.pivotPort, MotorType.kBrushless);
+        leftPivot = new SparkFlex(PortConstants.leftpPivotPort, MotorType.kBrushless);
+        leftPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
+
         pidController = new PIDController(0, 0, 0);
         testOutput = 0;
-        pivotConfig = new SparkFlexConfig();
-        pivotConfig
+        leftConfig = new SparkFlexConfig();
+        leftConfig
             .inverted(false)
             .idleMode(IdleMode.kBrake);
-        pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftPivot.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightConfig = new SparkFlexConfig();
+        rightConfig
+            .inverted(true)
+            .idleMode(IdleMode.kBrake);
+        rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 
     public double getRotation() {
-        return pivot.getEncoder().getPosition();
+        return leftPivot.getEncoder().getPosition();
     }
     public void setPower(double power) {
-        pivot.set(power);
+        leftPivot.set(power);
+        rightPivot.set(power);
     }
     public void shutdown() {
-        pivot.set(0);
+        leftPivot.set(0);
+        rightPivot.set(0);
     }
 
     public void setTestOutput() {
-        pivot.set(testOutput);
+        leftPivot.set(testOutput);
+        rightPivot.set(testOutput);
     }
     public void increaseOutput() {
-        testOutput += 0.05;
+        testOutput += 0.025;
     }
     public void decreaseOutput() {
-        testOutput -= 0.05;
+        testOutput -= 0.025;
     }
     public void testOutputShutdown () {
         testOutput = 0;
@@ -75,6 +87,8 @@ public class PivotSubsystem extends SubsystemBase {
     public void resetPID() {
         pidController.reset();
     }
+
+    
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Pivot Test Output", testOutput);

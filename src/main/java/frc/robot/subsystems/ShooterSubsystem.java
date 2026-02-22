@@ -47,14 +47,12 @@ public class ShooterSubsystem extends SubsystemBase {
    rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   public double calculateRPM(double tA) {
-    if (tA == 0) {
-      return ((tA * Math.pow(ShooterConstants.A, 2))
-      + (tA * ShooterConstants.B)
-      + (ShooterConstants.C));
-    }
-    else {
-      return 0;
-    }
+    return ((ShooterConstants.A * Math.pow(tA, 2))
+    + (ShooterConstants.B * tA)
+    + (ShooterConstants.C));
+
+    // return 2000;
+    
   }
   public void setPower(double power) {
     leftMotor.set(power);
@@ -70,7 +68,7 @@ public class ShooterSubsystem extends SubsystemBase {
     testSpeed += 250;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 250;
+    testSpeed -= 50;
   }
   public double getTestRPM() {
     return testSpeed;
