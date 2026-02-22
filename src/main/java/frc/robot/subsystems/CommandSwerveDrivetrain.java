@@ -25,6 +25,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -61,7 +63,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
         private static double maxSpeedThingy = 0.3;
-
+    private final Field2d field2d = new Field2d();
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -202,6 +204,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
         configureAutoBuilder();
+        
     }
 
     private void configureAutoBuilder() {
@@ -284,6 +287,21 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+        SmartDashboard.putNumber("YSpeed", getState().Speeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("XSpeed", getState().Speeds.vxMetersPerSecond);
+        field2d.setRobotPose(super.getState().Pose);
+        SmartDashboard.putData("field", field2d);
+        SmartDashboard.putNumber("Module 0 - Rotation Speed", super.getModule(0).getSteerMotor().get());
+        SmartDashboard.putNumber("Module 1 - Rotation Speed", super.getModule(1).getSteerMotor().get());
+        SmartDashboard.putNumber("Module 2 - Rotation Speed", super.getModule(2).getSteerMotor().get());
+        SmartDashboard.putNumber("Module 3 - Rotation Speed", super.getModule(3).getSteerMotor().get());
+        SmartDashboard.putNumber("Module 0 - Drive Speed", super.getModule(0).getDriveMotor().get());
+        SmartDashboard.putNumber("Module 1 - Drive Speed", super.getModule(1).getDriveMotor().get());
+        SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
+        SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
+        SmartDashboard.putNumber("Odometry Frequency?", super.getOdometryFrequency());
+        
+        SmartDashboard.updateValues();
     }
      public static void setSlowMode() {
         maxSpeedThingy = 0.2;
