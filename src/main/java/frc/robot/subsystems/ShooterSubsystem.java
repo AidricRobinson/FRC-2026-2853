@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.PortConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.pidConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SparkFlex leftMotor; 
@@ -30,7 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
    rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
 
-   pidController = new PIDController(0.000075, 0.000025, 1);
+   pidController = pidConstants.shooterPID;
 
     leftMotorConfig = new SparkFlexConfig();
     leftMotorConfig

@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.PortConstants;
+import frc.robot.Constants.pidConstants;
 
 public class StorageSubsystem extends SubsystemBase {
     private SparkFlex storageMotor;
@@ -28,7 +29,7 @@ public class StorageSubsystem extends SubsystemBase {
             .inverted(false)
             .idleMode(IdleMode.kBrake);
         storageMotor.configure(storageMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pidController = new PIDController(0.00005,0.000275,10);
+        pidController = pidConstants.storagePID;
     }
     public void setPower(double power){
         storageMotor.set(power);

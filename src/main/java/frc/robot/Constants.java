@@ -34,6 +34,14 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class pidConstants { 
+    public static final PIDController shooterPID = new PIDController(0.000075, 0.000025, 1);
+    public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
+    public static final PIDController pivotPID = new PIDController(0, 0, 0);
+    public static final PIDController intakePID = new PIDController(0.00005,0.0001,10);
+    public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);
+  }
+
   public static class PortConstants {
     public static final int leftMotorPort = 9;
     public static final int rightMotorPort = 10;
@@ -47,6 +55,8 @@ public final class Constants {
 
     public static final int leftpPivotPort = 14;
     public static final int rightPivotPort = 15; 
+
+    public static final int pivotIRSensorPort = 123; // placeholder
 
   }
   public static class ShooterConstants {
@@ -236,6 +246,7 @@ public final class Constants {
         kaVoltSecondsSquaredPerRadian
       );
   }
+  
 
   public static class DriveConstants {
     // Drive Speed Constants
@@ -294,8 +305,16 @@ public final class Constants {
         ) 
     );
   }
+
+  
   
   public static class AutoConstants {
+    public static final double kPivotUpPosition =  1; // placeholder
+    public static final double kPivotDownSpeed = - 0.05;
+    public static final double kPivotTolerance = 0.5; // placeholder
+
+
+
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;
     public static final double kAutoDriveMaxAcceleration = kAutoDriveMaxMetersPerSecond * 8;
