@@ -33,7 +33,8 @@ public class AutoPivotDown extends Command{
 
     @Override
     public boolean isFinished() {
-        return pivotSubsystem.isBeamBroken();
+        // return pivotSubsystem.isBeamBroken();
+        return pivotSubsystem.isPressed();
     }
     
 }
