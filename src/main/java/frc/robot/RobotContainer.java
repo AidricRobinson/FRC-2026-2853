@@ -7,56 +7,14 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 // import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.AutoCommands.Autos;
-import frc.robot.commands.TeleOpCommands.AutoShooterCommand;
-import frc.robot.commands.TeleOpCommands.IndexorBackwardCommand;
-import frc.robot.commands.TeleOpCommands.IndexorForwardCommand;
-import frc.robot.commands.TeleOpCommands.IndexorPID;
-import frc.robot.commands.TeleOpCommands.ShooterCommand;
-import frc.robot.commands.TeleOpCommands.ShooterPID;
-import frc.robot.commands.TeleOpCommands.StorageBackwardCommand;
-import frc.robot.commands.TeleOpCommands.StorageForwardCommand;
-import frc.robot.commands.TeleOpCommands.StoragePID;
-import frc.robot.commands.TeleOpCommands.SwerveSlowModeCommand;
-import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSetSpeed;
-import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestShutdown;
-import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedDown;
-import frc.robot.commands.TestCommands.IndexorTestCommands.IndexorTestSpeedUp;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestSetRPM;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMShutdown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMDown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMUp;
-import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestSetOutput;
-import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputShutdown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputDown;
-import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
-import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
-import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
-import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedDown;
-import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
-import com.pathplanner.lib.auto.AutoBuilder;
-// import frc.robot.commands.SwerveControlCommand;
-// import frc.robot.commands.SwerveControlCommand;
-import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSetSpeed;
-import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestShutdown;
-import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSpeedDown;
-import frc.robot.commands.TestCommands.ShooterTestCommands.ShooterTestSpeedUp;
-import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestSetSpeed;
-import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestShutdown;
-import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestSpeedDown;
-import frc.robot.commands.TestCommands.StorageTestCommands.StorageTestSpeedUp;
-import frc.robot.subsystems.StorageSubsystem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IndexorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-// import frc.robot.subsystems.SwerveDriveSubsystem;
-// import frc.robot.subsystems.SwerveModule;
+import frc.robot.commands.TeleOpCommands.*;
+import frc.robot.commands.TestCommands.IndexorTestCommands.*;
+import frc.robot.commands.TestCommands.IntakeTestCommands.*;
+import frc.robot.commands.TestCommands.PivotTestCommands.*;
+import frc.robot.commands.TestCommands.ShooterTestCommands.*;
+import frc.robot.commands.TestCommands.StorageTestCommands.*;
+import frc.robot.subsystems.*;
 import frc.robot.Constants.SwerveModuleConstants;
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -64,7 +22,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -76,7 +33,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
+import com.pathplanner.lib.auto.AutoBuilder;
+
 
 //Imported Swerve drive 
 
@@ -267,7 +225,7 @@ public class RobotContainer {
 
 
     new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-        .onTrue(new AutoShooterCommand(m_ShooterSubsystem, m_LimelightSubsystem, controller0));
+        .onTrue(new LimelightShooterCommand (m_ShooterSubsystem, m_LimelightSubsystem, controller0));
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                                RPM PID COMMANDS                                    ///

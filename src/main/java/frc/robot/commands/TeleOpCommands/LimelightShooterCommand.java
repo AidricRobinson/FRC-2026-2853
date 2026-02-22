@@ -8,11 +8,11 @@ import frc.robot.Constants.GamepadConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoShooterCommand extends Command {
+public class LimelightShooterCommand extends Command {
     private final ShooterSubsystem shooterSubsystem;
     private final LimelightSubsystem limelight;
     private GenericHID controller;
-    public AutoShooterCommand(ShooterSubsystem shooterSubsystem, LimelightSubsystem limelight, GenericHID controller) {
+    public LimelightShooterCommand(ShooterSubsystem shooterSubsystem, LimelightSubsystem limelight, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
         this.limelight = limelight;
         this.controller = controller;
