@@ -43,10 +43,10 @@ public final class Constants {
     public static final int StorageMotorPort = 12;
 
     public static final int indexorMotorPort = 13; 
-    public static final int pivotPort = 14;
+    // public static final int pivotPort = 14;
 
-    // public static final int leftpPivotPort = 14;
-    // public static final int rightPivotPort = 15; 
+    public static final int leftpPivotPort = 14;
+    public static final int rightPivotPort = 15; 
 
   }
   public static class ShooterConstants {
