@@ -8,9 +8,11 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PortConstants;
+import frc.robot.Constants.pidConstants;
 
 public class PivotSubsystem extends SubsystemBase {
     private SparkFlex leftPivot;
@@ -19,12 +21,14 @@ public class PivotSubsystem extends SubsystemBase {
     private SparkFlexConfig rightConfig;
     private PIDController pidController;
     private double testOutput;
+    private DigitalInput IRSensor;
+    
 
     public PivotSubsystem () {
         leftPivot = new SparkFlex(PortConstants.leftpPivotPort, MotorType.kBrushless);
         leftPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
 
-        pidController = new PIDController(0, 0, 0);
+        pidController = pidConstants.pivotPID;
         testOutput = 0;
         leftConfig = new SparkFlexConfig();
         leftConfig
@@ -37,10 +41,17 @@ public class PivotSubsystem extends SubsystemBase {
             .idleMode(IdleMode.kBrake);
         rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+
+        IRSensor = new DigitalInput(PortConstants.pivotIRSensorPort);
+
     }
 
     public double getRotation() {
         return leftPivot.getEncoder().getPosition();
+    }
+
+    public boolean isBeamBroken() {
+        return !IRSensor.get();
     }
     public void setPower(double power) {
         leftPivot.set(power);

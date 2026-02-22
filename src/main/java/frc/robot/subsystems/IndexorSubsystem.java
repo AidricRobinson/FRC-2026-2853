@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.PortConstants;
+import frc.robot.Constants.pidConstants;
 
 
 public class IndexorSubsystem extends SubsystemBase {
@@ -26,7 +27,7 @@ public class IndexorSubsystem extends SubsystemBase {
     public IndexorSubsystem(){
         indexor = new SparkFlex(PortConstants.indexorMotorPort, MotorType.kBrushless);
         testRPM = 0;
-        pidController = new PIDController(0.00005,0.0001,10);
+        pidController = pidConstants.indexorPID;
 
         indexorMotorConfig = new SparkFlexConfig();
         indexorMotorConfig

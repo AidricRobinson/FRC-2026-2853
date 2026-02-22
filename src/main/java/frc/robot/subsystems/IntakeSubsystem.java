@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.PortConstants;
+import frc.robot.Constants.pidConstants;
 
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -28,7 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor = new SparkFlex(PortConstants.intakeMotorPort, MotorType.kBrushless);
         testRPM = 0;
         testOutput = 0;
-        pidController = new PIDController(0.00005,0.0001,10);
+        pidController = pidConstants.intakePID;
 
         intakeMotorConfig = new SparkFlexConfig();
         intakeMotorConfig
