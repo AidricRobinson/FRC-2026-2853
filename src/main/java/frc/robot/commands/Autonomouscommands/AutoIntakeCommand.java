@@ -21,13 +21,16 @@ public class AutoIntakeCommand extends Command {
 
   @Override
   public void initialize() {
+    intakeSubsystem.setPoint(3000); // placeholder
     timer.start();
   }
 
 
   @Override
   public void execute() {
-    intakeSubsystem.setPower(0.5);
+    intakeSubsystem.setPower(
+        intakeSubsystem.getOutput()
+    );
   }
 
   @Override
