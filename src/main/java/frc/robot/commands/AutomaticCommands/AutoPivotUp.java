@@ -1,13 +1,13 @@
-package frc.robot.commands.AutoCommands;
+package frc.robot.commands.AutomaticCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.PivotSubsystem;
 
-public class AutoPivotDown extends Command{
+public class AutoPivotUp extends Command{
     private PivotSubsystem pivotSubsystem;
 
-    public AutoPivotDown(PivotSubsystem pivotSubsystem) {
+    public AutoPivotUp(PivotSubsystem pivotSubsystem) {
         this.pivotSubsystem = pivotSubsystem;   
 
         addRequirements(pivotSubsystem);
@@ -21,20 +21,19 @@ public class AutoPivotDown extends Command{
     @Override
     public void execute() {
         pivotSubsystem.setPower(
-            AutoConstants.kPivotDownSpeed
+            pivotSubsystem.getOutput()
         );
     }
 
     @Override 
     public void end(boolean interrupted) {
         pivotSubsystem.shutdown();
-        System.out.println("Pivot down finished");
+        System.out.println("Pivot up finished");
     }
 
     @Override
     public boolean isFinished() {
-        // return pivotSubsystem.isBeamBroken();
-        return pivotSubsystem.isPressed();
+        return Math.abs(pivotSubsystem.getError()) <= AutoConstants.kPivotTolerance;
     }
     
 }
