@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.commands.Autonomouscommands.AutoIntakeCommand;
+import frc.robot.commands.Autonomouscommands.AutoShootCommand;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
@@ -34,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.auto.NamedCommands;
 
 //Imported Swerve drive 
 
@@ -52,21 +54,15 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.TunerConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
 public class RobotContainer {
    
-  private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-
-    
-
-
-
- private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
@@ -80,10 +76,8 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     // private RobotConfig config;
-
-
     private final SendableChooser<Command> autoChooser;
-
+    
 
     //////////////////////////////////////////////////////
     /// //////////////////////////////////////////////////
@@ -105,6 +99,17 @@ public class RobotContainer {
   private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+
+  private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000);
+  private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 4000);
+  private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 5000);
+  private final AutoIntakeCommand autoIntakeCommand5Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 5);
+  private final AutoIntakeCommand autoIntakeCommand6Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 6);
+  private final AutoIntakeCommand autoIntakeCommand7Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 7);
+  private final AutoIntakeCommand autoIntakeCommand8Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 8);
+  private final AutoIntakeCommand autoIntakeCommand9Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 9);
+  private final AutoIntakeCommand autoIntakeCommand10Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 10);
+
 //    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
 //     testTranPos,
 //     testTranVel,
@@ -114,6 +119,7 @@ public class RobotContainer {
 //     testGyroData,
 //     canivore
 //   );
+
   private final GenericHID controller0 = new GenericHID(0);
   private final GenericHID controller1 = new GenericHID(1);
 
@@ -128,19 +134,24 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    // Build an auto chooser. This will use Commands.none() as the default option.
-    // As an example, this will only show autos that start with "comp" while at
-    // competition as defined by the programmer
- autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
+    autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
-   configureBindings();
-    //    m_SwerveDriveSubsystem.setDefaultCommand(new SwerveControlCommand(
-    //   m_SwerveDriveSubsystem,
-    //   controller0
-    //   )
-    // );
-        FollowPathCommand.warmupCommand().schedule();
+    NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
+    NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
+    NamedCommands.registerCommand("3000RPM Shoot Command", autoShootCommand3000RPM);
+    NamedCommands.registerCommand("5 Second Intake Command", autoIntakeCommand5Seconds);
+    NamedCommands.registerCommand("6 Second Intake Command", autoIntakeCommand6Seconds);
+    NamedCommands.registerCommand("7 Second Intake Command", autoIntakeCommand7Seconds);
+    NamedCommands.registerCommand("8 Second Intake Command", autoIntakeCommand8Seconds);
+    NamedCommands.registerCommand("9 Second Intake Command", autoIntakeCommand9Seconds);
+    NamedCommands.registerCommand("10 Second Intake Command", autoIntakeCommand10Seconds);
+
+
+
+    configureBindings();
+   
+    FollowPathCommand.warmupCommand().schedule();
   }
 
   
