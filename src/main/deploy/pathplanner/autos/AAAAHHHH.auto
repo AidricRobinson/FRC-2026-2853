@@ -15,24 +15,6 @@
           "data": {
             "pathName": "Across the neuteral zone p1 "
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Across the neuteral zone p2 "
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Across the neuteral zone p3 "
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Come back"
-          }
         }
       ]
     }
