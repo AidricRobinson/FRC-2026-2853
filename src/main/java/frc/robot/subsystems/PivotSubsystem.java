@@ -21,12 +21,13 @@ public class PivotSubsystem extends SubsystemBase {
     private SparkFlexConfig rightConfig;
     private PIDController pidController;
     private double testOutput;
-    private DigitalInput IRSensor;
+    // private DigitalInput IRSensor;
+    private DigitalInput touchSensor;
     
 
     public PivotSubsystem () {
         leftPivot = new SparkFlex(PortConstants.leftpPivotPort, MotorType.kBrushless);
-        leftPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
+        rightPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
 
         pidController = pidConstants.pivotPID;
         testOutput = 0;
@@ -42,7 +43,8 @@ public class PivotSubsystem extends SubsystemBase {
         rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-        IRSensor = new DigitalInput(PortConstants.pivotIRSensorPort);
+        // IRSensor = new DigitalInput(PortConstants.pivotIRSensorPort);
+        touchSensor = new DigitalInput(0);
 
     }
 
@@ -50,8 +52,11 @@ public class PivotSubsystem extends SubsystemBase {
         return leftPivot.getEncoder().getPosition();
     }
 
-    public boolean isBeamBroken() {
-        return !IRSensor.get();
+    // public boolean isBeamBroken() {
+    //     return !IRSensor.get();
+    // }
+    public boolean isPressed(){
+        return !touchSensor.get();
     }
     public void setPower(double power) {
         leftPivot.set(power);
@@ -106,6 +111,7 @@ public class PivotSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pivot Rotations", getRotation());
         SmartDashboard.putNumber("Pivot SetPoint", getSetPoint());
         SmartDashboard.putNumber("Pivot Error", getError());
+        SmartDashboard.putBoolean("Pivot Touch Sensor", isPressed());
         SmartDashboard.updateValues();
     }
     

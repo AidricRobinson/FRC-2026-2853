@@ -1,4 +1,4 @@
-package frc.robot.commands.AutoCommands;
+package frc.robot.commands.AutomaticCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
@@ -33,7 +33,8 @@ public class AutoPivotDown extends Command{
 
     @Override
     public boolean isFinished() {
-        return pivotSubsystem.isBeamBroken();
+        // return pivotSubsystem.isBeamBroken();
+        return pivotSubsystem.isPressed();
     }
     
 }
