@@ -100,7 +100,7 @@ public class RobotContainer {
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
 
-  private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000);
+//   private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000);
   private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 4000);
   private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 5000);
   private final AutoIntakeCommand autoIntakeCommand5Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 5);
@@ -134,18 +134,20 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
-        SmartDashboard.putData("Auto Mode", autoChooser);
+    
 
     NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
-    NamedCommands.registerCommand("3000RPM Shoot Command", autoShootCommand3000RPM);
+    NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000));
     NamedCommands.registerCommand("5 Second Intake Command", autoIntakeCommand5Seconds);
     NamedCommands.registerCommand("6 Second Intake Command", autoIntakeCommand6Seconds);
     NamedCommands.registerCommand("7 Second Intake Command", autoIntakeCommand7Seconds);
     NamedCommands.registerCommand("8 Second Intake Command", autoIntakeCommand8Seconds);
     NamedCommands.registerCommand("9 Second Intake Command", autoIntakeCommand9Seconds);
     NamedCommands.registerCommand("10 Second Intake Command", autoIntakeCommand10Seconds);
+    
+    autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
 
 
