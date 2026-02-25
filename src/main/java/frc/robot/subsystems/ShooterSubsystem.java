@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -10,17 +14,18 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.PortConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.pidConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private SparkFlex leftMotor; 
-  private SparkFlex rightMotor;
+  private TalonFX FlywheelMotor;
   private PIDController pidController;
-  private SparkFlexConfig leftMotorConfig;
-  private SparkFlexConfig rightMotorConfig;
+  private TalonFXConfiguration FlywheelConfig;
+  // private SparkFlexConfig leftMotorConfig;
+  // private SparkFlexConfig rightMotorConfig;
   double testSpeed = 0;
 
   private double setPoint;
@@ -28,24 +33,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
   
   public ShooterSubsystem() {
-    leftMotor = new SparkFlex(PortConstants.leftMotorPort, MotorType.kBrushless);
-   rightMotor = new SparkFlex(PortConstants.rightMotorPort, MotorType.kBrushless);
+    FlywheelMotor = new TalonFX(Constants.PortConstants.leftMotorPort);
+    FlywheelMotor.setNeutralMode(NeutralModeValue.Coast);
+    // FlywheelConfig = new TalonFXConfiguration();
 
-   pidController = pidConstants.shooterPID;
+  //  pidController = pidConstants.shooterPID;
 
-    leftMotorConfig = new SparkFlexConfig();
-    leftMotorConfig
-      .inverted(true)
-      .idleMode(IdleMode.kCoast);
+  //   leftMotorConfig = new SparkFlexConfig();
+  //   leftMotorConfig
+  //     .inverted(true)
+  //     .idleMode(IdleMode.kCoast);
 
-    leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  //   FlywheelMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-   rightMotorConfig = new SparkFlexConfig();
-   rightMotorConfig
-      .inverted(false)
-      .idleMode(IdleMode.kCoast);
+  //  rightMotorConfig = new SparkFlexConfig();
+  //  rightMotorConfig
+  //     .inverted(false)
+  //     .idleMode(IdleMode.kCoast);
      
-   rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  //  rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
   }
   public double calculateRPM(double tA) {
     return ((ShooterConstants.A * Math.pow(tA, 2))
@@ -56,14 +63,14 @@ public class ShooterSubsystem extends SubsystemBase {
     
   }
   public void setPower(double power) {
-    leftMotor.set(power);
-   rightMotor.set(power);
+    FlywheelMotor.set(power);
+  //  rightMotor.set(power);
   }
   public void setLeftPower(double power){
-    leftMotor.set(power);
+    FlywheelMotor.set(power);
   }
   public void setRightPower(double power){
-    leftMotor.set(power);
+    FlywheelMotor.set(power);
   }
   public void shooterTestSpeedUp(){
     testSpeed += 250;
@@ -79,7 +86,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getRPM() {
-    return Math.abs(leftMotor.getEncoder().getVelocity()); //be careful
+    return Math.abs(FlywheelMotor.getVelocity().getValueAsDouble()); //be careful
   }
   public double getShooterTestSpeed(){
     return testSpeed;
@@ -88,8 +95,8 @@ public class ShooterSubsystem extends SubsystemBase {
     setPower(testSpeed);
   }
   public void shutdown(){
-    leftMotor.set(0);
-   rightMotor.set(0);
+    FlywheelMotor.set(0);
+  //  rightMotor.set(0);
 
 
    
