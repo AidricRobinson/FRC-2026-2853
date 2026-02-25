@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": " Neuteral Zone Left"
+            "pathName": "Left Start to Intake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Across the neuteral zone p1 "
+            "pathName": "Intake Left"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Across the neuteral zone p2 "
+            "pathName": "Intake to Score Left"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Across the neuteral zone p3 "
+            "pathName": "Score Left to Depot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Intake Depot and Score"
           }
         }
       ]
