@@ -10,11 +10,10 @@ import frc.robot.Constants.GamepadConstants;
 public class AutoIntakeCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private double durationInSeconds;
-  private Timer timer;
-  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, double durationInSeconds){
+
+  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem){
     this.intakeSubsystem = intakeSubsystem;
-    this.durationInSeconds = durationInSeconds;
+
     addRequirements(intakeSubsystem);
   }
 
@@ -22,7 +21,7 @@ public class AutoIntakeCommand extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.setPoint(3000); // placeholder
-    timer.start();
+
   }
 
 
@@ -36,12 +35,10 @@ public class AutoIntakeCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.shutdown();
-    timer.stop();
-    timer.reset();
   }
 
   @Override
   public boolean isFinished() {
-    return durationInSeconds <= timer.get();
+    return false;
   }
 }

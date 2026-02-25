@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.commands.AutomaticCommands.AutoPivotDown;
 import frc.robot.commands.Autonomouscommands.AutoIntakeCommand;
 import frc.robot.commands.Autonomouscommands.AutoShootCommand;
 // import frc.robot.commands.ExampleCommand;
@@ -101,14 +102,12 @@ public class RobotContainer {
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
 
 //   private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000);
-  private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 4000);
-  private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 5000);
-  private final AutoIntakeCommand autoIntakeCommand5Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 5);
-  private final AutoIntakeCommand autoIntakeCommand6Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 6);
-  private final AutoIntakeCommand autoIntakeCommand7Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 7);
-  private final AutoIntakeCommand autoIntakeCommand8Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 8);
-  private final AutoIntakeCommand autoIntakeCommand9Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 9);
-  private final AutoIntakeCommand autoIntakeCommand10Seconds = new AutoIntakeCommand(m_IntakeSubsystem, 10);
+  private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
+  private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
+  private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
+
+
+  private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
 //    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
 //     testTranPos,
@@ -138,13 +137,11 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
-    NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000));
-    NamedCommands.registerCommand("5 Second Intake Command", autoIntakeCommand5Seconds);
-    NamedCommands.registerCommand("6 Second Intake Command", autoIntakeCommand6Seconds);
-    NamedCommands.registerCommand("7 Second Intake Command", autoIntakeCommand7Seconds);
-    NamedCommands.registerCommand("8 Second Intake Command", autoIntakeCommand8Seconds);
-    NamedCommands.registerCommand("9 Second Intake Command", autoIntakeCommand9Seconds);
-    NamedCommands.registerCommand("10 Second Intake Command", autoIntakeCommand10Seconds);
+    NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
+    NamedCommands.registerCommand("Run Intake", autoIntakeCommand);
+
+
+    NamedCommands.registerCommand("PivotDown", autoPivotDown);
     
     autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
         SmartDashboard.putData("Auto Mode", autoChooser);
