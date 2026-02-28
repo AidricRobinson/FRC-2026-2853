@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 public class LimelightSubsystem extends SubsystemBase {
     private NetworkTable networkTable;
     private NetworkTable networkTable2;
@@ -34,10 +35,9 @@ public class LimelightSubsystem extends SubsystemBase {
         networkTable2.getEntry("pipeline").setValue(pipeline.PipelineID);
     }
 
-    public Pose2d getbotPose2d(){
-        return networkTable.getEntry("botpose").getValue()  ;
-         
-    }
+    // public Pose2d getbotPose2d(){
+    //     return networkTable.getEntry("botpose");
+    // }
     
     public double getTx() {
         return networkTable.getEntry("tx").getDouble(0.0); // will be changed for kitbot limelight placement
