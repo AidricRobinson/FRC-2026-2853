@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start to Outpost"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PivotDown"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost to Score Center"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "4000RPM Shoot Command"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
