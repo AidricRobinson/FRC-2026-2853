@@ -56,7 +56,7 @@ public final class Constants {
     public static final int leftpPivotPort = 14;
     public static final int rightPivotPort = 15; 
 
-    public static final int pivotIRSensorPort = 123; // placeholder
+    public static final int pivotAboluteEncoderPort = 123; // placeholder
 
   }
   public static class ShooterConstants {
@@ -310,7 +310,7 @@ public final class Constants {
   
   public static class AutoConstants {
     public static final double kPivotUpPosition =  1; // placeholder
-    public static final double kPivotDownSpeed = - 0.05;
+    public static final double kPivotDownPosition = 0; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
 

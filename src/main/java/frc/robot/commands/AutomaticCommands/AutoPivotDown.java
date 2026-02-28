@@ -21,7 +21,7 @@ public class AutoPivotDown extends Command{
     @Override
     public void execute() {
         pivotSubsystem.setPower(
-            AutoConstants.kPivotDownSpeed
+            pivotSubsystem.getOutput()
         );
     }
 
@@ -33,8 +33,7 @@ public class AutoPivotDown extends Command{
 
     @Override
     public boolean isFinished() {
-        // return pivotSubsystem.isBeamBroken();
-        return pivotSubsystem.isPressed();
+        return Math.abs(pivotSubsystem.getError()) <= AutoConstants.kPivotTolerance;
     }
     
 }

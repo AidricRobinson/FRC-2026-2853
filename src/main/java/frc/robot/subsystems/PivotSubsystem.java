@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
@@ -8,9 +9,10 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.PortConstants;
 import frc.robot.Constants.pidConstants;
 
@@ -21,13 +23,14 @@ public class PivotSubsystem extends SubsystemBase {
     private SparkFlexConfig rightConfig;
     private PIDController pidController;
     private double testOutput;
-    // private DigitalInput IRSensor;
-    private DigitalInput touchSensor;
     
+    private DutyCycleEncoder encoder;
 
     public PivotSubsystem () {
         leftPivot = new SparkFlex(PortConstants.leftpPivotPort, MotorType.kBrushless);
         rightPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
+
+        encoder = new DutyCycleEncoder(PortConstants.pivotAboluteEncoderPort, 1, AutoConstants.kPivotUpPosition);
 
         pidController = pidConstants.pivotPID;
         testOutput = 0;
@@ -43,20 +46,11 @@ public class PivotSubsystem extends SubsystemBase {
         rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-        // IRSensor = new DigitalInput(PortConstants.pivotIRSensorPort);
-        touchSensor = new DigitalInput(0);
 
     }
 
-    public double getRotation() {
-        return leftPivot.getEncoder().getPosition();
-    }
-
-    // public boolean isBeamBroken() {
-    //     return !IRSensor.get();
-    // }
-    public boolean isPressed(){
-        return !touchSensor.get();
+    public double getPivotEncoder() {
+        return encoder.get();
     }
     public void setPower(double power) {
         leftPivot.set(power);
@@ -88,7 +82,7 @@ public class PivotSubsystem extends SubsystemBase {
         return pidController.getError();
     }
     public double getOutput() {
-        return pidController.calculate(getRotation(), getSetPoint());
+        return pidController.calculate(getPivotEncoder(), getSetPoint());
     }
     public double getSetPoint() {
         return pidController.getSetpoint();
@@ -98,7 +92,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
     public void updateError() {
         pidController.getD();
-        pidController.calculate(getRotation(), getSetPoint());
+        pidController.calculate(getPivotEncoder(), getSetPoint());
     }
     public void resetPID() {
         pidController.reset();
@@ -108,10 +102,9 @@ public class PivotSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Pivot Test Output", testOutput);
-        SmartDashboard.putNumber("Pivot Rotations", getRotation());
+        SmartDashboard.putNumber("Pivot Encoder", getPivotEncoder());
         SmartDashboard.putNumber("Pivot SetPoint", getSetPoint());
         SmartDashboard.putNumber("Pivot Error", getError());
-        SmartDashboard.putBoolean("Pivot Touch Sensor", isPressed());
         SmartDashboard.updateValues();
     }
     
