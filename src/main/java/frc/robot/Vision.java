@@ -68,8 +68,8 @@ public class Vision {
         this.drivetrain = drivetrain;
 
         //You set this inside of the Photon Vision localhost site
-        camLeft = new PhotonCamera("limelight3-test");
-        camRight = new PhotonCamera("limelight3G-test");
+        camLeft = new PhotonCamera("leftLimelight3G");
+        camRight = new PhotonCamera("rightLimelight3");
 
         //Make sure this is updated to the current year
         //See docs for how to do this better and set origin for red alliance? I did not do this yet
