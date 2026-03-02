@@ -9,27 +9,13 @@ import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutomaticCommands.AutoPivotDown;
 import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
-// import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
-import frc.robot.commands.TestCommands.IntakeTestCommands.*;
-import frc.robot.commands.TestCommands.PivotTestCommands.*;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
-import frc.robot.commands.TestCommands.StorageTestCommands.*;
 import frc.robot.subsystems.*;
-import frc.robot.Constants.SwerveModuleConstants;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,19 +28,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 //Imported Swerve drive 
 
 import static edu.wpi.first.units.Units.*;
-
-import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
-import frc.robot.TunerConstants;
 
 
 public class RobotContainer {
@@ -76,22 +52,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    // private RobotConfig config;
     private final SendableChooser<Command> autoChooser;
     
-
-    //////////////////////////////////////////////////////
-    /// //////////////////////////////////////////////////
-
-
-//     private final ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
-//   private final ShuffleboardTab testTranPos = Shuffleboard.getTab("Test_Tran_Pos");
-//   private final ShuffleboardTab testTranVel = Shuffleboard.getTab("Test_Tran_Vel");
-//   private final ShuffleboardTab testRotPos = Shuffleboard.getTab("Test_Rot_Pos");
-//   private final ShuffleboardTab testRotVel = Shuffleboard.getTab("Test_Rot_Vel");
-//   private final ShuffleboardTab testPos = Shuffleboard.getTab("Test_Pos");
-//   private final ShuffleboardTab testGyroData = Shuffleboard.getTab("Test_Gyro_Data");
-//   private final CANBus canivore = new CANBus("drivetrain");
 
   private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -100,8 +62,8 @@ public class RobotContainer {
   private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
   private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final Vision vision = new Vision(drivetrain);
 
-//   private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 8, 3000);
   private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
   private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
   private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
@@ -109,24 +71,14 @@ public class RobotContainer {
 
   private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
-//    private final SwerveDriveSubsystem m_SwerveDriveSubsystem = new SwerveDriveSubsystem(    
-//     testTranPos,
-//     testTranVel,
-//     testRotPos,
-//     testRotVel, 
-//     testPos,
-//     testGyroData,
-//     canivore
-//   );
+
 
   private final GenericHID controller0 = new GenericHID(0);
   private final GenericHID controller1 = new GenericHID(1);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
     
 
 
@@ -330,6 +282,5 @@ public class RobotContainer {
     }  
   public Command getAutonomousCommand() {
         return autoChooser.getSelected();
-        // new PathPlannerAuto("AAAAHHHH.auto");
   }
 }

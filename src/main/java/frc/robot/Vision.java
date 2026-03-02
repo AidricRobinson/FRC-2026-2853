@@ -24,175 +24,84 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.Vision.*;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.apriltag.AprilTagFields;
 
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import java.util.List;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+
 import java.util.Optional;
+
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
-import org.photonvision.simulation.VisionSystemSim;
-import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 public class Vision {
-    private final PhotonCamera camera;
-    private final PhotonPoseEstimator photonEstimator;
-    private Matrix<N3, N1> curStdDevs;
-    private final EstimateConsumer estConsumer;
+    CommandSwerveDrivetrain drivetrain;
 
-    // Simulation
-    private PhotonCameraSim cameraSim;
-    private VisionSystemSim visionSim;
+    private final PhotonCamera camRight;
+    private final PhotonCamera camLeft;
 
-    /**
-     * @param estConsumer Lamba that will accept a pose estimate and pass it to your desired {@link
-     *     edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}
-     */
-    public Vision(EstimateConsumer estConsumer) {
-        this.estConsumer = estConsumer;
-        camera = new PhotonCamera("limelight3-test");
-        photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
+    public final PhotonPoseEstimator photonPoseEstimatorRight;
+    public final PhotonPoseEstimator photonPoseEstimatorLeft;
 
-        // ----- Simulation
-        if (Robot.isSimulation()) {
-            // Create the vision system simulation which handles cameras and targets on the field.
-            visionSim = new VisionSystemSim("main");
-            // Add all the AprilTags inside the tag layout as visible targets to this simulated field.
-            visionSim.addAprilTags(kTagLayout);
-            // Create simulated camera properties. These can be set to mimic your actual camera.
-            var cameraProp = new SimCameraProperties();
-            cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(90));
-            cameraProp.setCalibError(0.35, 0.10);
-            cameraProp.setFPS(15);
-            cameraProp.setAvgLatencyMs(50);
-            cameraProp.setLatencyStdDevMs(15);
-            // Create a PhotonCameraSim which will update the linked PhotonCamera's values with visible
-            // targets.
-            cameraSim = new PhotonCameraSim(camera, cameraProp);
-            // Add the simulated camera to view the targets on this simulated field.
-            visionSim.addCamera(cameraSim, kRobotToCam);
+    //This is the offset of the camera(s) to the center of the robot
+    //
+    //
+    //
+    //      MEASUREMENTS ARE NOT CORRECT. PLEASE FIX LATER
+    //
+    //
+    //
+    private static final Transform3d LEFT_CAMERA_TO_CENTER = new Transform3d(
+            new Translation3d(Units.inchesToMeters(5.800), Units.inchesToMeters(-8.517), Units.inchesToMeters(43.3)),
+            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(35.895 / 2)));
 
-            cameraSim.enableDrawWireframe(true);
-        }
+    private static final Transform3d RIGHT_CAMERA_TO_CENTER = new Transform3d(
+            new Translation3d(Units.inchesToMeters(5.760), Units.inchesToMeters(-12.707), Units.inchesToMeters(43.3)),
+            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(-35.895 / 2)));
+
+    public Vision(CommandSwerveDrivetrain drivetrain) {
+        this.drivetrain = drivetrain;
+
+        //You set this inside of the Photon Vision localhost site
+        camLeft = new PhotonCamera("limelight3-test");
+        camRight = new PhotonCamera("limelight3G-test");
+
+        //Make sure this is updated to the current year
+        //See docs for how to do this better and set origin for red alliance? I did not do this yet
+        var layout =  AprilTagFields.k2026RebuiltAndymark.loadAprilTagLayoutField();
+
+        //Not much to this. Im not sure if I am using the right stratagey for two cameras, as the code I used does not put a valid stratagy
+        photonPoseEstimatorRight = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, RIGHT_CAMERA_TO_CENTER);
+        photonPoseEstimatorLeft = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, LEFT_CAMERA_TO_CENTER);
+
+        //This is just if all else fails, then go single camera mode and use the most clear one (I think thats what it means)
+        photonPoseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+        photonPoseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+
     }
+    public void update()  {
+        //A bunch of fancy code basically trying to see if the pose estimator has a valid update to make, and updates the swerves pose if it does
+        final Optional<EstimatedRobotPose> optionalEstimatedPoseRight = photonPoseEstimatorRight.update(camRight.getLatestResult());
+        if (optionalEstimatedPoseRight.isPresent()) {
+            final EstimatedRobotPose estimatedPose = optionalEstimatedPoseRight.get();          
+            drivetrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(), estimatedPose.timestampSeconds);
+        }
 
+        final Optional<EstimatedRobotPose> optionalEstimatedPoseLeft = photonPoseEstimatorLeft.update(camLeft.getLatestResult());
+        if (optionalEstimatedPoseLeft.isPresent()) {
+            final EstimatedRobotPose estimatedPose = optionalEstimatedPoseLeft.get();          
+            drivetrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(), estimatedPose.timestampSeconds);
+        }
+
+    }
     public void periodic() {
-        Optional<EstimatedRobotPose> visionEst = Optional.empty();
-        for (var result : camera.getAllUnreadResults()) {
-            visionEst = photonEstimator.estimateCoprocMultiTagPose(result);
-            if (visionEst.isEmpty()) {
-                visionEst = photonEstimator.estimateLowestAmbiguityPose(result);
-            }
-            updateEstimationStdDevs(visionEst, result.getTargets());
-
-            if (Robot.isSimulation()) {
-                visionEst.ifPresentOrElse(
-                        est ->
-                                getSimDebugField()
-                                        .getObject("VisionEstimation")
-                                        .setPose(est.estimatedPose.toPose2d()),
-                        () -> {
-                            getSimDebugField().getObject("VisionEstimation").setPoses();
-                        });
-            }
-
-            visionEst.ifPresent(
-                    est -> {
-                        // Change our trust in the measurement based on the tags we can see
-                        var estStdDevs = getEstimationStdDevs();
-
-                        estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-                    });
-        }
-    }
-
-    /**
-     * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
-     * deviations based on number of tags, estimation strategy, and distance from the tags.
-     *
-     * @param estimatedPose The estimated pose to guess standard deviations for.
-     * @param targets All targets in this camera frame
-     */
-    private void updateEstimationStdDevs(
-            Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
-        if (estimatedPose.isEmpty()) {
-            // No pose input. Default to single-tag std devs
-            curStdDevs = kSingleTagStdDevs;
-
-        } else {
-            // Pose present. Start running Heuristic
-            var estStdDevs = kSingleTagStdDevs;
-            int numTags = 0;
-            double avgDist = 0;
-
-            // Precalculation - see how many tags we found, and calculate an average-distance metric
-            for (var tgt : targets) {
-                var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
-                if (tagPose.isEmpty()) continue;
-                numTags++;
-                avgDist +=
-                        tagPose
-                                .get()
-                                .toPose2d()
-                                .getTranslation()
-                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
-            }
-
-            if (numTags == 0) {
-                // No tags visible. Default to single-tag std devs
-                curStdDevs = kSingleTagStdDevs;
-            } else {
-                // One or more tags visible, run the full heuristic.
-                avgDist /= numTags;
-                // Decrease std devs if multiple targets are visible
-                if (numTags > 1) estStdDevs = kMultiTagStdDevs;
-                // Increase std devs based on (average) distance
-                if (numTags == 1 && avgDist > 4)
-                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
-                curStdDevs = estStdDevs;
-            }
-        }
-    }
-
-    /**
-     * Returns the latest standard deviations of the estimated pose from {@link
-     * #getEstimatedGlobalPose()}, for use with {@link
-     * edu.wpi.first.math.estimator.SwerveDrivePoseEstimator SwerveDrivePoseEstimator}. This should
-     * only be used when there are targets visible.
-     */
-    public Matrix<N3, N1> getEstimationStdDevs() {
-        return curStdDevs;
-    }
-
-    // ----- Simulation
-
-    public void simulationPeriodic(Pose2d robotSimPose) {
-        visionSim.update(robotSimPose);
-    }
-
-    /** Reset pose history of the robot in the vision system simulation. */
-    public void resetSimPose(Pose2d pose) {
-        if (Robot.isSimulation()) visionSim.resetRobotPose(pose);
-    }
-
-    /** A Field2d for visualizing our robot and objects on the field. */
-    public Field2d getSimDebugField() {
-        if (!Robot.isSimulation()) return null;
-        return visionSim.getDebugField();
-    }
-
-    @FunctionalInterface
-    public static interface EstimateConsumer {
-        public void accept(Pose2d pose, double timestamp, Matrix<N3, N1> estimationStdDevs);
+       
     }
 }
+
+  
