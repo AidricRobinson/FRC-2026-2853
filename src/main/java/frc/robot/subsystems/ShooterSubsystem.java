@@ -55,10 +55,10 @@ public class ShooterSubsystem extends SubsystemBase {
     FlywheelMotor.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 250;
+    testSpeed += 0.05;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 50;
+    testSpeed -= 0.05;
   }
   public double getTestRPM() {
     return testSpeed;

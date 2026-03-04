@@ -12,7 +12,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
-public class SteepShootCommand extends Command{
+public class DistanceShootCommand extends Command{
     private ShooterSubsystem shooterSubsystem;
     private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
@@ -21,7 +21,7 @@ public class SteepShootCommand extends Command{
     private GenericHID controller;
     private Timer timer;
 
-    public SteepShootCommand (ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public DistanceShootCommand (ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
         this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
@@ -34,7 +34,7 @@ public class SteepShootCommand extends Command{
     @Override
     public void initialize() {
         timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(limelightSubsystem.getTa()));
+        shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(limelightSubsystem.getTa()));
         indexorSubsystem.setPoint(3000);
         hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
     }
@@ -78,6 +78,6 @@ public class SteepShootCommand extends Command{
     }
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(YuanConstants.SideTop);
+        return !controller.getRawButton(YuanConstants.SideBottom);
     }
 }

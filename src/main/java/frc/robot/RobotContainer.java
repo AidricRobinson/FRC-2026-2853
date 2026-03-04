@@ -13,6 +13,10 @@ import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputDown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputShutdown;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
+import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestSetOutput;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
 import frc.robot.subsystems.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -125,138 +129,34 @@ public class RobotContainer {
 
   
   private void configureBindings() {
+    new POVButton(controller0, GamepadConstants.kDpadLeft)
+        .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadUp)
+        .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadDown)
+        .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadRight)
+        .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///                               TEST COMMANDS                                        ///
-    /// //////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
+    ///                                TEST COMMANDS                                     ///
+    /// ////////////////////////////////////////////////////////////////////////////////////
 
-    
-    //STORAGE
-    // new POVButton(controller0, GamepadConstants.kDpadRight)
-    //    .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadLeft)
-    //    .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadUp)
-    //    .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadDown)
-    //    .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
 
-
-    //Shooter
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller1)); 
-
-        
-    //Conveyor
-    // new POVButton(controller0, GamepadConstants.kDpadDown)
-    //     .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadLeft)
-    //     .onTrue(new StorageTestSetSpeed(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadUp)
-    //     .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadRight)
-    //     .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
-
-
-    //Pivot
-    // new JoystickButton(controller0, GamepadConstants.kDpadDown)
-    //     .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadLeft)
-    //     .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadUp)
-    //     .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadRight)
-    //     .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller0)); 
-
-
-    //Storage
-    new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-        .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
-
-
-    // new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
-    //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller1));
-    // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
-    //     .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, controller1));
-
-
-    //Indexor
-    new POVButton(controller0, GamepadConstants.kDpadDown)
-        .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller0));
-    new POVButton(controller0, GamepadConstants.kDpadLeft)
-        .onTrue(new IndexorTestSetSpeed(m_IndexorSubsystem, controller0));
-    new POVButton(controller0, GamepadConstants.kDpadUp)
-        .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller0  ));
-    new POVButton(controller0, GamepadConstants.kDpadRight)
-        .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller0));
-
-    //Limelight
-    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-        .onTrue(new LimelightShooterCommand (m_ShooterSubsystem, m_LimelightSubsystem, controller0));
-
-
-    //Hood - PLEASE CHANGE THE BUTTONS 
-    //
-    //Hood - PLEASE CHANGE THE BUTTONS 
-    //
-    //Hood - PLEASE CHANGE THE BUTTONS 
-    //
-    // Hood - PLEASE CHANGE THE BUTTONS 
-    // new JoystickButton(controller0, 0)
-    //     .onTrue(new HoodTestUpCommand(m_HoodSubsystem, controller0));
-    // new JoystickButton(controller0, 0)
-    //     .onTrue(new HoodTestDownCommand(m_HoodSubsystem, controller0));
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///                                RPM PID COMMANDS                                    ///
-    /// //////////////////////////////////////////////////////////////////////////////////////
-        
-    // new POVButton(controller1, GamepadConstants.kDpadDown)
-    //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadLeft)
-    //     .onTrue(new IntakeTestSetRPM(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadUp)
-    //     .onTrue(new IntakeTestRPMUp(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadRight)
-    //     .onTrue(new IntakeTestRPMShutdown(m_IntakeSubsystem, controller1)); 
-    
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///                            SET SPEED COMMANDS                                      ///
-    /// //////////////////////////////////////////////////////////////////////////////////////
-
-    // new POVButton(controller1, GamepadConstants.kDpadDown)
-    //     .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadLeft)
-    //     .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadUp)
-    //     .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));
-    // new POVButton(controller1, GamepadConstants.kDpadRight)
-    //     .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller1)); 
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///                              TELEOP COMMANDS                                       ///
-    /// //////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-        System.err.println();
-
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+        .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
 
 
     ////////////////////////////////////////////////////////////////////////////////////////

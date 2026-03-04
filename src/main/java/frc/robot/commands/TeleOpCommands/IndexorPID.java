@@ -40,7 +40,7 @@ public class IndexorPID extends Command {
 
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(GamepadConstants.kLeftBumperPort);
+        return !controller.getRawButton(GamepadConstants.kRightBumperPort);
     }
 
 
