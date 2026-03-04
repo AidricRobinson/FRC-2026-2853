@@ -335,7 +335,9 @@ public final class Constants {
     public static final double kPivotDownPosition = 0; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
-
+    public static final double kSteepShootingAngle = 0; // Placeholder
+    public static final double kLaunchShootingAngle = 0; //Placeholder
+    public static final double kNormalShootingAngle = 0; //  Placeholdr
 
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;
