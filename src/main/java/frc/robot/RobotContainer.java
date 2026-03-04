@@ -7,8 +7,8 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutomaticCommands.AutoPivotDown;
-import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
-import frc.robot.commands.AutonomousCommands.AutoShootCommand;
+import frc.robot.commands.Autonomouscommands.AutoIntakeCommand;
+import frc.robot.commands.Autonomouscommands.AutoShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
@@ -106,7 +106,6 @@ public class RobotContainer {
     
     //Autonomous booting up
     // NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
-    NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
     NamedCommands.registerCommand("Run Intake", autoIntakeCommand);

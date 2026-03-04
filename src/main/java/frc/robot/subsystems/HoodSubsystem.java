@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PortConstants;
@@ -17,6 +18,7 @@ public class HoodSubsystem extends SubsystemBase {
     private TalonFXConfiguration FlywheelConfig;
     double testSpeed = 0;
     double kFF = 0; //Placeholder
+    private DutyCycleEncoder encoder;
 
     private double setPoint;
     public HoodSubsystem () {
@@ -43,6 +45,9 @@ public class HoodSubsystem extends SubsystemBase {
     }
     public double getShooterTestSpeed(){
         return testSpeed;
+    }
+    public double getShooterAngle(){
+        return encoder.get();
     }
 
 
