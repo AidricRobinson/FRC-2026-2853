@@ -23,7 +23,7 @@ public class AutoFireCommand extends Command {
     }
     @Override
     public void initialize() {
-        shooterSubsystem.setPoint(shooterSubsystem.calculateRPM(limelightSubsystem.getTa()));
+        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(limelightSubsystem.getTa()));
         indexorSubsystem.setPoint(3000);
 
     }

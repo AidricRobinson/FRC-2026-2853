@@ -28,35 +28,28 @@ public class HoodSubsystem extends SubsystemBase {
 
 
     //Test speeds
-    public void shooterTestSpeedUp(){
+    public void hoodTestSpeedUp(){
         testSpeed += 1;
     }
-    public void shooterTestSpeedDown(){
+    public void hoodTestSpeedDown(){
         testSpeed -= 1;
     }
     public double getTestRPM() {
         return testSpeed;
     }
-    public void shooterTestSpeedShutdown(){
+    public void hoodTestSpeedShutdown(){
         testSpeed = 0;
     }
-    public void setShooterTestPower(){
+    public void setHoodTestPower(){
         setPower(testSpeed);
     }
-    public double getShooterTestSpeed(){
+    public double getHoodTestSpeed(){
         return testSpeed;
     }
-    public double getShooterAngle(){
+    public double getHoodAngle(){
         return encoder.get();
     }
 
-
-    //Speeds and RPMS
-    public double calculateRPM(double tA) {
-        return ((ShooterConstants.A * Math.pow(tA, 2))
-        + (ShooterConstants.B * tA)
-        + (ShooterConstants.C));    
-    }
     public double getRPM() {
         return Math.abs(angleMotor.getVelocity().getValueAsDouble()); //be careful
     }
@@ -99,7 +92,7 @@ public class HoodSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Hood SetPoint", setPoint);
         SmartDashboard.putNumber("Hood Error", getError());
         SmartDashboard.putNumber("Hood Derivative", pidController.getD());
-        SmartDashboard.putNumber("Flywheel Encoder Value (Angle)", getShooterAngle());
+        SmartDashboard.putNumber("Flywheel Encoder Value (Angle)", getHoodAngle());
         SmartDashboard.updateValues();
     }
     

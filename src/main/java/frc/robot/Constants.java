@@ -69,9 +69,13 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double A = 104;
-    public static final double B = -2063;
-    public static final double C = 5133;
+    public static final double steepA = 104;
+    public static final double steepB = -2063;
+    public static final double steepC = 5133;
+
+    public static final double distanceA = 0;
+    public static final double distanceB = 0;
+    public static final double distanceC = 0;
   }
   public static class RotationConstants {
 

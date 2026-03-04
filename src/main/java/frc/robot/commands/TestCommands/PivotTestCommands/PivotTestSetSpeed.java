@@ -26,7 +26,6 @@ public PivotTestSetSpeed(PivotSubsystem pivotSubsystem, GenericHID m_controller)
   @Override
   public void execute() {
     pivotSubsystem.setTestOutput();
-
   }
 
   @Override
@@ -37,6 +36,8 @@ public PivotTestSetSpeed(PivotSubsystem pivotSubsystem, GenericHID m_controller)
   @Override
   public boolean isFinished() {
     return !(controller.getPOV() == GamepadConstants.kDpadLeft);
+
+    // return 
   }
 }
 

@@ -22,7 +22,7 @@ public class LimelightShooterCommand extends Command {
 
     @Override 
     public void initialize() {
-        shooterSubsystem.setPoint(shooterSubsystem.calculateRPM(limelight.getTa()));
+        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(limelight.getTa()));
         System.out.println("KORGJEOWIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEOWRIGJEORIGJEOWRIGJEOWRIGJEW");
     }
 
