@@ -80,6 +80,20 @@ public final class Constants {
     public static final double kRotationDownPosition = 15;
     public static final double kRotationUpPosition = 60;
   }
+
+  public static class YuanConstants { 
+    public static final int BT_A = 0;
+    public static final int BT_B = 1; 
+    public static final int BT_C = 2;
+    public static final int BT_D = 3;
+
+    public static final int BottomLeft = 4;
+    public static final int BottomRight = 5;
+
+    public static final int SideTop = 7;
+    public static final int BlueDiamond = 8;
+    public static final int SideBottom = 9;
+  }
   
   public static class GamepadConstants {
     public static final int kPrimaryGamepadPort = 0;
