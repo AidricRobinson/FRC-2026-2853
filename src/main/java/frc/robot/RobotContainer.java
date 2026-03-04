@@ -10,6 +10,8 @@ import frc.robot.commands.AutomaticCommands.AutoPivotDown;
 import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
+import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
+import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
 import frc.robot.subsystems.*;
@@ -35,10 +37,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 public class RobotContainer {
    
-    private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
+
+    //Swerve configuration?
+    private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
@@ -46,47 +49,46 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
     private final Telemetry logger = new Telemetry(MaxSpeed);
-
     private final CommandXboxController joystick = new CommandXboxController(0);
-
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final SendableChooser<Command> autoChooser;
     
-
-  private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
-  private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
-  private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
-  private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
-  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private final Vision vision = new Vision(drivetrain);
-
-  private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
-  private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
-  private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
-
-
-  private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
-
-
-
-  private final GenericHID controller0 = new GenericHID(0);
-  private final GenericHID controller1 = new GenericHID(1);
-
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
     
+    //Subsystems
+    private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
+    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+    private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
+    private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
+    private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
+    private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+    private final HoodSubsystem m_HoodSubsystem = new HoodSubsystem();
+    private final Vision vision = new Vision(drivetrain);
+
+
+    //Auto commands
+    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
+    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
+    private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
+    private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
+
+
+    //controllers
+    private final GenericHID controller0 = new GenericHID(0);
+    private final GenericHID controller1 = new GenericHID(1);
+
+    private final CommandXboxController m_driverController =
+        new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+        
 
 
 
   public RobotContainer() {
 
     
-
+    //Autonomous booting up
     NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
@@ -108,16 +110,11 @@ public class RobotContainer {
   
   private void configureBindings() {
 
+    
+
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                               TEST COMMANDS                                        ///
     /// //////////////////////////////////////////////////////////////////////////////////////
-
-    //Adjusting powers, currently not working for the time being :( ?
-    //SHOOTER
-
-
-
-
 
     
     //STORAGE
@@ -129,15 +126,9 @@ public class RobotContainer {
     //    .onTrue(new StorageTestSpeedUp(m_ConveyorSubsystem, controller0));
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //    .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
-  
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///                              TELEOP COMMANDS                                       ///
-    /// //////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-   
+    //Shooter
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kXButtonPort)
@@ -147,6 +138,8 @@ public class RobotContainer {
     new JoystickButton(controller1, GamepadConstants.kBButtonPort)
         .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller1)); 
 
+        
+    //Conveyor
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new StorageTestSpeedDown(m_ConveyorSubsystem, controller0));
     // new POVButton(controller0, GamepadConstants.kDpadLeft)
@@ -156,7 +149,8 @@ public class RobotContainer {
     // new POVButton(controller0, GamepadConstants.kDpadRight)
     //     .onTrue(new StorageTestShutdown(m_ConveyorSubsystem, controller0)); 
 
-    
+
+    //Pivot
     // new JoystickButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller0));
     // new POVButton(controller0, GamepadConstants.kDpadLeft)
@@ -166,16 +160,21 @@ public class RobotContainer {
     // new POVButton(controller0, GamepadConstants.kDpadRight)
     //     .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller0)); 
 
+
+    //Storage
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
         .onTrue(new StorageBackwardCommand(m_ConveyorSubsystem, controller0));
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
+
 
     // new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
     //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller1));
     // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
     //     .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, controller1));
 
+
+    //Indexor
     new POVButton(controller0, GamepadConstants.kDpadDown)
         .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadLeft)
@@ -185,9 +184,22 @@ public class RobotContainer {
     new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller0));
 
-
+    //Limelight
     new JoystickButton(controller0, GamepadConstants.kXButtonPort)
         .onTrue(new LimelightShooterCommand (m_ShooterSubsystem, m_LimelightSubsystem, controller0));
+
+
+    //Hood - PLEASE CHANGE THE BUTTONS 
+    //
+    //Hood - PLEASE CHANGE THE BUTTONS 
+    //
+    //Hood - PLEASE CHANGE THE BUTTONS 
+    //
+    // Hood - PLEASE CHANGE THE BUTTONS 
+    // new JoystickButton(controller0, 0)
+    //     .onTrue(new HoodTestUpCommand(m_HoodSubsystem, controller0));
+    // new JoystickButton(controller0, 0)
+    //     .onTrue(new HoodTestDownCommand(m_HoodSubsystem, controller0));
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                                RPM PID COMMANDS                                    ///
@@ -217,10 +229,9 @@ public class RobotContainer {
 
 
 
-
-
-
-
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///                              TELEOP COMMANDS                                       ///
+    /// //////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -233,8 +244,9 @@ public class RobotContainer {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////
-    /// 
+    ///                                   SWERVE                                         ///
     /// ////////////////////////////////////////////////////////////////////////////////////
+    
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
@@ -249,37 +261,29 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
-
-
-
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
-
-
-
-
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         // joystick.b().whileTrue(drivetrain.applyRequest(() ->
         //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         // ));
-
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
         // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-
         drivetrain.registerTelemetry(logger::telemeterize);
     }  
+
+
+
   public Command getAutonomousCommand() {
         return autoChooser.getSelected();
   }

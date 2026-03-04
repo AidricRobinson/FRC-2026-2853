@@ -24,8 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonFX FlywheelMotor;
   private PIDController pidController;
   private TalonFXConfiguration FlywheelConfig;
-  // private SparkFlexConfig leftMotorConfig;
-  // private SparkFlexConfig rightMotorConfig;
+
   double testSpeed = 0;
 
   private double setPoint;
@@ -33,38 +32,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   
   public ShooterSubsystem() {
-    FlywheelMotor = new TalonFX(Constants.PortConstants.leftMotorPort);
+    FlywheelMotor = new TalonFX(Constants.PortConstants.flywheelMotorPort);
     FlywheelMotor.setNeutralMode(NeutralModeValue.Coast);
-    // FlywheelConfig = new TalonFXConfiguration();
-
-  //  pidController = pidConstants.shooterPID;
-
-  //   leftMotorConfig = new SparkFlexConfig();
-  //   leftMotorConfig
-  //     .inverted(true)
-  //     .idleMode(IdleMode.kCoast);
-
-  //   FlywheelMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-  //  rightMotorConfig = new SparkFlexConfig();
-  //  rightMotorConfig
-  //     .inverted(false)
-  //     .idleMode(IdleMode.kCoast);
-     
-  //  rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
   }
   public double calculateRPM(double tA) {
     return ((ShooterConstants.A * Math.pow(tA, 2))
     + (ShooterConstants.B * tA)
     + (ShooterConstants.C));
-
-    // return 2000;
     
   }
   public void setPower(double power) {
-    FlywheelMotor.set(power);
-  //  rightMotor.set(power);
+    FlywheelMotor.set(power); 
   }
   public void setLeftPower(double power){
     FlywheelMotor.set(power);

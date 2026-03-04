@@ -52,8 +52,8 @@ public final class Constants {
   }
 
   public static class PortConstants {
-    public static final int leftMotorPort = 9;
-    public static final int rightMotorPort = 10;
+    public static final int flywheelMotorPort = 9;
+    public static final int hoodMotor = 10;
 
     public static final int intakeMotorPort = 11; 
 
