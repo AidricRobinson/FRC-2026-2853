@@ -86,9 +86,26 @@ public class RobotContainer {
 
 
   public RobotContainer() {
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///                            SECONDARY DRIVER                                        ///
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    // shoot
+    // manual fire 
+    // pivot up
+    // pivot down
+    // run intake
+    // shooter angle 1
+    // shooter angle 2
+    // shooter angle 3
+    // manual pivot up
+    // manual pivot down
+
+
 
     
     //Autonomous booting up
+    // NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
     NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
@@ -110,7 +127,7 @@ public class RobotContainer {
   
   private void configureBindings() {
 
-    
+
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                               TEST COMMANDS                                        ///
