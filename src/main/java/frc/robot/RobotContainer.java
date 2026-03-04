@@ -6,9 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.commands.AutomaticCommands.AutoPivotDown;
 import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
+import frc.robot.commands.OperatorCommands.AutoPivotDown;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
