@@ -36,7 +36,7 @@ public class IndexorSubsystem extends SubsystemBase {
 
         indexor.configure(indexorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-
+        //Test Speeds
     }
     public double getRPM() {
      return indexor.getEncoder().getVelocity(); //be careful
