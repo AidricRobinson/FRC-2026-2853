@@ -99,6 +99,7 @@ public class HoodSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Hood SetPoint", setPoint);
         SmartDashboard.putNumber("Hood Error", getError());
         SmartDashboard.putNumber("Hood Derivative", pidController.getD());
+        SmartDashboard.putNumber("Flywheel Encoder Value (Angle)", getShooterAngle());
         SmartDashboard.updateValues();
     }
     
