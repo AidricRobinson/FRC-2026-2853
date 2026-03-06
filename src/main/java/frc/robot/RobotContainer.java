@@ -5,12 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
+import frc.robot.commands.OperatorCommands.AutoPivotUp;
+import frc.robot.commands.OperatorCommands.DistanceShootCommand;
+import frc.robot.commands.OperatorCommands.IntakeCommand;
+import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
+import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
@@ -20,6 +26,7 @@ import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.Int
 import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
 import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestSetOutput;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
+import frc.robot.commands.VisionCommands.AlignHubCommand;
 import frc.robot.subsystems.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -30,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;    
 import com.pathplanner.lib.auto.NamedCommands;
 
 //Imported Swerve drive 
@@ -83,6 +90,7 @@ public class RobotContainer {
     //controllers
     private final GenericHID controller0 = new GenericHID(0);
     private final GenericHID controller1 = new GenericHID(1);
+    private final GenericHID YuanCon = new GenericHID(1);
 
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -112,12 +120,12 @@ public class RobotContainer {
     
     //Autonomous booting up
     // NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand5000RPM);
-    NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
-    NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
-    NamedCommands.registerCommand("Run Intake", autoIntakeCommand);
+    // NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
+    // NamedCommands.registerCommand("3000RPM Shoot Command",  new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 3000));
+    // NamedCommands.registerCommand("Run Intake", autoIntakeCommand);
 
 
-    NamedCommands.registerCommand("PivotDown", autoPivotDown);
+    // NamedCommands.registerCommand("PivotDown", autoPivotDown);
     
     autoChooser = AutoBuilder.buildAutoChooser("AAAAHHHH");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -131,13 +139,39 @@ public class RobotContainer {
 
   
   private void configureBindings() {
-
-
-
+    ////////////////////////////////////////////////////////////////////////////////////////
+    ///                             PRIMARY CONTROLLER SCHEME                            ///
+    ////////////////////////////////////////////////////////////////////////////////////////
+    
+    // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+    //         .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
+    //         .onTrue(new AlignHubCommand(drivetrain, m_LimelightSubsystem, controller0));
 
     ////////////////////////////////////////////////////////////////////////////////////////
+    ///                            SECONDARY CONTROLLER SCHEME                           ///
+    ////////////////////////////////////////////////////////////////////////////////////////
+     
+    // new JoystickButton(YuanCon, YuanConstants.BT_A)
+    //     .onTrue(new AutoPivotUp(m_PivotSubsystem));
+    // new JoystickButton(YuanCon, YuanConstants.BT_B)
+    //     .onTrue(new IntakeCommand(m_IntakeSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.BT_C)
+    //     .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.BT_D)
+    //     .onTrue(new AutoPivotDown(m_PivotSubsystem));
+    // new JoystickButton(YuanCon, YuanConstants.BottomLeft)
+    //     .onTrue(new ManualPivotUp(m_PivotSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.BottomRight)
+    //     .onTrue(new ManualPivotDown(m_PivotSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.SideTop)
+    //     .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.SideBottom)
+    //     .onTrue(new DistanceShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
+   
+    ////////////////////////////////////////////////////////////////////////////////////////
     ///                                TEST COMMANDS                                     ///
-    /// ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
 
     new JoystickButton(controller0, GamepadConstants.kYButtonPort)
         .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
@@ -179,8 +213,7 @@ public class RobotContainer {
     
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-            .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
+
 
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically

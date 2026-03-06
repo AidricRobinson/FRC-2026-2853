@@ -86,17 +86,17 @@ public final class Constants {
   }
 
   public static class YuanConstants { 
-    public static final int BT_A = 0;
-    public static final int BT_B = 1; 
-    public static final int BT_C = 2;
-    public static final int BT_D = 3;
+    public static final int BT_A = 1;
+    public static final int BT_B = 2; 
+    public static final int BT_C = 3;
+    public static final int BT_D = 4;
 
-    public static final int BottomLeft = 4;
-    public static final int BottomRight = 5;
+    public static final int BottomLeft = 5;
+    public static final int BottomRight = 6;
 
-    public static final int SideTop = 7;
-    public static final int BlueDiamond = 8;
-    public static final int SideBottom = 9;
+    public static final int SideTop = 8;
+    public static final int BlueDiamond = 9;
+    public static final int SideBottom = 10;
   }
   
   public static class GamepadConstants {
@@ -148,6 +148,8 @@ public final class Constants {
         // (Fake values. Experiment and determine estimation noise on an actual robot.)
         public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
         public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+        public static final double hubX = 4.625;
+        public static final double hubY = 4.035;
     }
   public static class SwerveModuleConstants {
     //physical properties

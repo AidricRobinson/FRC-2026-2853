@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -17,29 +18,37 @@ public class AlignHubCommand extends Command {
     private LimelightSubsystem limelightSubsystem;
 
     private PIDController pidController;
-    private double offset;
-    
-    private double currentAngle;
-    private double translationalSpeed;
 
-    public AlignHubCommand (CommandSwerveDrivetrain swerve, LimelightSubsystem limelightSubsystem) {
+    private GenericHID controller;
+    // private double offset;
+    
+    // private double currentAngle;
+    // private double translationalSpeed;
+    private double output;
+
+    public AlignHubCommand (CommandSwerveDrivetrain swerve, GenericHID controller) {
         this.swerve = swerve;
-        this.limelightSubsystem = limelightSubsystem;  
+        this.controller = controller;
         pidController = new PIDController(0, 0,0);
+
+        output = 0;
     }
 
     @Override
     public void initialize() {
-        offset = Math.toRadians(0); // needs to be changed
+        pidController.setSetpoint(swerve.getHubTurningAngle());
+
     }
 
     @Override
     public void execute() {
-        currentAngle = Math.toRadians(limelightSubsystem.getTx());
-        translationalSpeed = pidController.calculate(currentAngle, offset);
+        output = pidController.calculate(swerve.getCurrentAngle());
+        ChassisSpeeds targetSpeed = ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, output, Rotation2d.fromDegrees(swerve.getCurrentAngle()));
+        swerve.setRotationalSpeed(output, targetSpeed);
+        // translationalSpeed = pidController.calculate(currentAngle, offset);
 
-        ChassisSpeeds targetSpeed = ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, translationalSpeed, Rotation2d.fromDegrees(currentAngle));
-        swerve.driveRobotRelative(targetSpeed);
+        // ChassisSpeeds targetSpeed = ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, translationalSpeed, Rotation2d.fromDegrees(currentAngle));
+        // swerve.driveRobotRelative(targetSpeed);
 
         
     }
@@ -50,8 +59,8 @@ public class AlignHubCommand extends Command {
         }
     }
 
-    // @Override
-    // public boolean isFinished() {
-    //     return Math.abs(pidController.getError()) < 0.1;
-    // }
+    @Override
+    public boolean isFinished() {
+        return Math.abs(pidController.getError()) < 0.1;
+    }
 }

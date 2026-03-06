@@ -65,7 +65,7 @@ public class Vision {
             new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(-35.895 / 2)));
 
     public Vision(CommandSwerveDrivetrain drivetrain) {
-        this.drivetrain = drivetrain;
+        this.drivetrain =drivetrain ;
 
         //You set this inside of the Photon Vision localhost site
         camLeft = new PhotonCamera("leftLimelight3G");
@@ -102,6 +102,8 @@ public class Vision {
     public void periodic() {
        
     }
+
+    
 }
 
   

@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.Vision;
+import frc.robot.Constants.LimelightConstants.VisionConstants;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -344,7 +345,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .withVelocityY(desiredY)
         .withRotationalRate(desiredOmega);
     super.setControl(fieldCentricDrive);
+
+    
 }
+    public void setRotationalSpeed(double output, ChassisSpeeds robotRelativeSpeed) {
+        var fieldCentricDrive = new SwerveRequest.FieldCentric();
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeed, 0.02);
+
+        fieldCentricDrive.withRotationalRate(output);
+
+        super.setControl(fieldCentricDrive);
+    }
   
  
 
@@ -395,6 +406,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+
     }
 
     /**
@@ -406,5 +418,25 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     @Override
     public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
+    }
+    
+
+    public double distHubX() {
+        return frc.robot.Constants.Vision.hubX - super.getState().Pose.getX();
+    }
+    public double distHubY() {
+        return frc.robot.Constants.Vision.hubY - super.getState().Pose.getY();
+    }
+    public double getPoseR() {
+        return Math.sqrt((distHubX() * distHubX()) + (distHubY() * distHubY()));
+    }
+    public double getAlignmentAngle() {
+        return Math.toDegrees(Math.atan2(distHubY(), distHubX()));
+    }
+    public double getCurrentAngle() {
+        return super.getState().Pose.getRotation().getDegrees();
+    }
+    public double getHubTurningAngle() {
+        return getAlignmentAngle() - getCurrentAngle();
     }
 }

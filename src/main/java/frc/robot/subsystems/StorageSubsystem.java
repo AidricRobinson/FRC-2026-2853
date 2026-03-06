@@ -16,6 +16,7 @@ import frc.robot.Constants.pidConstants;
 
 public class StorageSubsystem extends SubsystemBase {
     private SparkFlex storageMotor;
+    
     private double testSpeed;
     private SparkFlexConfig storageMotorConfig;
     private double setPoint;
