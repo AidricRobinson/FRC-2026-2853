@@ -49,7 +49,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 
 public class RobotContainer {
-   
 
 
     //Swerve configuration?
@@ -151,7 +150,7 @@ public class RobotContainer {
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                            SECONDARY CONTROLLER SCHEME                           ///
     ////////////////////////////////////////////////////////////////////////////////////////
-     
+    /// 
     // new JoystickButton(YuanCon, YuanConstants.BT_A)
     //     .onTrue(new AutoPivotUp(m_PivotSubsystem));
     // new JoystickButton(YuanCon, YuanConstants.BT_B)
@@ -213,8 +212,6 @@ public class RobotContainer {
     
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-
-
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             

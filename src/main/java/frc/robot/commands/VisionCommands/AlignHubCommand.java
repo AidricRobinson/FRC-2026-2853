@@ -29,7 +29,7 @@ public class AlignHubCommand extends Command {
     public AlignHubCommand (CommandSwerveDrivetrain swerve, GenericHID controller) {
         this.swerve = swerve;
         this.controller = controller;
-        pidController = new PIDController(0, 0,0);
+        pidController = new PIDController(0.01, 0.00000001,0);
 
         output = 0;
     }

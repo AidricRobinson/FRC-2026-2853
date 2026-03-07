@@ -28,8 +28,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.apriltag.AprilTagFields;
-
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import java.util.Optional;
@@ -47,6 +47,14 @@ public class Vision {
 
     public final PhotonPoseEstimator photonPoseEstimatorRight;
     public final PhotonPoseEstimator photonPoseEstimatorLeft;
+
+    double latestRightX;
+    double latestRightY;
+    double latestRightT;
+
+    double latestLeftX;
+    double latestLeftY;
+    double latestLeftT;
 
     //This is the offset of the camera(s) to the center of the robot
     //
@@ -83,6 +91,14 @@ public class Vision {
         photonPoseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         photonPoseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
+        latestRightX = 0;
+        latestRightY = 0;
+        latestRightT = 0;
+
+        latestLeftX = 0;
+        latestLeftY = 0;
+        latestLeftT = 0;
+
     }
     public void update()  {
         //A bunch of fancy code basically trying to see if the pose estimator has a valid update to make, and updates the swerves pose if it does
@@ -90,17 +106,34 @@ public class Vision {
         if (optionalEstimatedPoseRight.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPoseRight.get();          
             drivetrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(), estimatedPose.timestampSeconds);
+            latestRightX = estimatedPose.estimatedPose.getX();
+            latestRightY = estimatedPose.estimatedPose.getY();
+            latestRightT = estimatedPose.estimatedPose.getRotation().getAngle();
         }
 
         final Optional<EstimatedRobotPose> optionalEstimatedPoseLeft = photonPoseEstimatorLeft.update(camLeft.getLatestResult());
         if (optionalEstimatedPoseLeft.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPoseLeft.get();          
             drivetrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(), estimatedPose.timestampSeconds);
+            latestLeftX = estimatedPose.estimatedPose.getX();
+            latestLeftY = estimatedPose.estimatedPose.getY();
+            latestLeftT = estimatedPose.estimatedPose.getRotation().getAngle();
         }
 
     }
     public void periodic() {
-       
+        //Right Values
+        SmartDashboard.putNumber("Limelight Left X", latestLeftX);
+        SmartDashboard.putNumber("Limelight Left Y", latestLeftY);
+        SmartDashboard.putNumber("Limelight Left Degrees", latestLeftT);
+
+        //Right Values
+        SmartDashboard.putNumber("Limelight Right X", latestRightX);
+        SmartDashboard.putNumber("Limelight Right Y", latestRightY);
+        SmartDashboard.putNumber("Limelight Right Degrees", latestRightT);
+        SmartDashboard.updateValues();
+        //LEAVE THIS ALONE
+        update();
     }
 
     
