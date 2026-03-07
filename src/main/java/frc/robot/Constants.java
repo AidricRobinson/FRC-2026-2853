@@ -64,6 +64,9 @@ public final class Constants {
 
     public static final int leftpPivotPort = 14;
     public static final int rightPivotPort = 15; 
+    public static final int hangMotorPort = 16;
+    public static final int hangPivot1Port = 17;
+    public static final int hangPivot2Port = 18;
 
     public static final int pivotAboluteEncoderPort = 123; // placeholder
 

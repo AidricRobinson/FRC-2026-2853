@@ -301,6 +301,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Module 1 - Drive Speed", super.getModule(1).getDriveMotor().get());
         SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
         SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
+        SmartDashboard.putNumber("Distance from hub", getPoseR());
+        SmartDashboard.putNumber("Current X", super.getState().Pose.getX());
+        SmartDashboard.putNumber("Current Y", super.getState().Pose.getY());
         SmartDashboard.putNumber("Odometry Frequency?", super.getOdometryFrequency());
         
         SmartDashboard.updateValues();
