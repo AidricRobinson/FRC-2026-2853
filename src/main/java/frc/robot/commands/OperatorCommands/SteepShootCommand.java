@@ -6,27 +6,27 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.YuanConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
 public class SteepShootCommand extends Command{
+    private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
     private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
-    private LimelightSubsystem limelightSubsystem;
     private GenericHID controller;
     private Timer timer;
 
-    public SteepShootCommand (ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public SteepShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+        this.swerve = swerve;
         this.shooterSubsystem = shooterSubsystem;
         this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
-        this.limelightSubsystem = limelightSubsystem;
         this.controller = controller;
         
         addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem, hoodSubsystem);
@@ -34,7 +34,7 @@ public class SteepShootCommand extends Command{
     @Override
     public void initialize() {
         timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(limelightSubsystem.getTa()));
+        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
         indexorSubsystem.setPoint(3000);
         hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
     }
@@ -43,6 +43,8 @@ public class SteepShootCommand extends Command{
         shooterSubsystem.updateError();
         indexorSubsystem.updateError();
         hoodSubsystem.updateError();
+
+        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
 
         shooterSubsystem.setPower(
             shooterSubsystem.getOutput() > 1 ? 1
@@ -54,7 +56,7 @@ public class SteepShootCommand extends Command{
             hoodSubsystem.getOutput()
         );
         
-        if (timer.get() >= 1.5) {
+        if (timer.get() >= 2) {
             storageSubsystem.setPower(0.25);
             
             indexorSubsystem.setPower(
@@ -73,7 +75,6 @@ public class SteepShootCommand extends Command{
 
         shooterSubsystem.resetPID();
         indexorSubsystem.reset();
-        storageSubsystem.reset();
         hoodSubsystem.resetPID();
     }
     @Override

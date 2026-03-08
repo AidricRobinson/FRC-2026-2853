@@ -1,4 +1,4 @@
-package frc.robot.commands.Autonomouscommands;
+package frc.robot.commands.AutonomousCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,8 +28,8 @@ public class AutoShootCommand extends Command {
     public void initialize(){
         timer.start();
         shooterSubsystem.setPoint(setPoint);
+    
         indexorSubsystem.setPoint(2500); // placeholder
-        storageSubsystem.setPoint(2500); // placeholder
     }
 
     @Override
@@ -38,12 +38,10 @@ public class AutoShootCommand extends Command {
             shooterSubsystem.getOutput()
         );
         if(timer.get() >= 2){
-           indexorSubsystem.setPoint(
+           indexorSubsystem.setPower(
             indexorSubsystem.getOutput()
            );
-           storageSubsystem.setPoint(
-            storageSubsystem.getOutput()
-           );
+           storageSubsystem.setPower(0.35);
         }
   }
 

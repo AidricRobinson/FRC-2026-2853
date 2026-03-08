@@ -34,6 +34,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     FlywheelMotor = new TalonFX(Constants.PortConstants.flywheelMotorPort);
     FlywheelMotor.setNeutralMode(NeutralModeValue.Coast);
+
+    pidController = pidConstants.shooterPID;
   }
   public double calculateSteepRPM(double tA) {
     return ((ShooterConstants.steepA * Math.pow(tA, 2))

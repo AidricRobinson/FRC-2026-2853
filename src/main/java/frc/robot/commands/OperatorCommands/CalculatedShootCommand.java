@@ -12,7 +12,7 @@ import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
-public class DistanceShootCommand extends Command{
+public class CalculatedShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
     private StorageSubsystem storageSubsystem;
@@ -20,23 +20,36 @@ public class DistanceShootCommand extends Command{
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
     private Timer timer;
+    private boolean close;
+    private boolean far;
 
-    public DistanceShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+    public CalculatedShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.swerve = swerve;
         this.shooterSubsystem = shooterSubsystem;
         this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
+        far = false;
+        close = false;
         
         addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
         timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+        if (swerve.getPoseR() >= 1.75) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+            hoodSubsystem.setPoint(AutoConstants.kNormalShootingAngle);
+            far = true;
+        }
+        else if (swerve.getPoseR() < 1.75) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+            hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
+            close = true;
+        }
         indexorSubsystem.setPoint(3000);
-        hoodSubsystem.setPoint(AutoConstants.kNormalShootingAngle);
+        
     }
     @Override
     public void execute() {
@@ -44,8 +57,14 @@ public class DistanceShootCommand extends Command{
         indexorSubsystem.updateError();
         hoodSubsystem.updateError();
 
-        shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+        if (close) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        }
+        else if (far) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
 
+        }
+       
         shooterSubsystem.setPower(
             shooterSubsystem.getOutput() > 1 ? 1
             : shooterSubsystem.getOutput() < 0 ? 0

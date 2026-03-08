@@ -21,7 +21,6 @@ public class StorageSubsystem extends SubsystemBase {
     private SparkFlexConfig storageMotorConfig;
     private double setPoint;
 
-    private PIDController pidController;
     public StorageSubsystem(){
         storageMotor = new SparkFlex(PortConstants.StorageMotorPort, MotorType.kBrushless);
         testSpeed= 0.2;
@@ -30,7 +29,6 @@ public class StorageSubsystem extends SubsystemBase {
             .inverted(false)
             .idleMode(IdleMode.kBrake);
         storageMotor.configure(storageMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pidController = pidConstants.storagePID;
     }
     public void setPower(double power){
         storageMotor.set(power);
@@ -78,31 +76,7 @@ public class StorageSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Storage Test Speed", getTestSpeed());
-    SmartDashboard.putNumber("Storage Error", getError());
     SmartDashboard.putNumber("Storage RPM", getRPM());
-    SmartDashboard.putNumber("Storage SetPoint", getSetPoint());
     SmartDashboard.updateValues();
   }
-
-  public double getError() {
-    return pidController.getError();
-  }
-  public double getOutput() {
-    return pidController.calculate(getRPM(), getSetPoint());
-  }
-  public double getSetPoint() {
-    return pidController.getSetpoint();
-  }
-  public void setPoint(double target) {
-    pidController.setSetpoint(target);
-    setPoint = target;
-  }
-  public void updateError(){
-    pidController.getD();
-    pidController.calculate(getRPM(), getSetPoint());
-  }
-  public void reset() {
-    pidController.reset();
-  }
-
 }

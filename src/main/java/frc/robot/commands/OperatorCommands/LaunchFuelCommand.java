@@ -70,7 +70,6 @@ public class LaunchFuelCommand extends Command{
 
         shooterSubsystem.resetPID();
         indexorSubsystem.reset();
-        storageSubsystem.reset();
         hoodSubsystem.resetPID();
     }
     @Override
