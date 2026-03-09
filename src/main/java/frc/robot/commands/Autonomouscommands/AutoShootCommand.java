@@ -18,7 +18,6 @@ public class AutoShootCommand extends Command {
     this.durationInSeconds = durationInSecond;
     this.setPoint = setPoint;
     addRequirements(shooterSubsystem);
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   }
 
     @Override
