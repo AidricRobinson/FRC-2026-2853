@@ -21,9 +21,11 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.pidConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private TalonFX FlywheelMotor;
+  private SparkFlex leftFlywheel;
+  private SparkFlex rightFlywheel;
   private PIDController pidController;
-  private TalonFXConfiguration FlywheelConfig;
+  private SparkFlexConfig leftConfig;
+  private SparkFlexConfig rightConfig;
 
   double testSpeed = 0;
 
@@ -32,10 +34,23 @@ public class ShooterSubsystem extends SubsystemBase {
 
   
   public ShooterSubsystem() {
+<<<<<<< HEAD
     FlywheelMotor = new TalonFX(Constants.PortConstants.flywheelMotorPort);
     FlywheelMotor.setNeutralMode(NeutralModeValue.Coast);
 
     pidController = pidConstants.shooterPID;
+=======
+    leftFlywheel = new SparkFlex(PortConstants.leftFlywheelPort, MotorType.kBrushless);
+    rightFlywheel = new SparkFlex(PortConstants.rightFlywheelPort, MotorType.kBrushless);
+
+    leftConfig = new SparkFlexConfig();
+    rightConfig = new SparkFlexConfig();
+
+    pidController = pidConstants.shooterPID;
+
+    leftConfig.inverted(false).idleMode(IdleMode.kCoast);
+    rightConfig.inverted(true).idleMode(IdleMode.kCoast);
+>>>>>>> 49f063c944b66d77d44358509fbf11d585f42c7d
   }
   public double calculateSteepRPM(double tA) {
     return ((ShooterConstants.steepA * Math.pow(tA, 2))
@@ -48,19 +63,20 @@ public class ShooterSubsystem extends SubsystemBase {
     + (ShooterConstants.distanceC));
   }
   public void setPower(double power) {
-    FlywheelMotor.set(power); 
+    leftFlywheel.set(power); 
+    rightFlywheel.set(power);
   }
   public void setLeftPower(double power){
-    FlywheelMotor.set(power);
+    leftFlywheel.set(power);
   }
   public void setRightPower(double power){
-    FlywheelMotor.set(power);
+    rightFlywheel.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 0.05;
+    testSpeed += 250;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 0.05;
+    testSpeed -= 50;
   }
   public double getTestRPM() {
     return testSpeed;
@@ -70,7 +86,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getRPM() {
-    return Math.abs(FlywheelMotor.getVelocity().getValueAsDouble()); //be careful
+    return Math.abs(leftFlywheel.getEncoder().getVelocity()); //be careful
   }
   public double getShooterTestSpeed(){
     return testSpeed;
@@ -79,7 +95,8 @@ public class ShooterSubsystem extends SubsystemBase {
     setPower(testSpeed);
   }
   public void shutdown(){
-    FlywheelMotor.set(0);
+    leftFlywheel.set(0);
+    rightFlywheel.set(0);
   //  rightMotor.set(0);
 
 

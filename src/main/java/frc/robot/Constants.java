@@ -52,21 +52,27 @@ public final class Constants {
   }
 
   public static class PortConstants {
-    public static final int flywheelMotorPort = 9;
-    public static final int hoodMotor = 10;
+    // public static final int flywheelMotorPort = 9;
+    //ASDFADSFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFA
+    public static final int leftFlywheelPort = 9; // done
+    public static final int rightFlywheelPort = 10; // done
+    
 
-    public static final int intakeMotorPort = 11; 
+    public static final int intakeMotorPort = 11; // done
 
-    public static final int StorageMotorPort = 12;
+    public static final int StorageMotorPort = 12; // done
 
     public static final int indexorMotorPort = 13; 
     // public static final int pivotPort = 14;
 
     public static final int leftpPivotPort = 14;
     public static final int rightPivotPort = 15; 
-    public static final int hangMotorPort = 16;
-    public static final int hangPivot1Port = 17;
-    public static final int hangPivot2Port = 18;
+    public static final int hoodMotor = 16;
+    public static final int hangMotorPort = 17;
+    public static final int hangPivot1Port = 18;
+    public static final int hangPivot2Port = 19
+    ;
+    
 
     public static final int pivotAboluteEncoderPort = 123; // placeholder
 
@@ -445,4 +451,3 @@ public final class Constants {
   }
 
 }
-

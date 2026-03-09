@@ -2,7 +2,6 @@ package frc.robot.commands.OperatorCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
