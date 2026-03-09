@@ -45,10 +45,14 @@ public final class Constants {
 
   public static class pidConstants { 
     public static final PIDController shooterPID = new PIDController(0, 0, 0); // 0.000075, 0.000025, 1
+<<<<<<< HEAD
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
+=======
+>>>>>>> 6e41fb68a28ad1b3623bcece7474293deeefa99f
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
-    public static final PIDController intakePID = new PIDController(0.00005,0.0001,10);
+    public static final PIDController intakePID = new PIDController(0, 0, 0);
     public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);
+    public static final PIDController hoodPID = new PIDController(0, 0, 0);
   }
 
   public static class PortConstants {
@@ -77,9 +81,9 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double steepA = 104;
-    public static final double steepB = -2063;
-    public static final double steepC = 5133;
+    public static final double steepA = -1445;
+    public static final double steepB = 6308;
+    public static final double steepC = -2606;
 
     public static final double distanceA = 0;
     public static final double distanceB = 0;

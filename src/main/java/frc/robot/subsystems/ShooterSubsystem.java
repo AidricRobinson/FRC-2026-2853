@@ -34,6 +34,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   
   public ShooterSubsystem() {
+<<<<<<< HEAD
+    FlywheelMotor = new TalonFX(Constants.PortConstants.flywheelMotorPort);
+    FlywheelMotor.setNeutralMode(NeutralModeValue.Coast);
+
+    pidController = pidConstants.shooterPID;
+=======
     leftFlywheel = new SparkFlex(PortConstants.leftFlywheelPort, MotorType.kBrushless);
     rightFlywheel = new SparkFlex(PortConstants.rightFlywheelPort, MotorType.kBrushless);
 
@@ -44,6 +50,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     leftConfig.inverted(false).idleMode(IdleMode.kCoast);
     rightConfig.inverted(true).idleMode(IdleMode.kCoast);
+>>>>>>> 49f063c944b66d77d44358509fbf11d585f42c7d
   }
   public double calculateSteepRPM(double tA) {
     return ((ShooterConstants.steepA * Math.pow(tA, 2))

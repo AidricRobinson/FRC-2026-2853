@@ -4,39 +4,52 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.GamepadConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.StorageSubsystem;
 
-public class DistanceShootCommand extends Command{
+public class CalculatedShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
+    private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
     private Timer timer;
+    private boolean close;
+    private boolean far;
 
-<<<<<<< HEAD
-    public DistanceShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
-=======
-    public DistanceShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+    public CalculatedShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.swerve = swerve;
->>>>>>> 6e41fb68a28ad1b3623bcece7474293deeefa99f
         this.shooterSubsystem = shooterSubsystem;
+        this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
+        far = false;
+        close = false;
         
-        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
         timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+        if (swerve.getPoseR() >= 1.75) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+            hoodSubsystem.setPoint(AutoConstants.kNormalShootingAngle);
+            far = true;
+        }
+        else if (swerve.getPoseR() < 1.75) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+            hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
+            close = true;
+        }
         indexorSubsystem.setPoint(3000);
-        hoodSubsystem.setPoint(AutoConstants.kNormalShootingAngle);
+        
     }
     @Override
     public void execute() {
@@ -44,8 +57,14 @@ public class DistanceShootCommand extends Command{
         indexorSubsystem.updateError();
         hoodSubsystem.updateError();
 
-        shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
+        if (close) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        }
+        else if (far) {
+            shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
 
+        }
+       
         shooterSubsystem.setPower(
             shooterSubsystem.getOutput() > 1 ? 1
             : shooterSubsystem.getOutput() < 0 ? 0
@@ -56,12 +75,8 @@ public class DistanceShootCommand extends Command{
             hoodSubsystem.getOutput()
         );
         
-<<<<<<< HEAD
-        if (timer.get() >= 1.5) {
-=======
         if (timer.get() >= 2) {
             storageSubsystem.setPower(0.25);
->>>>>>> 6e41fb68a28ad1b3623bcece7474293deeefa99f
             
             indexorSubsystem.setPower(
                 indexorSubsystem.getOutput() > 1 ? 1
@@ -74,6 +89,7 @@ public class DistanceShootCommand extends Command{
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
         indexorSubsystem.shutdown();
+        storageSubsystem.shutdown();
         hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();
