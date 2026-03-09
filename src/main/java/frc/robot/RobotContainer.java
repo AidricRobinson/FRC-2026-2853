@@ -78,7 +78,6 @@ public class RobotContainer {
     private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
-    private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
     private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
     private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
     private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
@@ -88,8 +87,8 @@ public class RobotContainer {
 
 
     //Auto commands
-    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
-    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
+    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
+    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
     private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
     private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
@@ -198,8 +197,7 @@ public class RobotContainer {
     new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
 
-    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-        .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
+
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
 

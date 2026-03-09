@@ -44,7 +44,7 @@ public final class Constants {
   }
 
   public static class pidConstants { 
-    public static final PIDController shooterPID = new PIDController(0.000075, 0.000025, 1);
+    public static final PIDController shooterPID = new PIDController(0, 0, 0); // 0.000075, 0.000025, 1
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
     public static final PIDController intakePID = new PIDController(0.00005,0.0001,10);
@@ -60,17 +60,16 @@ public final class Constants {
 
     public static final int intakeMotorPort = 11; // done
 
-    public static final int StorageMotorPort = 12; // done
 
-    public static final int indexorMotorPort = 13; 
+    public static final int indexorMotorPort = 12; 
     // public static final int pivotPort = 14;
 
-    public static final int leftpPivotPort = 14;
-    public static final int rightPivotPort = 15; 
-    public static final int hoodMotor = 16;
-    public static final int hangMotorPort = 17;
-    public static final int hangPivot1Port = 18;
-    public static final int hangPivot2Port = 19
+    public static final int leftpPivotPort = 13;
+    public static final int rightPivotPort = 14; 
+    public static final int hoodMotor = 15;
+    public static final int hangMotorPort = 16;
+    public static final int hangPivot1Port = 17;
+    public static final int hangPivot2Port = 18
     ;
     
 

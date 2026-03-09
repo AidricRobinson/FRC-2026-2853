@@ -9,26 +9,23 @@ import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.StorageSubsystem;
 
 public class SteepShootCommand extends Command{
     private ShooterSubsystem shooterSubsystem;
-    private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private LimelightSubsystem limelightSubsystem;
     private GenericHID controller;
     private Timer timer;
 
-    public SteepShootCommand (ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public SteepShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
-        this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.controller = controller;
         
-        addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
@@ -54,7 +51,6 @@ public class SteepShootCommand extends Command{
         );
         
         if (timer.get() >= 1.5) {
-            storageSubsystem.setPower(0.25);
             
             indexorSubsystem.setPower(
                 indexorSubsystem.getOutput() > 1 ? 1
@@ -67,12 +63,10 @@ public class SteepShootCommand extends Command{
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
         indexorSubsystem.shutdown();
-        storageSubsystem.shutdown();
         hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();
         indexorSubsystem.reset();
-        storageSubsystem.reset();
         hoodSubsystem.resetPID();
     }
     @Override
