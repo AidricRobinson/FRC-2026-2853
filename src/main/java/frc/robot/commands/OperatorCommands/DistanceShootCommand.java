@@ -19,7 +19,7 @@ public class DistanceShootCommand extends Command{
     private GenericHID controller;
     private Timer timer;
 
-    public DistanceShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public DistanceShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
