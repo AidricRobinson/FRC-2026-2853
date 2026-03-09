@@ -4,19 +4,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.StorageSubsystem;
 
 public class AutoShootCommand extends Command {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooterSubsystem;
-    private final StorageSubsystem storageSubsystem;
     private final IndexorSubsystem indexorSubsystem;
     private double durationInSeconds;
     private double setPoint;
     private Timer timer;
-    public AutoShootCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, double durationInSecond, double setPoint){
+    public AutoShootCommand(ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, double durationInSecond, double setPoint){
         this.shooterSubsystem = shooterSubsystem;
-        this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.durationInSeconds = durationInSecond;
         this.setPoint = setPoint;
@@ -40,7 +37,6 @@ public class AutoShootCommand extends Command {
            indexorSubsystem.setPower(
             indexorSubsystem.getOutput()
            );
-           storageSubsystem.setPower(0.35);
         }
   }
 

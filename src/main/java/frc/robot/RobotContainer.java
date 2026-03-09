@@ -11,7 +11,6 @@ import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
 import frc.robot.commands.OperatorCommands.AutoPivotUp;
-import frc.robot.commands.OperatorCommands.DistanceShootCommand;
 import frc.robot.commands.OperatorCommands.IntakeCommand;
 import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
