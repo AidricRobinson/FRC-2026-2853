@@ -6,7 +6,6 @@ import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutoShootCommand extends Command {
-<<<<<<< HEAD
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem shooterSubsystem;
   private final IndexorSubsystem indexorSubsystem;
@@ -19,20 +18,8 @@ public class AutoShootCommand extends Command {
     this.durationInSeconds = durationInSecond;
     this.setPoint = setPoint;
     addRequirements(shooterSubsystem);
-=======
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final ShooterSubsystem shooterSubsystem;
-    private final IndexorSubsystem indexorSubsystem;
-    private double durationInSeconds;
-    private double setPoint;
-    private Timer timer;
-    public AutoShootCommand(ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, double durationInSecond, double setPoint){
-        this.shooterSubsystem = shooterSubsystem;
-        this.indexorSubsystem = indexorSubsystem;
-        this.durationInSeconds = durationInSecond;
-        this.setPoint = setPoint;
-        addRequirements(shooterSubsystem);
-    }
+  }
 
     @Override
     public void initialize(){
@@ -52,8 +39,7 @@ public class AutoShootCommand extends Command {
             indexorSubsystem.getOutput()
            );
         }
->>>>>>> eb5d001a78b97debf6ceaea6b58402a79e289aa4
-  }
+    }
 
   @Override
   public void initialize(){
