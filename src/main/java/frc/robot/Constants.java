@@ -52,7 +52,8 @@ public final class Constants {
   }
 
   public static class PortConstants {
-    public static final int flywheelMotorPort = 9;
+    // public static final int flywheelMotorPort = 9;
+    //ASDFADSFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFA
     public static final int leftFlywheelPort = 9; // done
     public static final int rightFlywheelPort = 10; // done
     
