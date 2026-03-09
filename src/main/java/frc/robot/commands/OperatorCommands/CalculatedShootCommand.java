@@ -10,12 +10,10 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.StorageSubsystem;
 
 public class CalculatedShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
-    private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
@@ -23,17 +21,16 @@ public class CalculatedShootCommand extends Command{
     private boolean close;
     private boolean far;
 
-    public CalculatedShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+    public CalculatedShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.swerve = swerve;
         this.shooterSubsystem = shooterSubsystem;
-        this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
         far = false;
         close = false;
         
-        addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
@@ -76,7 +73,6 @@ public class CalculatedShootCommand extends Command{
         );
         
         if (timer.get() >= 2) {
-            storageSubsystem.setPower(0.25);
             
             indexorSubsystem.setPower(
                 indexorSubsystem.getOutput() > 1 ? 1
@@ -89,7 +85,6 @@ public class CalculatedShootCommand extends Command{
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
         indexorSubsystem.shutdown();
-        storageSubsystem.shutdown();
         hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();

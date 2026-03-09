@@ -8,6 +8,7 @@ import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexorSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class DistanceShootCommand extends Command{
@@ -18,12 +19,7 @@ public class DistanceShootCommand extends Command{
     private GenericHID controller;
     private Timer timer;
 
-<<<<<<< HEAD
     public DistanceShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
-=======
-    public DistanceShootCommand (CommandSwerveDrivetrain swerve, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
-        this.swerve = swerve;
->>>>>>> 6e41fb68a28ad1b3623bcece7474293deeefa99f
         this.shooterSubsystem = shooterSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
@@ -56,12 +52,7 @@ public class DistanceShootCommand extends Command{
             hoodSubsystem.getOutput()
         );
         
-<<<<<<< HEAD
-        if (timer.get() >= 1.5) {
-=======
         if (timer.get() >= 2) {
-            storageSubsystem.setPower(0.25);
->>>>>>> 6e41fb68a28ad1b3623bcece7474293deeefa99f
             
             indexorSubsystem.setPower(
                 indexorSubsystem.getOutput() > 1 ? 1
