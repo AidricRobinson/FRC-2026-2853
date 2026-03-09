@@ -60,17 +60,18 @@ public class Vision {
     //
     //
     //
-    //      MEASUREMENTS ARE NOT CORRECT. PLEASE FIX LATER
+    //      TRANSLATION MEASUREMENTS ARE NOT CORRECT. PLEASE FIX LATER
+    //      The rotation measurements should be correct..?
     //
     //
     //
     private static final Transform3d LEFT_CAMERA_TO_CENTER = new Transform3d(
             new Translation3d(Units.inchesToMeters(5.800), Units.inchesToMeters(-8.517), Units.inchesToMeters(43.3)),
-            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(35.895 / 2)));
+            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(20)));
 
     private static final Transform3d RIGHT_CAMERA_TO_CENTER = new Transform3d(
             new Translation3d(Units.inchesToMeters(5.760), Units.inchesToMeters(-12.707), Units.inchesToMeters(43.3)),
-            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(-35.895 / 2)));
+            new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(20)));
 
     public Vision(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain =drivetrain ;
@@ -122,7 +123,7 @@ public class Vision {
 
     }
     public void periodic() {
-        //Right Values
+        //Left Values
         SmartDashboard.putNumber("Limelight Left X", latestLeftX);
         SmartDashboard.putNumber("Limelight Left Y", latestLeftY);
         SmartDashboard.putNumber("Limelight Left Degrees", latestLeftT);

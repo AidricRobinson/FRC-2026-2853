@@ -1,12 +1,9 @@
 package frc.robot.commands.TestCommands.HoodTestCommands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 public class HoodTestUpCommand extends Command {
     private HoodSubsystem hoodSubsystem;

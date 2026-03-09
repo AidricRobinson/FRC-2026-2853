@@ -2,7 +2,6 @@ package frc.robot.commands.OperatorCommands;
 import frc.robot.Constants.GamepadConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
-import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class ManualPivotUp extends Command{
