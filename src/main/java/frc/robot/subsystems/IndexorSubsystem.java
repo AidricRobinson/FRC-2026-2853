@@ -31,7 +31,7 @@ public class IndexorSubsystem extends SubsystemBase {
 
         indexorMotorConfig = new SparkFlexConfig();
         indexorMotorConfig
-            .inverted(false)
+            .inverted(true)
             .idleMode(IdleMode.kCoast);
 
         indexor.configure(indexorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
