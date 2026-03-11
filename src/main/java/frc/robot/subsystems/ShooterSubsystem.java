@@ -40,6 +40,9 @@ public class ShooterSubsystem extends SubsystemBase {
     leftConfig = new SparkFlexConfig();
     rightConfig = new SparkFlexConfig();
 
+    leftFlywheel.setSmartMotionMaxAccel();
+    rightFlywheel.setSmartMotionMaxAccel();
+
     pidController = pidConstants.shooterPID;
 
     leftConfig.inverted(false).idleMode(IdleMode.kCoast);
