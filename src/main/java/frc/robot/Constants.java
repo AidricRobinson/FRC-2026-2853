@@ -45,10 +45,8 @@ public final class Constants {
 
   public static class pidConstants { 
     public static final PIDController shooterPID = new PIDController(0, 0, 0); // 0.000075, 0.000025, 1
-<<<<<<< HEAD
-=======
+
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
->>>>>>> eb5d001a78b97debf6ceaea6b58402a79e289aa4
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
     public static final PIDController intakePID = new PIDController(0, 0, 0);
     public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);

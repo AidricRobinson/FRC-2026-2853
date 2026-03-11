@@ -20,45 +20,26 @@ public class AutoShootCommand extends Command {
     addRequirements(shooterSubsystem);
   }
 
-    @Override
-    public void initialize(){
-        timer.start();
-        shooterSubsystem.setPoint(setPoint);
-    
-        indexorSubsystem.setPoint(2500); // placeholder
-    }
-
-    @Override
-    public void execute() {
-        shooterSubsystem.setPower(
-            shooterSubsystem.getOutput()
-        );
-        if(timer.get() >= 2){
-           indexorSubsystem.setPower(
-            indexorSubsystem.getOutput()
-           );
-        }
-    }
-
   @Override
   public void initialize(){
-    timer.start();
-    shooterSubsystem.setPoint(setPoint);
-    indexorSubsystem.setPoint(2500); // placeholder
+      timer.start();
+      shooterSubsystem.setPoint(setPoint);
+  
+      indexorSubsystem.setPoint(2500); // placeholder
   }
 
   @Override
   public void execute() {
-    shooterSubsystem.setPower(
-      shooterSubsystem.getOutput()
-    );
-    if(timer.get() >= 2){
-      indexorSubsystem.setPoint(
-      indexorSubsystem.getOutput()
+      shooterSubsystem.setPower(
+          shooterSubsystem.getOutput()
       );
-    }
+      if(timer.get() >= 2){
+          indexorSubsystem.setPower(
+          indexorSubsystem.getOutput()
+          );
+      }
   }
-
+  
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.shutdown();
