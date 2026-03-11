@@ -25,6 +25,6 @@ public class HoodUpCommand extends Command {
     }
     @Override
     public boolean isFinished() {
-        return !(controller.getPOV() == GamepadConstants.kDpadUp);
+        return !controller.getRawButton(GamepadConstants.kBButtonPort);
     }
 }

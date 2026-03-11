@@ -44,34 +44,46 @@ public final class Constants {
   }
 
   public static class pidConstants { 
-    public static final PIDController shooterPID = new PIDController(0.000075, 0.000025, 1);
+    public static final PIDController shooterPID = new PIDController(0, 0, 0); // 0.000075, 0.000025, 1
+<<<<<<< HEAD
+=======
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
+>>>>>>> eb5d001a78b97debf6ceaea6b58402a79e289aa4
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
-    public static final PIDController intakePID = new PIDController(0.00005,0.0001,10);
+    public static final PIDController intakePID = new PIDController(0, 0, 0);
     public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);
+    public static final PIDController hoodPID = new PIDController(0, 0, 0);
   }
 
   public static class PortConstants {
-    public static final int flywheelMotorPort = 9;
-    public static final int hoodMotor = 10;
+    // public static final int flywheelMotorPort = 9;
+    //ASDFADSFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFA
+    public static final int leftFlywheelPort = 9; // done
+    public static final int rightFlywheelPort = 10; // done
+    
 
-    public static final int intakeMotorPort = 11; 
+    public static final int intakeMotorPort = 11; // done
 
-    public static final int StorageMotorPort = 12;
 
-    public static final int indexorMotorPort = 13; 
+    public static final int indexorMotorPort = 12; 
     // public static final int pivotPort = 14;
 
-    public static final int leftpPivotPort = 14;
-    public static final int rightPivotPort = 15; 
+    public static final int leftpPivotPort = 13;
+    public static final int rightPivotPort = 14; 
+    public static final int hoodMotor = 15;
+    public static final int hangMotorPort = 16;
+    public static final int hangPivot1Port = 17;
+    public static final int hangPivot2Port = 18
+    ;
+    
 
     public static final int pivotAboluteEncoderPort = 123; // placeholder
 
   }
   public static class ShooterConstants {
-    public static final double steepA = 104;
-    public static final double steepB = -2063;
-    public static final double steepC = 5133;
+    public static final double steepA = -1445;
+    public static final double steepB = 6308;
+    public static final double steepC = -2606;
 
     public static final double distanceA = 0;
     public static final double distanceB = 0;
@@ -442,4 +454,3 @@ public final class Constants {
   }
 
 }
-

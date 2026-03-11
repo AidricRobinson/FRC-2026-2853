@@ -11,13 +11,16 @@ import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
 import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
 import frc.robot.commands.OperatorCommands.AutoPivotUp;
-import frc.robot.commands.OperatorCommands.DistanceShootCommand;
 import frc.robot.commands.OperatorCommands.IntakeCommand;
 import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
 import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
+import frc.robot.commands.TestCommands.HangCommands.HangLiftDownCommand;
+import frc.robot.commands.TestCommands.HangCommands.HangLiftUpCommand;
+import frc.robot.commands.TestCommands.HangCommands.HangPivotDownCommand;
+import frc.robot.commands.TestCommands.HangCommands.HangPivotUpCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
 import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
@@ -43,6 +46,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 //Imported Swerve drive 
 
 import static edu.wpi.first.units.Units.*;
+
+import java.nio.file.ProviderNotFoundException;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -71,17 +77,17 @@ public class RobotContainer {
     private final IndexorSubsystem m_IndexorSubsystem = new IndexorSubsystem();
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
-    private final StorageSubsystem m_ConveyorSubsystem = new StorageSubsystem();
     private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
     private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
     private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
     private final HoodSubsystem m_HoodSubsystem = new HoodSubsystem();
+    private final HangSubsystem hangSubsystem = new HangSubsystem();
     private final Vision vision = new Vision(drivetrain);
 
 
     //Auto commands
-    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 4000);
-    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, 7, 5000);
+    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
+    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
     private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
     private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
@@ -190,21 +196,28 @@ public class RobotContainer {
     new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
 
-    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-        .onTrue(new StorageForwardCommand(m_ConveyorSubsystem, controller0));
+
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
 
     new JoystickButton(controller1, GamepadConstants.kYButtonPort)
         .onTrue(new ManualPivotUp(m_PivotSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
         .onTrue(new ManualPivotDown(m_PivotSubsystem, controller1));
 
-    new POVButton(controller1, GamepadConstants.kDpadUp)
+    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
         .onTrue(new HoodUpCommand(m_HoodSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadDown)
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new HoodDownCommand(m_HoodSubsystem, controller1));
 
+    new POVButton(controller1, GamepadConstants.kDpadUp)
+        .onTrue(new HangLiftUpCommand(hangSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadLeft)
+        .onTrue(new HangLiftDownCommand(hangSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadRight)
+        .onTrue(new HangPivotUpCommand(hangSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadDown)
+        .onTrue(new HangPivotDownCommand(hangSubsystem, controller1));
 
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                                   SWERVE                                         ///

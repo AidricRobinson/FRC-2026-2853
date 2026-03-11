@@ -1,34 +1,24 @@
 package frc.robot.commands.VisionCommands;
 
-import com.ctre.phoenix6.swerve.SwerveModule;
-import com.ctre.phoenix6.swerve.SwerveModuleConstants;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.LimelightSubsystem;
 
 public class AlignHubCommand extends Command {
     private final CommandSwerveDrivetrain swerve;
-    private LimelightSubsystem limelightSubsystem;
 
     private PIDController pidController;
 
-    private GenericHID controller;
     // private double offset;
     
     // private double currentAngle;
     // private double translationalSpeed;
     private double output;
 
-    public AlignHubCommand (CommandSwerveDrivetrain swerve, GenericHID controller) {
+    public AlignHubCommand (CommandSwerveDrivetrain swerve) {
         this.swerve = swerve;
-        this.controller = controller;
         pidController = new PIDController(0.01, 0.00000001,0);
 
         output = 0;

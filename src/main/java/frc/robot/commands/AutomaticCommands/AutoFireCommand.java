@@ -5,21 +5,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.StorageSubsystem;
 
 public class AutoFireCommand extends Command {
     private ShooterSubsystem shooterSubsystem;
-    private StorageSubsystem storageSubsystem;
     private IndexorSubsystem indexorSubsystem;
     private LimelightSubsystem limelightSubsystem;
-    public AutoFireCommand(ShooterSubsystem shooterSubsystem,StorageSubsystem storageSubsystem, IndexorSubsystem indexorSubsystem, LimelightSubsystem limelightSubsystem, double ms) {
+    public AutoFireCommand(ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, LimelightSubsystem limelightSubsystem, double ms) {
         this.shooterSubsystem = shooterSubsystem;
-        this.storageSubsystem = storageSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         
         
-        addRequirements(shooterSubsystem, storageSubsystem, indexorSubsystem);
+        addRequirements(shooterSubsystem, indexorSubsystem);
     }
     @Override
     public void initialize() {
@@ -37,7 +34,6 @@ public class AutoFireCommand extends Command {
         : shooterSubsystem.getOutput()
         );
 
-        storageSubsystem.setPower(-0.5);
 
         indexorSubsystem.updateError(); 
         indexorSubsystem.setPower(
@@ -55,7 +51,6 @@ public class AutoFireCommand extends Command {
         indexorSubsystem.shutdown();
         indexorSubsystem.reset();
 
-        storageSubsystem.shutdown();
     }
 
     @Override

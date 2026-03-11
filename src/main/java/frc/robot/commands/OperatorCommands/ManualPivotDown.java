@@ -2,7 +2,6 @@ package frc.robot.commands.OperatorCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class ManualPivotDown extends Command{
@@ -27,6 +26,6 @@ public void end(boolean interrupted){
 @Override
 public boolean isFinished(){
     // return !controller.getRawButton(YuanConstants.BottomRight);
-    return !controller.getRawButton(GamepadConstants.kAButtonPort);
+    return !controller.getRawButton(GamepadConstants.kXButtonPort);
 }
 }
