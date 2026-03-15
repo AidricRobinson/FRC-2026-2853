@@ -7,15 +7,15 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
-import frc.robot.commands.AutonomousCommands.AutoShootCommand;
+// import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
+// import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
 import frc.robot.commands.OperatorCommands.AutoPivotUp;
 import frc.robot.commands.OperatorCommands.IntakeCommand;
 import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
-import frc.robot.commands.OperatorCommands.SteepShootCommand;
+// import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HangCommands.HangLiftDownCommand;
 import frc.robot.commands.TestCommands.HangCommands.HangLiftUpCommand;
@@ -29,7 +29,7 @@ import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.Int
 import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestOutputUp;
 import frc.robot.commands.TestCommands.IntakeTestCommands.OutputTestCommands.IntakeTestSetOutput;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
-import frc.robot.commands.VisionCommands.AlignHubCommand;
+// import frc.robot.commands.VisionCommands.AlignHubCommand;
 import frc.robot.subsystems.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -79,17 +79,17 @@ public class RobotContainer {
     private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
     private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
     private final PivotSubsystem m_PivotSubsystem = new PivotSubsystem();
-    private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+    // private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
     private final HoodSubsystem m_HoodSubsystem = new HoodSubsystem();
-    private final HangSubsystem hangSubsystem = new HangSubsystem();
+    // private final HangSubsystem hangSubsystem = new HangSubsystem();
     private final Vision vision = new Vision(drivetrain);
 
 
     //Auto commands
-    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
-    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
-    private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
-    private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
+    // private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
+    // private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
+    // private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
+    // private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
 
     //controllers
@@ -188,17 +188,17 @@ public class RobotContainer {
         .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
 
     new POVButton(controller0, GamepadConstants.kDpadLeft)
-        .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller0));
+        .onTrue(new IndexorTestSetSpeed(m_IndexorSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadUp)
-        .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller0));
+        .onTrue(new IndexorTestSpeedUp(m_IndexorSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadDown)
-        .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller0));
+        .onTrue(new IndexorTestSpeedDown(m_IndexorSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadRight)
-        .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
+        .onTrue(new IndexorTestShutdown(m_IndexorSubsystem, controller0));
 
 
-    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-        .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+    //     .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
 
     new JoystickButton(controller1, GamepadConstants.kYButtonPort)
         .onTrue(new ManualPivotUp(m_PivotSubsystem, controller1));
@@ -210,14 +210,14 @@ public class RobotContainer {
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new HoodDownCommand(m_HoodSubsystem, controller1));
 
-    new POVButton(controller1, GamepadConstants.kDpadUp)
-        .onTrue(new HangLiftUpCommand(hangSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadLeft)
-        .onTrue(new HangLiftDownCommand(hangSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadRight)
-        .onTrue(new HangPivotUpCommand(hangSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadDown)
-        .onTrue(new HangPivotDownCommand(hangSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadUp)
+    //     .onTrue(new HangLiftUpCommand(hangSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadLeft)
+    //     .onTrue(new HangLiftDownCommand(hangSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadRight)
+    //     .onTrue(new HangPivotUpCommand(hangSubsystem, controller1));
+    // new POVButton(controller1, GamepadConstants.kDpadDown)
+    //     .onTrue(new HangPivotDownCommand(hangSubsystem, controller1));
 
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                                   SWERVE                                         ///
@@ -240,17 +240,17 @@ public class RobotContainer {
         RobotModeTriggers.disabled().whileTrue(
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         // joystick.b().whileTrue(drivetrain.applyRequest(() ->
         //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         // ));
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-        // Reset the field-centric heading on left bumper press.
+        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
         drivetrain.registerTelemetry(logger::telemeterize);
     }  

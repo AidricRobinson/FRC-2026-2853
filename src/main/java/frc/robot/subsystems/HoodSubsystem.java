@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PortConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.pidConstants;
 
 public class HoodSubsystem extends SubsystemBase {
     private TalonFX angleMotor;
@@ -22,8 +23,10 @@ public class HoodSubsystem extends SubsystemBase {
 
     private double setPoint;
     public HoodSubsystem () {
+        pidController = pidConstants.hoodPID;
         angleMotor = new TalonFX(PortConstants.hoodMotor); //Placeholder
         angleMotor.setNeutralMode(NeutralModeValue.Brake);
+        encoder = new DutyCycleEncoder(2);
     }
 
 

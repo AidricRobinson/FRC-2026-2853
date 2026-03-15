@@ -17,7 +17,7 @@ public class HoodDownCommand extends Command {
     }
     @Override 
     public void execute() {
-        hoodSubsystem.setPower(-.01);
+        hoodSubsystem.setPower(-.09);
     }
     @Override
     public void end(boolean interrupted) {

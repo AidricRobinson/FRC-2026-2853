@@ -75,7 +75,7 @@ public final class Constants {
     ;
     
 
-    public static final int pivotAboluteEncoderPort = 123; // placeholder
+    public static final int pivotAboluteEncoderPort = 3; // placeholder
 
   }
   public static class ShooterConstants {
@@ -365,9 +365,10 @@ public final class Constants {
     public static final double kPivotDownPosition = 0; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
-    public static final double kSteepShootingAngle = 0; // Placeholder
-    public static final double kLaunchShootingAngle = 0; //Placeholder
-    public static final double kNormalShootingAngle = 0; //  Placeholdr
+    public static final double kHoodHighArcAngle = 0; // Placeholder
+    public static final double kHoodFarArcAngle = 0; // Placeholder
+    public static final double kHoodLaunchAngle = 0; // Placeholder
+    public static final double kHoodTolerance = 0; // placeholder
 
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;

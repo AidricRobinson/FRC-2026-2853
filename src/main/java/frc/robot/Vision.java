@@ -123,16 +123,16 @@ public class Vision {
 
     }
     public void periodic() {
-        //Left Values
-        SmartDashboard.putNumber("Limelight Left X", latestLeftX);
-        SmartDashboard.putNumber("Limelight Left Y", latestLeftY);
-        SmartDashboard.putNumber("Limelight Left Degrees", latestLeftT);
+        // //Left Values
+        // SmartDashboard.putNumber("Limelight Left X", latestLeftX);
+        // SmartDashboard.putNumber("Limelight Left Y", latestLeftY);
+        // SmartDashboard.putNumber("Limelight Left Degrees", latestLeftT);
 
-        //Right Values
-        SmartDashboard.putNumber("Limelight Right X", latestRightX);
-        SmartDashboard.putNumber("Limelight Right Y", latestRightY);
-        SmartDashboard.putNumber("Limelight Right Degrees", latestRightT);
-        SmartDashboard.updateValues();
+        // //Right Values
+        // SmartDashboard.putNumber("Limelight Right X", latestRightX);
+        // SmartDashboard.putNumber("Limelight Right Y", latestRightY);
+        // SmartDashboard.putNumber("Limelight Right Degrees", latestRightT);
+        // SmartDashboard.updateValues();
         //LEAVE THIS ALONE
         update();
     }

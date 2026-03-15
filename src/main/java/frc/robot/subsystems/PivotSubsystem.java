@@ -36,12 +36,12 @@ public class PivotSubsystem extends SubsystemBase {
         testOutput = 0;
         leftConfig = new SparkFlexConfig();
         leftConfig
-            .inverted(false)
+            .inverted(true)
             .idleMode(IdleMode.kBrake);
         leftPivot.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         rightConfig = new SparkFlexConfig();
         rightConfig
-            .inverted(true)
+            .inverted(false)
             .idleMode(IdleMode.kBrake);
         rightPivot.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

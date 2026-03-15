@@ -29,7 +29,7 @@ public class LaunchFuelCommand extends Command{
         timer.start();
         shooterSubsystem.setPoint(4500);
         indexorSubsystem.setPoint(3000);
-        hoodSubsystem.setPoint(AutoConstants.kLaunchShootingAngle);
+        hoodSubsystem.setPoint(AutoConstants.kHoodLaunchAngle);
     }
     @Override
     public void execute() {

@@ -7,9 +7,9 @@ import frc.robot.subsystems.PivotSubsystem;
 public class ManualPivotDown extends Command{
 private PivotSubsystem pivotSubsystem;
 private GenericHID controller;
-public ManualPivotDown(PivotSubsystem pivotSubsystem, GenericHID m_controller){
+public ManualPivotDown(PivotSubsystem pivotSubsystem, GenericHID controller){
     this.pivotSubsystem = pivotSubsystem;
-    m_controller = controller; 
+    this.controller = controller; 
 }
 @Override
 public void initialize(){
