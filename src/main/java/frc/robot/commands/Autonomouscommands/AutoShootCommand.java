@@ -6,7 +6,6 @@ import frc.robot.subsystems.IndexorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutoShootCommand extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem shooterSubsystem;
   private final IndexorSubsystem indexorSubsystem;
   private double durationInSeconds;

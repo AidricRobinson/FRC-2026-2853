@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private PIDController pidController;
   private SparkFlexConfig leftConfig;
   private SparkFlexConfig rightConfig;
-
+  double testRPM = 0;
   double testSpeed = 0;
 
   private double setPoint;
@@ -48,9 +48,10 @@ public class ShooterSubsystem extends SubsystemBase {
     pidController = pidConstants.shooterPID;
 
     leftConfig.inverted(false).idleMode(IdleMode.kCoast);
-    rightConfig.inverted(false).idleMode(IdleMode.kCoast);
+    rightConfig.inverted(true).idleMode(IdleMode.kCoast);
 
     leftFlywheel.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    rightFlywheel.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   public double calculateSteepRPM(double tA) {
     return ((ShooterConstants.steepA * Math.pow(tA, 2))
@@ -73,16 +74,32 @@ public class ShooterSubsystem extends SubsystemBase {
     rightFlywheel.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 0.05;
+    testSpeed += 0.1;
   }
   public void shooterTestSpeedDown(){
     testSpeed -= 0.05;
   }
-  public double getTestRPM() {
+  public double getTestSpeed() {
     return testSpeed;
   }
+
+
+  //RPM STUFF
+
+  public void shooterTestRPMShutdown(){
+    testRPM = 0;
+  }
+  public void shooterTestRPMUp(){
+    testRPM += 250;
+  }
+  public void shooterTestRPMDown(){
+    testRPM -= 50;
+  }
+  public double getTestRPM() {
+    return testRPM;
+  }
   public void shooterTestSpeedShutdown(){
-    testSpeed = 0;
+    testRPM = 0;
   }
 
   public double getRPM() {

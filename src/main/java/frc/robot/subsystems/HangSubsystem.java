@@ -18,9 +18,7 @@ import frc.robot.Constants.PortConstants;
 public class HangSubsystem extends SubsystemBase {
     private SparkFlex lift; 
     private SparkFlexConfig liftConfig;
-    private TalonFX pivot1;
-    
-    private TalonFX pivot2;   
+
 
     public HangSubsystem () {
         liftConfig = new SparkFlexConfig();
@@ -28,35 +26,24 @@ public class HangSubsystem extends SubsystemBase {
         lift = new SparkFlex(PortConstants.hangMotorPort, MotorType.kBrushless);
         lift.configure(liftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        pivot1 = new TalonFX(PortConstants.hangPivot1Port);
-        pivot1.setNeutralMode(NeutralModeValue.Brake);
-
-        pivot2 = new TalonFX(PortConstants.hangPivot2Port);
-        pivot2.setNeutralMode(NeutralModeValue.Brake);
+       
     }
     public void setLiftPower(double power) {
         lift.set(power);
     }
     public void shutdown() {
         lift.set(0);
-        pivot1.set(0);
-        pivot2.set(0);
+
     }
-    public void setPivotPower(double power) {
-        pivot1.set(power);
-        pivot2.set(-power);
-    }
-    public double getLiftPosition() {
+
+    public double getHangPosition() {
         return lift.getEncoder().getPosition();
     }
-    public double getPivotPosition() {
-        return pivot1.getPosition().getValueAsDouble();
-    }
+
     
     @Override 
     public void periodic() {
-        SmartDashboard.putNumber("HANG lift position", getLiftPosition());
-        SmartDashboard.putNumber("HANG pivot position", getPivotPosition());
+        SmartDashboard.putNumber("HANG encoder position", getHangPosition());
         SmartDashboard.updateValues();
     }
 }

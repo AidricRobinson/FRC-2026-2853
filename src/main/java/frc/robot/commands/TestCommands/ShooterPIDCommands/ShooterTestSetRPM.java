@@ -1,18 +1,18 @@
 
-package frc.robot.commands.TestCommands.ShooterTestCommands;
+package frc.robot.commands.TestCommands.ShooterPIDCommands;
 
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
 
-public class ShooterTestSetSpeed extends Command {
+public class ShooterTestSetRPM extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_ShooterSubsystem;
   private GenericHID controller;
 
    
-  public ShooterTestSetSpeed(ShooterSubsystem shooterSubsystem, GenericHID m_controller) {
+  public ShooterTestSetRPM(ShooterSubsystem shooterSubsystem, GenericHID m_controller) {
     m_ShooterSubsystem = shooterSubsystem;
     controller = m_controller;
    
@@ -22,20 +22,20 @@ public class ShooterTestSetSpeed extends Command {
 
   @Override
   public void initialize() {
-    m_ShooterSubsystem.setPoint(m_ShooterSubsystem.getTestSpeed());
+    m_ShooterSubsystem.setPoint(m_ShooterSubsystem.getTestRPM());
   }
 
   @Override
   public void execute() {
-    // m_ShooterSubsystem.updateError(); 
-    //   m_ShooterSubsystem.setPower(
-    //   m_ShooterSubsystem.getOutput() > 1 ? 1
-    //   : m_ShooterSubsystem.getOutput() < 0 ? 0
-    //   : m_ShooterSubsystem.getOutput()
-    //   );
-    m_ShooterSubsystem.setPower(
-      m_ShooterSubsystem.getShooterTestSpeed()
-    );
+    m_ShooterSubsystem.updateError(); 
+      m_ShooterSubsystem.setPower(
+      m_ShooterSubsystem.getOutput() > 1 ? 1
+      : m_ShooterSubsystem.getOutput() < 0 ? 0
+      : m_ShooterSubsystem.getOutput()
+      );
+    // m_ShooterSubsystem.setPower(
+    //   m_ShooterSubsystem.getShooterTestSpeed()
+    // );
   }
 
   @Override

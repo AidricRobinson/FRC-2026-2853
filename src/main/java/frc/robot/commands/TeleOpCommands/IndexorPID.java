@@ -19,7 +19,7 @@ public class IndexorPID extends Command {
 
     @Override
     public void initialize() {
-        indexorSubsystem.setPoint(1000);
+        indexorSubsystem.setPoint(2000);
     }
 
     @Override

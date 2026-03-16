@@ -26,7 +26,9 @@ public class HoodSubsystem extends SubsystemBase {
         pidController = pidConstants.hoodPID;
         angleMotor = new TalonFX(PortConstants.hoodMotor); //Placeholder
         angleMotor.setNeutralMode(NeutralModeValue.Brake);
-        encoder = new DutyCycleEncoder(2);
+        encoder = new DutyCycleEncoder(0,1,-0.66);
+        encoder.setInverted(true);
+        
     }
 
 
@@ -95,7 +97,7 @@ public class HoodSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Hood SetPoint", setPoint);
         SmartDashboard.putNumber("Hood Error", getError());
         SmartDashboard.putNumber("Hood Derivative", pidController.getD());
-        SmartDashboard.putNumber("Flywheel Encoder Value (Angle)", getHoodAngle());
+        SmartDashboard.putNumber("Hood Encoder Angle", getHoodAngle());
         SmartDashboard.updateValues();
     }
     
