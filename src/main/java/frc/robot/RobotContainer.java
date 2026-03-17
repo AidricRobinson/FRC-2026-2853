@@ -176,7 +176,7 @@ public class RobotContainer {
     // new JoystickButton(YuanCon, YuanConstants.BT_B)
     //     .onTrue(new IntakeCommand(m_IntakeSubsystem, YuanCon));
     // new JoystickButton(YuanCon, YuanConstants.BT_C)
-    //     .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, YuanCon));
+    //     .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, YuanCon));
     // new JoystickButton(YuanCon, YuanConstants.BT_D)
     //     .onTrue(new AutoPivotDown(m_PivotSubsystem));
     // new JoystickButton(YuanCon, YuanConstants.BottomLeft)
@@ -184,9 +184,11 @@ public class RobotContainer {
     // new JoystickButton(YuanCon, YuanConstants.BottomRight)
     //     .onTrue(new ManualPivotDown(m_PivotSubsystem, YuanCon));
     // new JoystickButton(YuanCon, YuanConstants.SideTop)
-    //     .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
+    //     .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
     // new JoystickButton(YuanCon, YuanConstants.SideBottom)
-    //     .onTrue(new DistanceShootCommand(m_ShooterSubsystem, m_ConveyorSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
+    // //     .onTrue(new DistanceShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon));
+    // new JoystickButton(YuanCon, YuanConstants.BlueDiamond)
+    //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, YuanCon));
    
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                                TEST COMMANDS                                     ///
