@@ -18,9 +18,10 @@ import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
 // import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
+import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodDownCommand;
+import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodMiddleCommand;
+import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodUpCommand;
 
-import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestDownCommand;
-import frc.robot.commands.TestCommands.HoodTestCommands.HoodTestUpCommand;
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMDown;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMShutdown;
@@ -44,6 +45,7 @@ import frc.robot.subsystems.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -58,6 +60,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import static edu.wpi.first.units.Units.*;
 
 import java.nio.file.ProviderNotFoundException;
+
+import javax.naming.ldap.Control;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -191,38 +195,33 @@ public class RobotContainer {
 
         //POWER ADJUSTER
 
-    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-        .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-        .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-        .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
-    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-        .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+    //     .onTrue(new ShooterTestSpeedUp(m_ShooterSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+    //     .onTrue(new ShooterTestSetSpeed(m_ShooterSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+    //     .onTrue(new ShooterTestShutdown(m_ShooterSubsystem, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+    //     .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
 
 
         //RPM ADJUSTER
         
-    // new JoystickButton(controller0, GamepadConstants.kYButtonPort)
-    //     .onTrue(new ShooterTestRPMUp(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kXButtonPort)
-    //     .onTrue(new ShooterTestSetRPM(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
-    //     .onTrue(new ShooterTestRPMShutdown(m_ShooterSubsystem, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
-    //     .onTrue(new ShooterTestRPMDown(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kYButtonPort)
+        .onTrue(new ShooterTestRPMUp(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kXButtonPort)
+        .onTrue(new ShooterTestSetRPM(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+        .onTrue(new ShooterTestRPMShutdown(m_ShooterSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+        .onTrue(new ShooterTestRPMDown(m_ShooterSubsystem, controller0));
 
-
-
-
-    // new POVButton(controller0, GamepadConstants.kDpadUp)
-    //     .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadLeft)
-    //     .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadRight)
-    //     .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
-    // new POVButton(controller0, GamepadConstants.kDpadDown)
-    //     .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller0));
+    new POVButton(controller0, GamepadConstants.kDpadUp)
+        .onTrue(new AutoHoodUpCommand(m_HoodSubsystem));
+    new POVButton(controller0, GamepadConstants.kDpadRight)
+        .onTrue(new AutoHoodMiddleCommand(m_HoodSubsystem));
+    new POVButton(controller0, GamepadConstants.kDpadDown)
+        .onTrue(new AutoHoodDownCommand(m_HoodSubsystem));
 
     // new POVButton(controller0, GamepadConstants.kDpadUp)
     //     .onTrue(new IntakeTestRPMUp(m_IntakeSubsystem, controller0));
@@ -232,30 +231,36 @@ public class RobotContainer {
     //     .onTrue(new IntakeTestRPMShutdown(m_IntakeSubsystem, controller0));
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller0));
-
+    
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
+    new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
+        .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller0));
 
-    new POVButton(controller1, GamepadConstants.kDpadUp)
+    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
         .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadLeft)
+    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
         .onTrue(new PivotTestSetSpeed(m_PivotSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadRight)
+    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
         .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller1));
-    new POVButton(controller1, GamepadConstants.kDpadDown)
+    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller1));
 
-
+    new POVButton(controller1, GamepadConstants.kDpadUp)
+        .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadLeft)
+        .onTrue(new IntakeTestSetOutput(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadRight)
+        .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller1));
+    new POVButton(controller1, GamepadConstants.kDpadDown)
+        .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller1));
 
     // new JoystickButton(controller1, GamepadConstants.kYButtonPort)
     //     .onTrue(new ManualPivotUp(m_PivotSubsystem, controller1));
     // new JoystickButton(controller1, GamepadConstants.kXButtonPort)
     //     .onTrue(new ManualPivotDown(m_PivotSubsystem, controller1));
 
-    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new HoodUpCommand(m_HoodSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new HoodDownCommand(m_HoodSubsystem, controller1));
+    // new JoystickButton(controlle000000000oodSubsystem, controller1));
 
     // new POVButton(controller1, GamepadConstants.kDpadUp)
     //     .onTrue(new HangLiftUpCommand(hangSubsystem, controller1));

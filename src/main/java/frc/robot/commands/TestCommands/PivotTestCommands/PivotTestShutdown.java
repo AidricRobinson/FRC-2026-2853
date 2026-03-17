@@ -36,6 +36,6 @@ public class PivotTestShutdown extends Command {
 
   @Override
   public boolean isFinished() {
-    return controller.getPOV() == GamepadConstants.kDpadRight;
+    return controller.getRawButton(GamepadConstants.kBButtonPort);
   }
 }

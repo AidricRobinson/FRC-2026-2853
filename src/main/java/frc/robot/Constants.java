@@ -44,13 +44,15 @@ public final class Constants {
   }
 
   public static class pidConstants { 
-    public static final PIDController shooterPID = new PIDController(0.00001, 0, 0); // 0.000075, 0.000025, 1
+    public static final PIDController shooterPID = new PIDController(0.0001, 0.000025, 0); // 0.000075, 0.000025, 1
 
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
     public static final PIDController intakePID = new PIDController(0, 0, 0);
     public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);
-    public static final PIDController hoodPID = new PIDController(0, 0, 0);
+    public static final PIDController hoodDownPID = new PIDController(0.29, 0, 0);
+    public static final PIDController hoodUpPID = new PIDController(.3875,0, 0);
+
   }
 
   public static class PortConstants {
@@ -74,7 +76,7 @@ public final class Constants {
     ;
     
 
-    public static final int pivotAboluteEncoderPort = 3; // placeholder
+    public static final int pivotAboluteEncoderPort = 1; // placeholder
 
   }
   public static class ShooterConstants {
@@ -364,10 +366,10 @@ public final class Constants {
     public static final double kPivotDownPosition = 0; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
-    public static final double kHoodHighArcAngle = 0.009; // Placeholder
-    public static final double kHoodFarArcAngle = 0; // Placeholder
-    public static final double kHoodLaunchAngle = 0.73; // Placeholder
-    public static final double kHoodTolerance = 0; // placeholder
+    public static final double kHoodHighArcAngle = 0.1; // Placeholder // 0.009
+    public static final double kHoodFarArcAngle = 0.35; // Placeholder
+    public static final double kHoodLaunchAngle = 0.6; // 0.73
+    public static final double kHoodTolerance = 0.0025; // placeholder
 
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;

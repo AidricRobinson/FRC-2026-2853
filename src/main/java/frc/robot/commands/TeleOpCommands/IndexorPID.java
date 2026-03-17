@@ -24,12 +24,13 @@ public class IndexorPID extends Command {
 
     @Override
     public void execute() {
-        indexorSubsystem.updateError(); 
-        indexorSubsystem.setPower(
-        indexorSubsystem.getOutput() > 1 ? 1
-        : indexorSubsystem.getOutput() < 0 ? 0
-        : indexorSubsystem.getOutput()
-        );
+        // indexorSubsystem.updateError(); 
+        // indexorSubsystem.setPower(
+        // indexorSubsystem.getOutput() > 1 ? 1
+        // : indexorSubsystem.getOutput() < 0 ? 0
+        // : indexorSubsystem.getOutput()
+        // );
+        indexorSubsystem.setPower(0.6);
         
     }
     @Override

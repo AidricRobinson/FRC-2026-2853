@@ -123,6 +123,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Shooter Test Speed", testSpeed);
+    SmartDashboard.putNumber("Shooter Test RPM", testRPM);
     SmartDashboard.putNumber("Shooter RPM", getRPM());
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Error", getError());

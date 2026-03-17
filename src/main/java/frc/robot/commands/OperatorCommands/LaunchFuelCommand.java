@@ -44,7 +44,7 @@ public class LaunchFuelCommand extends Command{
         );
 
         hoodSubsystem.setPower(
-            hoodSubsystem.getOutput()
+            hoodSubsystem.getUpOutput()
         );
         
         if (timer.get() >= 1.5) {

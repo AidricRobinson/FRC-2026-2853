@@ -34,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotorConfig = new SparkFlexConfig();
         intakeMotorConfig
             .inverted(false)
-            .idleMode(IdleMode.kBrake);
+            .idleMode(IdleMode.kCoast);
         intakeMotor.configure(intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 

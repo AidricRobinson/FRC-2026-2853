@@ -15,7 +15,8 @@ import frc.robot.Constants.pidConstants;
 
 public class HoodSubsystem extends SubsystemBase {
     private TalonFX angleMotor;
-    private PIDController pidController;
+    private PIDController pidDown;
+    private PIDController pidUp;
     private TalonFXConfiguration FlywheelConfig;
     double testSpeed = 0;
     double kFF = 0; //Placeholder
@@ -23,7 +24,8 @@ public class HoodSubsystem extends SubsystemBase {
 
     private double setPoint;
     public HoodSubsystem () {
-        pidController = pidConstants.hoodPID;
+        pidDown = pidConstants.hoodDownPID;
+        pidUp = pidConstants.hoodUpPID;
         angleMotor = new TalonFX(PortConstants.hoodMotor); //Placeholder
         angleMotor.setNeutralMode(NeutralModeValue.Brake);
         encoder = new DutyCycleEncoder(0,1,-0.66);
@@ -68,25 +70,36 @@ public class HoodSubsystem extends SubsystemBase {
 
     //PID methods
     public void setPoint(double target) {
-        pidController.setSetpoint(target);
+        pidUp.setSetpoint(target);
+        pidDown.setSetpoint(target);
         setPoint = target;
     }
-    public double getError () {
-        return pidController.getError();
+    public double getUpError () {
+        return pidUp.getError();
+    }
+    public double getDownError() {
+        return pidDown.getError();
     }
     public double getSetpoint(){
-        return pidController.getSetpoint();
+        return pidUp.getSetpoint();
     }
     public void resetPID() {
-        pidController.reset();
+        pidUp.reset();
+        pidDown.reset();
     }
-    public double getOutput () {
-        pidController.getD();
-        return pidController.calculate(getRPM(), getSetpoint()) + kFF * pidController.getSetpoint();
+    public double getUpOutput () {
+        pidUp.getD();
+        return pidUp.calculate(getHoodAngle(), getSetpoint()) + kFF * pidUp.getSetpoint();
+    }
+    public double getDownOutput () {
+        pidDown.getD();
+        return pidDown.calculate(getHoodAngle(), getSetpoint()) + kFF * pidDown.getSetpoint();
     }
     public void updateError(){
-        pidController.getD();
-        pidController.calculate(getRPM(), getSetpoint());
+        pidUp.getD();
+        pidUp.calculate(getRPM(), getSetpoint());
+        pidDown.getD();
+        pidDown.calculate(getRPM(), getSetpoint());
     }
 
 
@@ -95,9 +108,9 @@ public class HoodSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Hood Test Speed", testSpeed);
         SmartDashboard.putNumber("Hood RPM", getRPM());
         SmartDashboard.putNumber("Hood SetPoint", setPoint);
-        SmartDashboard.putNumber("Hood Error", getError());
-        SmartDashboard.putNumber("Hood Derivative", pidController.getD());
         SmartDashboard.putNumber("Hood Encoder Angle", getHoodAngle());
+        SmartDashboard.putNumber("Hood UP output", getUpOutput());
+        SmartDashboard.putNumber("Hood DOWN output", getDownOutput());
         SmartDashboard.updateValues();
     }
     

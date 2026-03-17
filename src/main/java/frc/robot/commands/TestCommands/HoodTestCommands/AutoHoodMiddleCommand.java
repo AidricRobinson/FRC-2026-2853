@@ -20,7 +20,15 @@ public class AutoHoodMiddleCommand extends Command{
     @Override
     public void execute() {
         hoodSubsystem.updateError();
-        hoodSubsystem.setPower(hoodSubsystem.getOutput());
+        if (hoodSubsystem.getUpError() <= 0) {
+            hoodSubsystem.setPower(hoodSubsystem.getUpOutput());
+        }
+        else {
+            hoodSubsystem.setPower(hoodSubsystem.getDownOutput());
+        }
+        System.out.println("HOOD IS RUNNING HOOD IS RUNNING HOOD IS RUNNING");
+        // System.out.println(hoodSubsystem.getOutput());
+
     }
 
     @Override
@@ -31,7 +39,7 @@ public class AutoHoodMiddleCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return Math.abs(hoodSubsystem.getError()) < AutoConstants.kHoodTolerance;
+        return Math.abs(hoodSubsystem.getUpError()) < AutoConstants.kHoodTolerance;
     }
     
 }

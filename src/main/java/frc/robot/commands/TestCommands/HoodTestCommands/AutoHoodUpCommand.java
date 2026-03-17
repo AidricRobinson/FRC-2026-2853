@@ -20,18 +20,22 @@ public class AutoHoodUpCommand extends Command{
     @Override
     public void execute() {
         hoodSubsystem.updateError();
-        hoodSubsystem.setPower(hoodSubsystem.getOutput());
+        hoodSubsystem.setPower(hoodSubsystem.getUpOutput());
+        System.out.println("HOOD IS RUNNING HOOD IS RUNNING HOOD IS RUNNING");
+        // System.out.println(hoodSubsystem.getOutput());
+
     }
 
     @Override
     public void end(boolean isFinished) {
         hoodSubsystem.resetPID();
         hoodSubsystem.shutdown();
+        System.out.println("HOOD COMMAND FINISHED");
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(hoodSubsystem.getError()) < AutoConstants.kHoodTolerance;
+        return Math.abs(hoodSubsystem.getUpError()) < AutoConstants.kHoodTolerance;
     }
     
 }

@@ -35,7 +35,7 @@ public PivotTestSetSpeed(PivotSubsystem pivotSubsystem, GenericHID m_controller)
 
   @Override
   public boolean isFinished() {
-    return !(controller.getPOV() == GamepadConstants.kDpadLeft);
+    return !(controller.getRawButton(GamepadConstants.kXButtonPort));
 
     // return 
   }

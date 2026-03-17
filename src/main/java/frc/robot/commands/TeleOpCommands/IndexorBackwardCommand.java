@@ -16,7 +16,7 @@ public class IndexorBackwardCommand extends Command{
 
     }
     public void execute(){
-        indexorSubsystem.setPower(-0.35);
+        indexorSubsystem.setPower(-0.60);
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();

@@ -20,7 +20,9 @@ public class AutoHoodDownCommand extends Command{
     @Override
     public void execute() {
         hoodSubsystem.updateError();
-        hoodSubsystem.setPower(hoodSubsystem.getOutput());
+        hoodSubsystem.setPower(hoodSubsystem.getDownOutput());
+        System.out.println("HOOD IS RUNNING HOOD IS RUNNING HOOD IS RUNNING");
+        // System.out.println(hoodSubsystem.getOutput());
     }
 
     @Override
@@ -31,7 +33,7 @@ public class AutoHoodDownCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return Math.abs(hoodSubsystem.getError()) < AutoConstants.kHoodTolerance;
+        return Math.abs(hoodSubsystem.getDownError()) < AutoConstants.kHoodTolerance;
     }
     
 }
