@@ -7,8 +7,8 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
-import frc.robot.commands.AutonomousCommands.AutoShootCommand;
+// import frc.robot.commands.AutonomousCommands.AutoIntakeCommand;
+// import frc.robot.commands.AutonomousCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
 import frc.robot.commands.OperatorCommands.AutoPivotUp;
 import frc.robot.commands.OperatorCommands.IntakeCommand;
@@ -86,9 +86,9 @@ public class RobotContainer {
 
 
     //Auto commands
-    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
-    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
-    private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
+    // private final AutoShootComma autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
+    // private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
+    // private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
     private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
 
@@ -195,7 +195,7 @@ public class RobotContainer {
         .onTrue(new IntakeTestOutputDown(m_IntakeSubsystem, controller0));
     new POVButton(controller0, GamepadConstants.kDpadRight)
         .onTrue(new IntakeTestOutputShutdown(m_IntakeSubsystem, controller0));
-
+    
 
     new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
         .onTrue(new IndexorPID(m_IndexorSubsystem, controller0));
