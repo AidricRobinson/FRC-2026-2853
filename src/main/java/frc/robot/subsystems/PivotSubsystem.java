@@ -30,7 +30,7 @@ public class PivotSubsystem extends SubsystemBase {
         leftPivot = new SparkFlex(PortConstants.leftpPivotPort, MotorType.kBrushless);
         rightPivot = new SparkFlex(PortConstants.rightPivotPort, MotorType.kBrushless);
 
-        encoder = new DutyCycleEncoder(PortConstants.pivotAboluteEncoderPort, 1, AutoConstants.kPivotUpPosition);
+        encoder = new DutyCycleEncoder(PortConstants.pivotAboluteEncoderPort, 2, 0);
 
         pidController = pidConstants.pivotPID;
         testOutput = 0;

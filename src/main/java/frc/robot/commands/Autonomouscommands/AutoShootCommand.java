@@ -32,7 +32,7 @@ public class AutoShootCommand extends Command {
       shooterSubsystem.setPower(
           shooterSubsystem.getOutput()
       );
-      if(timer.get() >= 2){
+      if(timer.get() >= 1){
           indexorSubsystem.setPower(
           indexorSubsystem.getOutput()
           );

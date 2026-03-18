@@ -16,7 +16,7 @@ public class IndexorForwardCommand extends Command{
 
     }
     public void execute(){
-        indexorSubsystem.setPower(0.35);
+        indexorSubsystem.setPower(1);
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();

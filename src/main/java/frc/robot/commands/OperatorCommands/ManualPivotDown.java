@@ -1,6 +1,7 @@
 package frc.robot.commands.OperatorCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.subsystems.PivotSubsystem;
 
@@ -17,7 +18,7 @@ public void initialize(){
 }
 @Override
 public void execute(){
-    pivotSubsystem.setPower(-.025);
+    pivotSubsystem.setPower(-.075);
 }
 @Override
 public void end(boolean interrupted){
@@ -26,6 +27,6 @@ public void end(boolean interrupted){
 @Override
 public boolean isFinished(){
     // return !controller.getRawButton(YuanConstants.BottomRight);
-    return !controller.getRawButton(GamepadConstants.kXButtonPort);
+    return !controller.getRawButton(GamepadConstants.kXButtonPort) || pivotSubsystem.getPivotEncoder() <= AutoConstants.kPivotDownPosition;
 }
 }

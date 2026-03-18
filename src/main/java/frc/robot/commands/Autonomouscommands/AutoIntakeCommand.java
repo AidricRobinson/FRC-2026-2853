@@ -1,13 +1,11 @@
 package frc.robot.commands.AutonomousCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoIntakeCommand extends Command {
-  
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private Timer timer;
 
   public AutoIntakeCommand(IntakeSubsystem intakeSubsystem){
     this.intakeSubsystem = intakeSubsystem;
@@ -19,7 +17,6 @@ public class AutoIntakeCommand extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.setPoint(3000); // placeholder
-    timer.start();
 
   }
   @Override
@@ -34,6 +31,6 @@ public class AutoIntakeCommand extends Command {
   }
   @Override
   public boolean isFinished() {
-    return timer.get() >= 5;
+    return false;
   }
 }

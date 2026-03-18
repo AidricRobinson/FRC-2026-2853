@@ -30,7 +30,7 @@ public class AutoHoodUpCommand extends Command{
     public void end(boolean isFinished) {
         hoodSubsystem.resetPID();
         hoodSubsystem.shutdown();
-        System.out.println("HOOD COMMAND FINISHED");
+        System.out.println("HOOD UP FINISHED");
     }
 
     @Override

@@ -5,6 +5,8 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.photonvision.EstimatedRobotPose;
+
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -66,6 +68,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         private static double maxSpeedThingy = 0.75;
     private final Field2d field2d = new Field2d();
+
+
+
+
+    ////VISION STUSDFJASDJFa
+    Vision vision = new Vision(this);
+    Optional<EstimatedRobotPose> visionEst;
+    Pose2d prevVisionEst;
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -288,6 +298,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+          
+        //   visionEst = vision.getEstimatedGlobalPose(prevVisionEst);
+        //   visionEst.ifPresent(
+        //         est -> {
+        //             // Change our trust in the measurement based on the tags we can see
+        //             var estStdDevs = vision.getEstimationStdDevs();
+
+        //             addVisionMeasurement(prevVisionEst, kNumConfigAttempts);(
+        //                     est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+        //         });
+
+        vision.update();
+
+
         SmartDashboard.putNumber("YSpeed", getState().Speeds.vyMetersPerSecond);
         SmartDashboard.putNumber("XSpeed", getState().Speeds.vxMetersPerSecond);
         field2d.setRobotPose(super.getState().Pose);
@@ -300,9 +324,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Module 1 - Drive Speed", super.getModule(1).getDriveMotor().get());
         SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
         SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
-        // SmartDashboard.putNumber("Distance from hub", getPoseR());
-        // SmartDashboard.putNumber("Current X", super.getState().Pose.getX());
-        // SmartDashboard.putNumber("Current Y", super.getState().Pose.getY());
+        SmartDashboard.putNumber("Distance from hub", getPoseR());
+        SmartDashboard.putNumber("Current X", super.getState().Pose.getX());
+        SmartDashboard.putNumber("Current Y", super.getState().Pose.getY());
         // SmartDashboard.putNumber("Odometry Frequency?", super.getOdometryFrequency());
         
         SmartDashboard.updateValues();
@@ -423,22 +447,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     
 
-    // public double distHubX() {
-    //     return frc.robot.Constants.Vision.hubX - super.getState().Pose.getX();
-    // }
-    // public double distHubY() {
-    //     return frc.robot.Constants.Vision.hubY - super.getState().Pose.getY();
-    // }
-    // public double getPoseR() {
-    //     return Math.sqrt((distHubX() * distHubX()) + (distHubY() * distHubY()));
-    // }
-    // public double getAlignmentAngle() {
-    //     return Math.toDegrees(Math.atan2(distHubY(), distHubX()));
-    // }
-    // public double getCurrentAngle() {
-    //     return super.getState().Pose.getRotation().getDegrees();
-    // }
-    // public double getHubTurningAngle() {
-    //     return getAlignmentAngle() - getCurrentAngle();
-    // }
+    public double distHubX() {
+        return frc.robot.Constants.Vision.hubX - super.getState().Pose.getX();
+    }
+    public double distHubY() {
+        return frc.robot.Constants.Vision.hubY - super.getState().Pose.getY();
+    }
+    public double getPoseR() {
+        return Math.sqrt((distHubX() * distHubX()) + (distHubY() * distHubY()));
+    }
+    public double getAlignmentAngle() {
+        return Math.toDegrees(Math.atan2(distHubY(), distHubX()));
+    }
+    public double getCurrentAngle() {
+        return super.getState().Pose.getRotation().getDegrees();
+    }
+    public double getHubTurningAngle() {
+        return getAlignmentAngle() - getCurrentAngle();
+    }
 }

@@ -35,6 +35,7 @@ public class AutoHoodMiddleCommand extends Command{
     public void end(boolean isFinished) {
         hoodSubsystem.resetPID();
         hoodSubsystem.shutdown();
+        System.out.println("HOOD MIDDLE FINISHED");
     }
 
     @Override
