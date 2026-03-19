@@ -3,6 +3,7 @@ package frc.robot.commands.TeleOpCommands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.Constants.YuanConstants;
 import frc.robot.subsystems.IndexorSubsystem;
 
 public class IndexorForwardCommand extends Command{
@@ -16,12 +17,12 @@ public class IndexorForwardCommand extends Command{
 
     }
     public void execute(){
-        indexorSubsystem.setPower(1);
+        indexorSubsystem.setPower(0.6);
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();
     }
     public boolean isFinished(){
-        return !controller.getRawButton(GamepadConstants.kRightBumperPort); //pls change// no
+        return !controller.getRawButton(YuanConstants.SideTop); 
     } 
 }

@@ -309,7 +309,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         //                     est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
         //         });
 
-        vision.update();
 
 
         SmartDashboard.putNumber("YSpeed", getState().Speeds.vyMetersPerSecond);
@@ -325,6 +324,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
         SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
         SmartDashboard.putNumber("Distance from hub", getPoseR());
+        SmartDashboard.putNumber("Angle", getCurrentAngle());
         SmartDashboard.putNumber("Current X", super.getState().Pose.getX());
         SmartDashboard.putNumber("Current Y", super.getState().Pose.getY());
         // SmartDashboard.putNumber("Odometry Frequency?", super.getOdometryFrequency());

@@ -49,7 +49,7 @@
 //         );
 
 //         hoodSubsystem.setPower(
-//             hoodSubsystem.getOutput()
+//             hoodSubsystem.getDownOutput()
 //         );
         
 //         if (timer.get() >= 2) {
@@ -73,6 +73,6 @@
 //     }
 //     @Override
 //     public boolean isFinished() {
-//         return !controller.getRawButton(YuanConstants.SideBottom);
+//         return !controller.getRawButton(YuanConstants.BT_D);
 //     }
 // }

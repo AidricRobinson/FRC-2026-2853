@@ -17,13 +17,13 @@ public class IndexorBackwardCommand extends Command{
 
     }
     public void execute(){
-        indexorSubsystem.setPower(-1);
+        indexorSubsystem.setPower(-0.6);
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();
     }
     public boolean isFinished(){
-        return !controller.getRawButton(GamepadConstants.kLeftBumperPort);//pls change
-        // return !controller.getRawButton(YuanConstants.BlueDiamond);
+        // return !controller.getRawButton(GamepadConstants.kLeftBumperPort);//pls change
+        return !controller.getRawButton(YuanConstants.SideBottom);
     }
 }
