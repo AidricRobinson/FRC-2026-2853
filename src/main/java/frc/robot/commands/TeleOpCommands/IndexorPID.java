@@ -19,18 +19,17 @@ public class IndexorPID extends Command {
 
     @Override
     public void initialize() {
-        indexorSubsystem.setPoint(2000);
+        indexorSubsystem.setPoint(4000);
     }
 
     @Override
     public void execute() {
-        // indexorSubsystem.updateError(); 
-        // indexorSubsystem.setPower(
-        // indexorSubsystem.getOutput() > 1 ? 1
-        // : indexorSubsystem.getOutput() < 0 ? 0
-        // : indexorSubsystem.getOutput()
-        // );
-        indexorSubsystem.setPower(0.6);
+        indexorSubsystem.updateError();
+        indexorSubsystem.setPower(
+            indexorSubsystem.getOutput() > 1 ? 1
+            : indexorSubsystem.getOutput() < 0 ? 0
+            : indexorSubsystem.getOutput()
+        );
         
     }
     @Override

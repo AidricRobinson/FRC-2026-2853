@@ -18,14 +18,16 @@ public class IntakePID extends Command{
 
     @Override
     public void initialize() {
-        intakeSubsystem.setPoint(1000);
+        intakeSubsystem.setPoint(4000);
     }
 
     @Override 
     public void execute() {
         intakeSubsystem.updateError();
         intakeSubsystem.setPower(
-            intakeSubsystem.getOutput()
+            intakeSubsystem.getOutput() > 1 ? 1
+            : intakeSubsystem.getOutput() < 0 ? 0
+            : intakeSubsystem.getOutput()
         );
     }
 

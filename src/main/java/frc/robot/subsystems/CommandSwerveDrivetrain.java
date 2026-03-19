@@ -66,7 +66,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-        private static double maxSpeedThingy = 0.75;
+        private static double maxSpeedThingy = 1;
     private final Field2d field2d = new Field2d();
 
 
@@ -315,14 +315,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("XSpeed", getState().Speeds.vxMetersPerSecond);
         field2d.setRobotPose(super.getState().Pose);
         SmartDashboard.putData("field", field2d);
-        SmartDashboard.putNumber("Module 0 - Rotation Speed", super.getModule(0).getSteerMotor().get());
-        SmartDashboard.putNumber("Module 1 - Rotation Speed", super.getModule(1).getSteerMotor().get());
-        SmartDashboard.putNumber("Module 2 - Rotation Speed", super.getModule(2).getSteerMotor().get());
-        SmartDashboard.putNumber("Module 3 - Rotation Speed", super.getModule(3).getSteerMotor().get());
-        SmartDashboard.putNumber("Module 0 - Drive Speed", super.getModule(0).getDriveMotor().get());
-        SmartDashboard.putNumber("Module 1 - Drive Speed", super.getModule(1).getDriveMotor().get());
-        SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
-        SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
+        // SmartDashboard.putNumber("Module 0 - Rotation Speed", super.getModule(0).getSteerMotor().get());
+        // SmartDashboard.putNumber("Module 1 - Rotation Speed", super.getModule(1).getSteerMotor().get());
+        // SmartDashboard.putNumber("Module 2 - Rotation Speed", super.getModule(2).getSteerMotor().get());
+        // SmartDashboard.putNumber("Module 3 - Rotation Speed", super.getModule(3).getSteerMotor().get());
+        // SmartDashboard.putNumber("Module 0 - Drive Speed", super.getModule(0).getDriveMotor().get());
+        // SmartDashboard.putNumber("Module 1 - Drive Speed", super.getModule(1).getDriveMotor().get());
+        // SmartDashboard.putNumber("Module 2 - Drive Speed", super.getModule(2).getDriveMotor().get());
+        // SmartDashboard.putNumber("Module 3 - Drive Speed", super.getModule(3).getDriveMotor().get());
         SmartDashboard.putNumber("Distance from hub", getPoseR());
         SmartDashboard.putNumber("Angle", getCurrentAngle());
         SmartDashboard.putNumber("Current X", super.getState().Pose.getX());
@@ -332,7 +332,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.updateValues();
     }
      public static void setSlowMode() {
-        maxSpeedThingy = 0.2;
+        maxSpeedThingy = 0.5;
     }
     public static void setNormalSpeed() {
         maxSpeedThingy = 1;
@@ -378,7 +378,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         var fieldCentricDrive = new SwerveRequest.FieldCentric();
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeed, 0.02);
 
-        fieldCentricDrive.withRotationalRate(output);
+        fieldCentricDrive.withRotationalRate(Math.toRadians(output));
 
         super.setControl(fieldCentricDrive);
     }

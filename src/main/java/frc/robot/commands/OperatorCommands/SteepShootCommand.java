@@ -14,23 +14,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SteepShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
-    private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
-    private Timer timer;
 
-    public SteepShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public SteepShootCommand (ShooterSubsystem shooterSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
-        this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
         
-        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
-        timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        // shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
         hoodSubsystem.setPoint(AutoConstants.kHoodHighArcAngle);
     }
     @Override
@@ -47,9 +43,9 @@ public class SteepShootCommand extends Command{
             : shooterSubsystem.getOutput()
         );
 
-        // hoodSubsystem.setPower(
-        //     hoodSubsystem.getDownOutput()
-        // );
+        hoodSubsystem.setPower(
+            hoodSubsystem.getDownOutput()
+        );
         
         
     }

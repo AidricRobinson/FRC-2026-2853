@@ -12,12 +12,19 @@ public class IndexorBackwardCommand extends Command{
     public IndexorBackwardCommand(IndexorSubsystem indexorSubsystem, GenericHID m_controller){
         this.indexorSubsystem = indexorSubsystem;
         controller = m_controller;
+
+        addRequirements(indexorSubsystem);
     }
     public void initialize(){
-
+        indexorSubsystem.setPoint(-4000);
     }
     public void execute(){
-        indexorSubsystem.setPower(-0.6);
+        indexorSubsystem.updateError();
+        indexorSubsystem.setPower(
+            indexorSubsystem.getOutput() > 0 ? 0
+            : indexorSubsystem.getOutput() < -1 ? -1
+            : indexorSubsystem.getOutput()
+        );
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();

@@ -26,7 +26,7 @@ public class AlignBackwardCommand extends Command {
 
     @Override
     public void initialize() {
-        pidController.setSetpoint(180);
+        pidController.setSetpoint(-180);
 
     }
 

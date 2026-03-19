@@ -14,19 +14,16 @@ public class LaunchFuelCommand extends Command{
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
-    private Timer timer;
 
-    public LaunchFuelCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+    public LaunchFuelCommand (ShooterSubsystem shooterSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
-        this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
         
-        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
-        timer.start();
         shooterSubsystem.setPoint(750);
         hoodSubsystem.setPoint(AutoConstants.kHoodLaunchAngle);
     }
@@ -41,9 +38,9 @@ public class LaunchFuelCommand extends Command{
             : shooterSubsystem.getOutput()
         );
 
-        // hoodSubsystem.setPower(
-        //     hoodSubsystem.getUpOutput()
-        // );
+        hoodSubsystem.setPower(
+            hoodSubsystem.getUpOutput()
+        );
         
   
     }

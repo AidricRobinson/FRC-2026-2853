@@ -76,7 +76,7 @@ public class RobotContainer {
 
 
     //Swerve configuration?
-    private double MaxSpeed = 0.001 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -167,8 +167,8 @@ public class RobotContainer {
     
     // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
     //         .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
-    // new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-    //         .onTrue(new AlignHubCommand(drivetrain));
+    new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
+            .onTrue(new AlignHubCommand(drivetrain, m_LimelightSubsystem));
     // new Trigger(() -> controller0.getRawAxis(GamepadConstants.kLeftTriggerPort) >= 0.25)
     //     .onTrue(new AlignBackwardCommand(drivetrain));
 
@@ -178,11 +178,13 @@ public class RobotContainer {
     ////////////////////////////////////////////////////////////////////////////////////////
     /// 
     new JoystickButton(YuanCon, YuanConstants.BT_A)
-        .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, YuanCon));
+        .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_HoodSubsystem, YuanCon)
+        .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
+        
     new JoystickButton(YuanCon, YuanConstants.BT_B)
         .onTrue(new IntakeCommand(m_IntakeSubsystem, YuanCon));
     new JoystickButton(YuanCon, YuanConstants.BT_C)
-        .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
+        .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
         .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
     //  new JoystickButton(YuanCon, YuanConstants.BT_D)
     //     .onTrue(new DistanceShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
@@ -191,11 +193,8 @@ public class RobotContainer {
         .onTrue(new ManualPivotUp(m_PivotSubsystem, YuanCon));
     new JoystickButton(YuanCon, YuanConstants.BottomRight)
         .onTrue(new ManualPivotDown(m_PivotSubsystem, m_IntakeSubsystem, YuanCon));
-    // new JoystickButton(YuanCon, YuanConstants.SideTop)
-    //     .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
-    //     .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
     new JoystickButton(YuanCon, YuanConstants.SideTop)
-        .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, YuanCon));
+        .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, YuanCon));
     new JoystickButton(YuanCon, YuanConstants.SideBottom)
         .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, YuanCon));
    
@@ -216,7 +215,7 @@ public class RobotContainer {
     //     .onTrue(new ShooterTestSpeedDown(m_ShooterSubsystem, controller0));
 
 
-        //RPM ADJUSTER
+        //RPM ADJUSTER SHOOTER
         
     new JoystickButton(controller1, GamepadConstants.kYButtonPort)
         .onTrue(new ShooterTestRPMUp(m_ShooterSubsystem, controller1));
@@ -227,12 +226,16 @@ public class RobotContainer {
     new JoystickButton(controller1, GamepadConstants.kAButtonPort)
         .onTrue(new ShooterTestRPMDown(m_ShooterSubsystem, controller1));
 
-    new POVButton(controller0, GamepadConstants.kDpadUp)
-        .onTrue(new AutoHoodUpCommand(m_HoodSubsystem));
-    new POVButton(controller0, GamepadConstants.kDpadRight)
-        .onTrue(new AutoHoodMiddleCommand(m_HoodSubsystem));
-    new POVButton(controller0, GamepadConstants.kDpadDown)
-        .onTrue(new AutoHoodDownCommand(m_HoodSubsystem));
+        //HOOD TESTING
+
+    // new POVButton(controller0, GamepadConstants.kDpadUp)
+    //     .onTrue(new AutoHoodUpCommand(m_HoodSubsystem));
+    // new POVButton(controller0, GamepadConstants.kDpadRight)
+    //     .onTrue(new AutoHoodMiddleCommand(m_HoodSubsystem));
+    // new POVButton(controller0, GamepadConstants.kDpadDown)
+    //     .onTrue(new AutoHoodDownCommand(m_HoodSubsystem));
+
+        //INTAKE TESTING
 
     // new POVButton(controller0, GamepadConstants.kDpadUp)
     //     .onTrue(new IntakeTestRPMUp(m_IntakeSubsystem, controller0));
@@ -242,13 +245,16 @@ public class RobotContainer {
     //     .onTrue(new IntakeTestRPMShutdown(m_IntakeSubsystem, controller0));
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller0));
-    
+        
+        //INDEXOR TESTING
     new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
         .onTrue(new IndexorPID(m_IndexorSubsystem, controller1));
     new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
         .onTrue(new IntakePID(m_IntakeSubsystem, controller1));
     // new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
     //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller0));
+
+        //PIVOT
 
     // new JoystickButton(controller1, GamepadConstants.kYButtonPort)
     //     .onTrue(new PivotTestSpeedUp(m_PivotSubsystem, controller1));
@@ -258,6 +264,8 @@ public class RobotContainer {
     //     .onTrue(new PivotTestShutdown(m_PivotSubsystem, controller1));
     // new JoystickButton(controller1, GamepadConstants.kAButtonPort)
     //     .onTrue(new PivotTestSpeedDown(m_PivotSubsystem, controller1));
+
+        //INTAKE?
 
     // new POVButton(controller1, GamepadConstants.kDpadUp)
     //     .onTrue(new IntakeTestOutputUp(m_IntakeSubsystem, controller1));

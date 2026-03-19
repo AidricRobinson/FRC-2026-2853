@@ -30,7 +30,7 @@ public class IntakeCommand  extends Command{
         //     : intakeSubsystem.getOutput()
         // );
 
-        intakeSubsystem.setPower(0.1);
+        intakeSubsystem.setPower(0.4);
     }
 
     @Override

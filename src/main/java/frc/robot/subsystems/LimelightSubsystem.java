@@ -5,6 +5,7 @@ import java.nio.channels.Pipe;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,13 +24,13 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public LimelightSubsystem () {
-        networkTable = NetworkTableInstance.getDefault().getTable("hotspot");
+        networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         setPipeline(Pipeline.DRIVER_VIEW);
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
     }
 
     public void setPipeline(Pipeline pipeline) {
-        networkTable.getEntry("hotspot").setValue(pipeline.PipelineID);
+        networkTable.getEntry("Pipeline").setValue(pipeline.PipelineID);
     }
 
     // public Pose2d getbotPose2d(){
