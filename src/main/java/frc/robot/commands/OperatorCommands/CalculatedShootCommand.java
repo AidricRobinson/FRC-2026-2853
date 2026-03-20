@@ -37,12 +37,12 @@ public class CalculatedShootCommand extends Command{
         timer.start();
         if (swerve.getPoseR() >= 1.75) {
             shooterSubsystem.setPoint(shooterSubsystem.calculateDistanceRPM(swerve.getPoseR()));
-            hoodSubsystem.setPoint(AutoConstants.kNormalShootingAngle);
+            hoodSubsystem.setPoint(AutoConstants.kHoodFarArcAngle);
             far = true;
         }
         else if (swerve.getPoseR() < 1.75) {
             shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
-            hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
+            hoodSubsystem.setPoint(AutoConstants.kHoodHighArcAngle);
             close = true;
         }
         indexorSubsystem.setPoint(3000);
@@ -69,7 +69,7 @@ public class CalculatedShootCommand extends Command{
         );
 
         hoodSubsystem.setPower(
-            hoodSubsystem.getOutput()
+            hoodSubsystem.getDownOutput()
         );
         
         if (timer.get() >= 2) {

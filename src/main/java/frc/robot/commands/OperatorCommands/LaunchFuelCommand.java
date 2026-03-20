@@ -14,27 +14,22 @@ public class LaunchFuelCommand extends Command{
     private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
-    private Timer timer;
 
-    public LaunchFuelCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
+    public LaunchFuelCommand (ShooterSubsystem shooterSubsystem, HoodSubsystem hoodSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
-        this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
         
-        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
-        timer.start();
-        shooterSubsystem.setPoint(4500);
-        indexorSubsystem.setPoint(3000);
-        hoodSubsystem.setPoint(AutoConstants.kLaunchShootingAngle);
+        shooterSubsystem.setPoint(750);
+        hoodSubsystem.setPoint(AutoConstants.kHoodLaunchAngle);
     }
     @Override
     public void execute() {
         shooterSubsystem.updateError();
-        indexorSubsystem.updateError();
         hoodSubsystem.updateError();
 
         shooterSubsystem.setPower(
@@ -44,30 +39,21 @@ public class LaunchFuelCommand extends Command{
         );
 
         hoodSubsystem.setPower(
-            hoodSubsystem.getOutput()
+            hoodSubsystem.getUpOutput()
         );
         
-        if (timer.get() >= 1.5) {
-            
-            indexorSubsystem.setPower(
-                indexorSubsystem.getOutput() > 1 ? 1
-                : indexorSubsystem.getOutput() < 0 ? 0
-                : indexorSubsystem.getOutput()
-            );
-        }
+  
     }
     @Override
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
-        indexorSubsystem.shutdown();
         hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();
-        indexorSubsystem.reset();
         hoodSubsystem.resetPID();
     }
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(YuanConstants.BT_C);
+        return !controller.getRawButton(YuanConstants.BT_A);
     }
 }

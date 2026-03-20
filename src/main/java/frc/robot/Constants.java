@@ -44,12 +44,19 @@ public final class Constants {
   }
 
   public static class pidConstants { 
+<<<<<<< HEAD
     public static final PIDController shooterPID = new PIDController(0, 0, 0); // 0.000075, 0.000025, 1
+=======
+    public static final PIDController shooterPID = new PIDController(0.0001, 0.000025, 0); // 0.000075, 0.000025, 1
+
+>>>>>>> fba43e2a018084cf4184cf9ad284213977c9441e
     public static final PIDController storagePID = new PIDController(0.00005,0.000275,10);
     public static final PIDController pivotPID = new PIDController(0, 0, 0);
-    public static final PIDController intakePID = new PIDController(0, 0, 0);
-    public static final PIDController indexorPID = new PIDController(0.00005,0.0001,10);
-    public static final PIDController hoodPID = new PIDController(0, 0, 0);
+    public static final PIDController intakePID = new PIDController(0.00005, 0.0002, 0);
+    public static final PIDController indexorPID = new PIDController(0.000075, 0.0003, 0); // 0.0001 , 10
+    public static final PIDController hoodDownPID = new PIDController(0.325, 0, 0);
+    public static final PIDController hoodUpPID = new PIDController(.4,0, 0);
+
   }
 
   public static class PortConstants {
@@ -69,12 +76,11 @@ public final class Constants {
     public static final int rightPivotPort = 14; 
     public static final int hoodMotor = 15;
     public static final int hangMotorPort = 16;
-    public static final int hangPivot1Port = 17;
-    public static final int hangPivot2Port = 18
+
     ;
     
 
-    public static final int pivotAboluteEncoderPort = 123; // placeholder
+    public static final int pivotAboluteEncoderPort = 1; // placeholder
 
   }
   public static class ShooterConstants {
@@ -360,13 +366,14 @@ public final class Constants {
   
   
   public static class AutoConstants {
-    public static final double kPivotUpPosition =  1; // placeholder
-    public static final double kPivotDownPosition = 0; // placeholder
+    public static final double kPivotUpPosition =  0.2; // placeholder
+    public static final double kPivotDownPosition = 0.68; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
-    public static final double kSteepShootingAngle = 0; // Placeholder
-    public static final double kLaunchShootingAngle = 0; //Placeholder
-    public static final double kNormalShootingAngle = 0; //  Placeholdr
+    public static final double kHoodHighArcAngle = 0.009; // Placeholder // 0.009
+    public static final double kHoodFarArcAngle = 0.4; // Placeholder
+    public static final double kHoodLaunchAngle = 0.73; // 0.73
+    public static final double kHoodTolerance = 0.1; // placeholder
 
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;
@@ -436,8 +443,8 @@ public final class Constants {
   }
 
   public static class LimelightConstants {
-    public static final double kLeftAlignOffset = 14.49; //Testing
-    public static final double kRightAlignOffset = 0; //Testing
+    public static final double kAlignOffset = -10.22; //Testing
+    // public static final double kRightAlignOffset = 0; //Testing
 
     public static enum VisionConstants {
       LEFTCORAL,

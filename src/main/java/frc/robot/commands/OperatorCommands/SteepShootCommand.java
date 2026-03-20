@@ -14,33 +14,28 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SteepShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
     private ShooterSubsystem shooterSubsystem;
-    private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
-    private Timer timer;
 
-    public SteepShootCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
+    public SteepShootCommand (ShooterSubsystem shooterSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
-        this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
         this.controller = controller;
         
-        addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
+        addRequirements(shooterSubsystem, hoodSubsystem);
     }
     @Override
     public void initialize() {
-        timer.start();
-        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
-        indexorSubsystem.setPoint(3000);
-        hoodSubsystem.setPoint(AutoConstants.kSteepShootingAngle);
+        // shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        hoodSubsystem.setPoint(AutoConstants.kHoodHighArcAngle);
     }
     @Override
     public void execute() {
         shooterSubsystem.updateError();
-        indexorSubsystem.updateError();
         hoodSubsystem.updateError();
 
-        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        // shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
+        shooterSubsystem.setPoint(1000);
 
         shooterSubsystem.setPower(
             shooterSubsystem.getOutput() > 1 ? 1
@@ -49,30 +44,21 @@ public class SteepShootCommand extends Command{
         );
 
         hoodSubsystem.setPower(
-            hoodSubsystem.getOutput()
+            hoodSubsystem.getDownOutput()
         );
         
-        if (timer.get() >= 2) {
-            
-            indexorSubsystem.setPower(
-                indexorSubsystem.getOutput() > 1 ? 1
-                : indexorSubsystem.getOutput() < 0 ? 0
-                : indexorSubsystem.getOutput()
-            );
-        }
+        
     }
     @Override
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
-        indexorSubsystem.shutdown();
         hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();
-        indexorSubsystem.reset();
         hoodSubsystem.resetPID();
     }
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(YuanConstants.SideTop);
+        return !controller.getRawButton(YuanConstants.BT_C);
     }
 }

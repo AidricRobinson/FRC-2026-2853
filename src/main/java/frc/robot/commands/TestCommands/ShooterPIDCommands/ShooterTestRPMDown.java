@@ -1,28 +1,28 @@
 
-package frc.robot.commands.TestCommands.PivotTestCommands;
+package frc.robot.commands.TestCommands.ShooterPIDCommands;
 
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.subsystems.PivotSubsystem;
 
-public class PivotTestSpeedDown extends Command {
+public class ShooterTestRPMDown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final PivotSubsystem pivotSubsystem;
+  private final ShooterSubsystem m_ShooterSubsystem;
   private GenericHID controller;
 
    
-  public PivotTestSpeedDown(PivotSubsystem pivotSubsystem, GenericHID m_controller) {
-    this.pivotSubsystem = pivotSubsystem;
+  public ShooterTestRPMDown(ShooterSubsystem shooterSubsystem, GenericHID m_controller) {
+    m_ShooterSubsystem = shooterSubsystem;
     controller = m_controller;
    
-    addRequirements(pivotSubsystem);
+    addRequirements(shooterSubsystem);
   }
 
 
   @Override
   public void initialize() {
-    pivotSubsystem.decreaseOutput();
+    m_ShooterSubsystem.shooterTestRPMDown();
   }
 
   @Override

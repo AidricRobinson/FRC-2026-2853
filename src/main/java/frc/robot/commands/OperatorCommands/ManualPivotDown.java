@@ -1,15 +1,22 @@
 package frc.robot.commands.OperatorCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.Constants.YuanConstants;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class ManualPivotDown extends Command{
 private PivotSubsystem pivotSubsystem;
+private IntakeSubsystem intakeSubsystem;
 private GenericHID controller;
-public ManualPivotDown(PivotSubsystem pivotSubsystem, GenericHID m_controller){
+public ManualPivotDown(PivotSubsystem pivotSubsystem, IntakeSubsystem intakeSubsystem, GenericHID controller){
     this.pivotSubsystem = pivotSubsystem;
-    m_controller = controller; 
+    this.intakeSubsystem = intakeSubsystem;
+    this.controller = controller; 
+
+    addRequirements(pivotSubsystem, intakeSubsystem);
 }
 @Override
 public void initialize(){
@@ -17,15 +24,17 @@ public void initialize(){
 }
 @Override
 public void execute(){
-    pivotSubsystem.setPower(-.025);
+    pivotSubsystem.setPower(-.2);
+    intakeSubsystem.setPower(-0.2);
 }
 @Override
 public void end(boolean interrupted){
     pivotSubsystem.shutdown();
+    intakeSubsystem.shutdown();
 }
 @Override
 public boolean isFinished(){
-    // return !controller.getRawButton(YuanConstants.BottomRight);
-    return !controller.getRawButton(GamepadConstants.kXButtonPort);
+    return !controller.getRawButton(YuanConstants.BottomRight) || pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition;
+    // return !controller.getRawButton(GamepadConstants.kLeftBumperPort) || pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition;
 }
 }

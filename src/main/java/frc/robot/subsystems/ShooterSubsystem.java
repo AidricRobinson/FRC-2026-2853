@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -12,6 +13,7 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private PIDController pidController;
   private SparkFlexConfig leftConfig;
   private SparkFlexConfig rightConfig;
-
+  double testRPM = 0;
   double testSpeed = 0;
 
   private double setPoint;
@@ -36,14 +38,20 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     leftFlywheel = new SparkFlex(PortConstants.leftFlywheelPort, MotorType.kBrushless);
     rightFlywheel = new SparkFlex(PortConstants.rightFlywheelPort, MotorType.kBrushless);
-
+    
     leftConfig = new SparkFlexConfig();
     rightConfig = new SparkFlexConfig();
+
+    
+
 
     pidController = pidConstants.shooterPID;
 
     leftConfig.inverted(false).idleMode(IdleMode.kCoast);
     rightConfig.inverted(true).idleMode(IdleMode.kCoast);
+
+    leftFlywheel.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    rightFlywheel.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   public double calculateSteepRPM(double tA) {
     return ((ShooterConstants.steepA * Math.pow(tA, 2))
@@ -66,16 +74,32 @@ public class ShooterSubsystem extends SubsystemBase {
     rightFlywheel.set(power);
   }
   public void shooterTestSpeedUp(){
-    testSpeed += 250;
+    testSpeed += 0.1;
   }
   public void shooterTestSpeedDown(){
-    testSpeed -= 50;
+    testSpeed -= 0.05;
   }
-  public double getTestRPM() {
+  public double getTestSpeed() {
     return testSpeed;
   }
+
+
+  //RPM STUFF
+
+  public void shooterTestRPMShutdown(){
+    testRPM = 0;
+  }
+  public void shooterTestRPMUp(){
+    testRPM += 250;
+  }
+  public void shooterTestRPMDown(){
+    testRPM -= 50;
+  }
+  public double getTestRPM() {
+    return testRPM;
+  }
   public void shooterTestSpeedShutdown(){
-    testSpeed = 0;
+    testRPM = 0;
   }
 
   public double getRPM() {
@@ -99,13 +123,13 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Shooter Test Speed", testSpeed);
+    SmartDashboard.putNumber("Shooter Test RPM", testRPM);
     SmartDashboard.putNumber("Shooter RPM", getRPM());
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Error", getError());
     SmartDashboard.putNumber("Derivative", pidController.getD());
     SmartDashboard.updateValues();
   }
-
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
