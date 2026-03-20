@@ -16,9 +16,9 @@ import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
 import frc.robot.commands.OperatorCommands.SteepShootCommand;
-import frc.robot.commands.SwerveCommands.AlignBackwardCommand;
-import frc.robot.commands.SwerveCommands.AlignHubCommand;
-import frc.robot.commands.SwerveCommands.SwerveSlowModeCommand;
+import frc.robot.commands.VisionCommands.AlignBackwardCommand;
+import frc.robot.commands.VisionCommands.AlignHubCommand;
+import frc.robot.commands.TeleOpCommands.SwerveSlowModeCommand;
 // import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
 import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodDownCommand;
@@ -165,10 +165,10 @@ public class RobotContainer {
     ///                             PRIMARY CONTROLLER SCHEME                            ///
     ////////////////////////////////////////////////////////////////////////////////////////
     
-    // new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
-    //         .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
+    new JoystickButton(controller0, GamepadConstants.kRightBumperPort)
+            .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
-            .onTrue(new AlignHubCommand(drivetrain, m_LimelightSubsystem));
+            .onTrue(new AlignHubCommand(joystick, drivetrain, m_LimelightSubsystem, controller0));
     // new Trigger(() -> controller0.getRawAxis(GamepadConstants.kLeftTriggerPort) >= 0.25)
     //     .onTrue(new AlignBackwardCommand(drivetrain));
 
@@ -246,11 +246,11 @@ public class RobotContainer {
     // new POVButton(controller0, GamepadConstants.kDpadDown)
     //     .onTrue(new IntakeTestRPMDown(m_IntakeSubsystem, controller0));
         
-        //INDEXOR TESTING
-    new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
-        .onTrue(new IndexorPID(m_IndexorSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
-        .onTrue(new IntakePID(m_IntakeSubsystem, controller1));
+    //     //INDEXOR TESTING
+    // new JoystickButton(controller1, GamepadConstants.kRightBumperPort)
+    //     .onTrue(new IndexorPID(m_IndexorSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kLeftBumperPort)
+    //     .onTrue(new IntakePID(m_IntakeSubsystem, controller1));
     // new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
     //     .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, controller0));
 

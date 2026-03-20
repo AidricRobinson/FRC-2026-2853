@@ -11,7 +11,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class LaunchFuelCommand extends Command{
     private ShooterSubsystem shooterSubsystem;
-    private IndexorSubsystem indexorSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
 
@@ -24,7 +23,7 @@ public class LaunchFuelCommand extends Command{
     }
     @Override
     public void initialize() {
-        shooterSubsystem.setPoint(750);
+        shooterSubsystem.setPoint(3000);
         hoodSubsystem.setPoint(AutoConstants.kHoodLaunchAngle);
     }
     @Override

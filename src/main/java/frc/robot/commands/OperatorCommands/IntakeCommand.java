@@ -23,14 +23,12 @@ public class IntakeCommand  extends Command{
 
     @Override
     public void execute(){
-        // intakeSubsystem.updateError();
-        // intakeSubsystem.setPower(
-        //     intakeSubsystem.getOutput() > 1 ? 1
-        //     : intakeSubsystem.getOutput() < 0 ? 0
-        //     : intakeSubsystem.getOutput()
-        // );
-
-        intakeSubsystem.setPower(0.4);
+          intakeSubsystem.updateError();
+        intakeSubsystem.setPower(
+            intakeSubsystem.getOutput() > 1 ? 1
+            : intakeSubsystem.getOutput() < 0 ? 0
+            : intakeSubsystem.getOutput()
+        );
     }
 
     @Override

@@ -24,6 +24,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public LimelightSubsystem () {
+        NetworkTableInstance.getDefault().setServer("172.28.0.1");
         networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         setPipeline(Pipeline.DRIVER_VIEW);
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);

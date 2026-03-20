@@ -332,7 +332,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.updateValues();
     }
      public static void setSlowMode() {
-        maxSpeedThingy = 0.5;
+        maxSpeedThingy = 0.01;
     }
     public static void setNormalSpeed() {
         maxSpeedThingy = 1;

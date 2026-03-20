@@ -13,6 +13,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class SteepShootCommand extends Command{
     private CommandSwerveDrivetrain swerve;
+    private LimelightSubsystem limelightSubsystem;
     private ShooterSubsystem shooterSubsystem;
     private HoodSubsystem hoodSubsystem;
     private GenericHID controller;
@@ -20,6 +21,7 @@ public class SteepShootCommand extends Command{
     public SteepShootCommand (ShooterSubsystem shooterSubsystem, HoodSubsystem hoodSubsystem, LimelightSubsystem limelightSubsystem, GenericHID controller) {
         this.shooterSubsystem = shooterSubsystem;
         this.hoodSubsystem = hoodSubsystem;
+        this.limelightSubsystem = limelightSubsystem;
         this.controller = controller;
         
         addRequirements(shooterSubsystem, hoodSubsystem);
@@ -27,15 +29,12 @@ public class SteepShootCommand extends Command{
     @Override
     public void initialize() {
         // shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
-        hoodSubsystem.setPoint(AutoConstants.kHoodHighArcAngle);
     }
     @Override
     public void execute() {
         shooterSubsystem.updateError();
-        hoodSubsystem.updateError();
 
-        // shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(swerve.getPoseR()));
-        shooterSubsystem.setPoint(1000);
+        shooterSubsystem.setPoint(shooterSubsystem.calculateSteepRPM(limelightSubsystem.getTa()));
 
         shooterSubsystem.setPower(
             shooterSubsystem.getOutput() > 1 ? 1
@@ -43,19 +42,15 @@ public class SteepShootCommand extends Command{
             : shooterSubsystem.getOutput()
         );
 
-        hoodSubsystem.setPower(
-            hoodSubsystem.getDownOutput()
-        );
+   
         
         
     }
     @Override
     public void end (boolean interrupted) {
         shooterSubsystem.shutdown();
-        hoodSubsystem.shutdown();
 
         shooterSubsystem.resetPID();
-        hoodSubsystem.resetPID();
     }
     @Override
     public boolean isFinished() {

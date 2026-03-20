@@ -80,9 +80,9 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double steepA = -1445;
-    public static final double steepB = 6308;
-    public static final double steepC = -2606;
+    public static final double steepA = 121;
+    public static final double steepB = -912;
+    public static final double steepC = 2768;
 
     public static final double distanceA = 0;
     public static final double distanceB = 0;
@@ -362,8 +362,8 @@ public final class Constants {
   
   
   public static class AutoConstants {
-    public static final double kPivotUpPosition =  0.2; // placeholder
-    public static final double kPivotDownPosition = 0.68; // placeholder
+    public static final double kPivotUpPosition =  0.8; // placeholder
+    public static final double kPivotDownPosition = 1.3; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
     public static final double kHoodHighArcAngle = 0.009; // Placeholder // 0.009
@@ -439,7 +439,7 @@ public final class Constants {
   }
 
   public static class LimelightConstants {
-    public static final double kAlignOffset = -10.22; //Testing
+    public static final double kAlignOffset = 10.22; //Testing
     // public static final double kRightAlignOffset = 0; //Testing
 
     public static enum VisionConstants {

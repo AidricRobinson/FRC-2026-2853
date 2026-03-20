@@ -1,4 +1,4 @@
-package frc.robot.commands.SwerveCommands;
+package frc.robot.commands.VisionCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +19,7 @@ public class AlignBackwardCommand extends Command {
 
     public AlignBackwardCommand (CommandSwerveDrivetrain swerve) {
         this.swerve = swerve;
-        pidController = new PIDController(0.01, 0.00000001,0);
+        pidController = new PIDController(4, 5,0.1);
 
         output = 0;
     }
