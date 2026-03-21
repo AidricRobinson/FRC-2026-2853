@@ -29,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
+                  "name": "RunIntake"
                 }
               }
             ]
@@ -38,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "4000RPM Shoot Command"
+            "name": "AutoScore"
           }
         }
       ]

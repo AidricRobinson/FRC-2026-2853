@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
+                  "name": "RunIntake"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "5000RPM Shoot Command"
+            "name": "AutoScore"
           }
         },
         {

@@ -30,17 +30,22 @@ public class AutoShootCommand extends Command {
 
       shooterSubsystem.setPoint(setPoint);
   
-      indexorSubsystem.setPoint(3000); // placeholder
+      indexorSubsystem.setPoint(4000); // placeholder
   }
 
   @Override
   public void execute() {
       shooterSubsystem.setPower(
-          shooterSubsystem.getOutput()
-      );
+            shooterSubsystem.getOutput() > 1 ? 1
+            : shooterSubsystem.getOutput() < 0 ? 0
+            : shooterSubsystem.getOutput()
+        );
       if(timer.get() >= 1){
+          indexorSubsystem.updateError();
           indexorSubsystem.setPower(
-          indexorSubsystem.getOutput()
+            indexorSubsystem.getOutput() > 1 ? 1
+            : indexorSubsystem.getOutput() < 0 ? 0
+            : indexorSubsystem.getOutput()
           );
       }
   }
@@ -48,7 +53,9 @@ public class AutoShootCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.shutdown();
+    shooterSubsystem.resetPID();
     indexorSubsystem.shutdown();
+    indexorSubsystem.reset();
     timer.stop();
     timer.reset();
   }

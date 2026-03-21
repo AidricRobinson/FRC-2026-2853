@@ -7,6 +7,8 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.commands.AutomaticCommands.AutoIntakeCommand;
+import frc.robot.commands.AutomaticCommands.AutoScoreCommand;
 import frc.robot.commands.AutomaticCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
 // import frc.robot.commands.AutonomousCommands.*;
@@ -117,8 +119,9 @@ public class RobotContainer {
     private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 4000);
     private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 5000);
     // private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
+    private final AutoScoreCommand autoScoreCommand = new AutoScoreCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_LimelightSubsystem);
     private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
-
+    private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem, m_PivotSubsystem, 3);
 
     //controllers
     private final GenericHID controller0 = new GenericHID(0);
@@ -155,10 +158,12 @@ public class RobotContainer {
     
     //Autonomous booting up
     NamedCommands.registerCommand("3000RPM", autoShootCommand3000RPM);
+    NamedCommands.registerCommand("AutoScore", autoScoreCommand);
     // NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     // NamedCommands.registerCommand("3000RPM Shoot Command",  autoShootCommand5000RPM);
     // NamedCommands.registerCommand("Run Intake", new AutoIntakeCommand(m_IntakeSubsystem));
-    // NamedCommands.registerCommand("PivotDown", autoPivotDown);
+    NamedCommands.registerCommand("PivotDown", autoPivotDown);
+    NamedCommands.registerCommand("RunIntake", autoIntakeCommand);
     
     autoChooser = AutoBuilder.buildAutoChooser("TestAutoShoot");
         SmartDashboard.putData("Auto Mode", autoChooser);

@@ -22,12 +22,12 @@ public class IntakeCommand  extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.setPoint(2750);
+        intakeSubsystem.setPoint(4000);
     }
 
     @Override
     public void execute(){
-          intakeSubsystem.updateError();
+        intakeSubsystem.updateError();
         intakeSubsystem.setPower(
             intakeSubsystem.getOutput() > 1 ? 1
             : intakeSubsystem.getOutput() < 0 ? 0
