@@ -8,7 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutomaticCommands.AutoShootCommand;
-
+import frc.robot.commands.OperatorCommands.AutoPivotDown;
 // import frc.robot.commands.AutonomousCommands.*;
 // import frc.robot.commands.OperatorCommands.AutoPivotDown;
 // import frc.robot.commands.OperatorCommands.AutoPivotUp;
@@ -117,7 +117,7 @@ public class RobotContainer {
     private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 4000);
     private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 5000);
     // private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
-    // private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
+    private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
 
     //controllers
