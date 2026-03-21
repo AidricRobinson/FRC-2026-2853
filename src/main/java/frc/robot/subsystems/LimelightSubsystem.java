@@ -24,7 +24,6 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public LimelightSubsystem () {
-        NetworkTableInstance.getDefault().setServer("172.28.0.1");
         networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         setPipeline(Pipeline.DRIVER_VIEW);
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
@@ -36,6 +35,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // public Pose2d getbotPose2d(){
     //     return networkTable.getEntry("botpose");
+    // }
+
+    // public NetworkTableEntry getID(int id) {
+    //     return networkTable.
     // }
     
     public double getTx() {

@@ -54,7 +54,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
+    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
@@ -66,7 +66,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-        private static double maxSpeedThingy = 1;
+        private static double maxSpeedThingy = 0.8;
     private final Field2d field2d = new Field2d();
 
 
@@ -332,10 +332,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.updateValues();
     }
      public static void setSlowMode() {
-        maxSpeedThingy = 0.01;
+        maxSpeedThingy = 0.3;
+    
     }
     public static void setNormalSpeed() {
-        maxSpeedThingy = 1;
+        maxSpeedThingy = 0.8;
     }
     public static double getMaxSpeedThingy() {
         return maxSpeedThingy;

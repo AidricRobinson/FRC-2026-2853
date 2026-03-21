@@ -3,7 +3,9 @@ package frc.robot.commands.VisionCommands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.GamepadConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class AlignForwardCommand extends Command {
@@ -16,11 +18,12 @@ public class AlignForwardCommand extends Command {
     // private double currentAngle;
     // private double translationalSpeed;
     private double output;
+    private GenericHID controller;
 
-    public AlignForwardCommand (CommandSwerveDrivetrain swerve) {
+    public AlignForwardCommand (CommandSwerveDrivetrain swerve, GenericHID controller) {
         this.swerve = swerve;
         pidController = new PIDController(4, 5,0.1);
-
+        this.controller = controller;
         output = 0;
     }
 
@@ -51,6 +54,6 @@ public class AlignForwardCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(pidController.getError()) < 5;
+        return Math.abs(pidController.getError()) < 0.5 || !controller.getRawButton(GamepadConstants.kBButtonPort);
     }
 }

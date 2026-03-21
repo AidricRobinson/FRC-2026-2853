@@ -23,7 +23,7 @@ public class LaunchFuelCommand extends Command{
     }
     @Override
     public void initialize() {
-        shooterSubsystem.setPoint(3000);
+        shooterSubsystem.setPoint(3500);
         hoodSubsystem.setPoint(AutoConstants.kHoodLaunchAngle);
     }
     @Override
@@ -53,6 +53,6 @@ public class LaunchFuelCommand extends Command{
     }
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(YuanConstants.BT_A);
+        return !controller.getRawButton(YuanConstants.BT_C);
     }
 }

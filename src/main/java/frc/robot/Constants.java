@@ -80,9 +80,9 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double steepA = 121;
-    public static final double steepB = -912;
-    public static final double steepC = 2768;
+    public static final double steepA = 691;
+    public static final double steepB = -1776;
+    public static final double steepC = 3066;
 
     public static final double distanceA = 0;
     public static final double distanceB = 0;
@@ -362,8 +362,9 @@ public final class Constants {
   
   
   public static class AutoConstants {
-    public static final double kPivotUpPosition =  0.8; // placeholder
-    public static final double kPivotDownPosition = 1.3; // placeholder
+    public static final double kPivotUpPosition =  0.52; // placeholder
+    public static final double kPivotMiddle = 0.7;
+    public static final double kPivotDownPosition = 1.05; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
 
     public static final double kHoodHighArcAngle = 0.009; // Placeholder // 0.009

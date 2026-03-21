@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Move"
+            "pathName": "Middle Back"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "3000RPM"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }

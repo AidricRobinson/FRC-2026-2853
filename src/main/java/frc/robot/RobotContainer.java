@@ -7,16 +7,20 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.GamepadConstants;
+import frc.robot.commands.AutomaticCommands.AutoShootCommand;
+
 // import frc.robot.commands.AutonomousCommands.*;
-import frc.robot.commands.OperatorCommands.AutoPivotDown;
-import frc.robot.commands.OperatorCommands.AutoPivotUp;
+// import frc.robot.commands.OperatorCommands.AutoPivotDown;
+// import frc.robot.commands.OperatorCommands.AutoPivotUp;
 // import frc.robot.commands.OperatorCommands.DistanceShootCommand;
 import frc.robot.commands.OperatorCommands.IntakeCommand;
 import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
+import frc.robot.commands.OperatorCommands.SlowPivotUp;
 import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.VisionCommands.AlignBackwardCommand;
+import frc.robot.commands.VisionCommands.AlignForwardCommand;
 import frc.robot.commands.VisionCommands.AlignHubCommand;
 import frc.robot.commands.TeleOpCommands.SwerveSlowModeCommand;
 // import frc.robot.commands.OperatorCommands.SteepShootCommand;
@@ -47,8 +51,11 @@ import frc.robot.commands.TestCommands.ShooterTestCommands.*;
 import frc.robot.subsystems.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -89,6 +96,7 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final SendableChooser<Command> autoChooser;
+    private Timer timer;
     
     
     //Subsystems
@@ -103,10 +111,11 @@ public class RobotContainer {
     private final Vision vision = new Vision(drivetrain);
 
 
+
     //Auto commands
-    // private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 3000);
-    // private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 4000);
-    // private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 7, 5000);
+    private final AutoShootCommand autoShootCommand3000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 2250);
+    private final AutoShootCommand autoShootCommand4000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 4000);
+    private final AutoShootCommand autoShootCommand5000RPM = new AutoShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, 5, 5000);
     // private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem);
     // private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
 
@@ -124,6 +133,8 @@ public class RobotContainer {
 
 
   public RobotContainer() {
+    timer = new Timer();
+
     //////////////////////////////////////////////////////////////////////////////////////////
     ///                            SECONDARY DRIVER                                        ///
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -143,13 +154,13 @@ public class RobotContainer {
 
     
     //Autonomous booting up
-    // NamedCommands.registerCommand("5000RPM Shoot Command", autoShootCommand3000RPM);
+    NamedCommands.registerCommand("3000RPM", autoShootCommand3000RPM);
     // NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     // NamedCommands.registerCommand("3000RPM Shoot Command",  autoShootCommand5000RPM);
     // NamedCommands.registerCommand("Run Intake", new AutoIntakeCommand(m_IntakeSubsystem));
     // NamedCommands.registerCommand("PivotDown", autoPivotDown);
     
-    autoChooser = AutoBuilder.buildAutoChooser("TestAuto.auto");
+    autoChooser = AutoBuilder.buildAutoChooser("TestAutoShoot");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
 
@@ -169,21 +180,23 @@ public class RobotContainer {
             .onTrue(new SwerveSlowModeCommand(drivetrain, controller0));
     new JoystickButton(controller0, GamepadConstants.kLeftBumperPort)
             .onTrue(new AlignHubCommand(joystick, drivetrain, m_LimelightSubsystem, controller0));
-    // new Trigger(() -> controller0.getRawAxis(GamepadConstants.kLeftTriggerPort) >= 0.25)
-    //     .onTrue(new AlignBackwardCommand(drivetrain));
+    // new JoystickButton(controller0, GamepadConstants.kAButtonPort)
+    //     .onTrue(new AlignBackwardCommand(drivetrain, controller0));
+    // new JoystickButton(controller0, GamepadConstants.kBButtonPort)
+    //     .onTrue(new AlignForwardCommand(drivetrain, controller0));
 
 
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                            SECONDARY CONTROLLER SCHEME                           ///
     ////////////////////////////////////////////////////////////////////////////////////////
     /// 
-    new JoystickButton(YuanCon, YuanConstants.BT_A)
+    new JoystickButton(YuanCon, YuanConstants.BT_C)
         .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_HoodSubsystem, YuanCon)
         .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
         
     new JoystickButton(YuanCon, YuanConstants.BT_B)
-        .onTrue(new IntakeCommand(m_IntakeSubsystem, YuanCon));
-    new JoystickButton(YuanCon, YuanConstants.BT_C)
+        .onTrue(new IntakeCommand(m_IntakeSubsystem, m_PivotSubsystem, YuanCon));
+    new JoystickButton(YuanCon, YuanConstants.BT_A)
         .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
         .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
     //  new JoystickButton(YuanCon, YuanConstants.BT_D)
@@ -197,6 +210,8 @@ public class RobotContainer {
         .onTrue(new IndexorForwardCommand(m_IndexorSubsystem, YuanCon));
     new JoystickButton(YuanCon, YuanConstants.SideBottom)
         .onTrue(new IndexorBackwardCommand(m_IndexorSubsystem, YuanCon));
+    new JoystickButton(YuanCon, YuanConstants.BlueDiamond)
+        .onTrue(new SlowPivotUp(m_PivotSubsystem, YuanCon));
    
     ////////////////////////////////////////////////////////////////////////////////////////
     ///                                TEST COMMANDS                                     ///
@@ -304,7 +319,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-joystick.getLeftY() * (CommandSwerveDrivetrain.getMaxSpeedThingy() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))) // Drive forward with negative Y (forward)
                     .withVelocityY(-joystick.getLeftX() *  (CommandSwerveDrivetrain.getMaxSpeedThingy() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate * CommandSwerveDrivetrain.getMaxSpeedThingy()) // Drive counterclockwise with negative X (left)
             )
         );
         // Idle while the robot is disabled. This ensures the configured
@@ -338,6 +353,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        // return autoChooser.getSelected();
+        return new PathPlannerAuto("TestAutoShoot");
   }
 }

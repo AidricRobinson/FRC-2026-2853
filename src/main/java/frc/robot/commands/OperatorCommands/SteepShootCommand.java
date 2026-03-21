@@ -54,6 +54,6 @@ public class SteepShootCommand extends Command{
     }
     @Override
     public boolean isFinished() {
-        return !controller.getRawButton(YuanConstants.BT_C);
+        return !controller.getRawButton(YuanConstants.BT_A);
     }
 }
