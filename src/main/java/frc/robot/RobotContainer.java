@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutomaticCommands.AutoIntakeCommand;
 import frc.robot.commands.AutomaticCommands.AutoScoreCommand;
@@ -55,6 +56,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -358,7 +362,23 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
+        String autoName = "ScoreMiddle";
+        if (autoName.equals("LeftIntakeAndDepot") || autoName.equals("LeftTwoCycle")) {
+            drivetrain.resetPose(AutoConstants.leftAutoPose);
+        }
+        if (autoName.equals("CenterDepotScore") || autoName.equals("ScoreMiddle")) {
+            drivetrain.resetPose(AutoConstants.middleAutoPose);
+        }
+        if (autoName.equals("RightTwoCycle")) {
+            drivetrain.resetPose(AutoConstants.rightAutoPose);
+        }
         // return autoChooser.getSelected();
-        return new PathPlannerAuto("TestAutoShoot");
+        return new PathPlannerAuto(autoName);
+        /// CenterDepotScore
+        /// LeftTwoCycle
+        /// TestAutoShoot
+        /// LeftIntakeAndDepot
+        /// RightTwoCycle
+        
   }
 }

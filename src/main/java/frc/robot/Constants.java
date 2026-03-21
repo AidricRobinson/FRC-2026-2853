@@ -15,6 +15,8 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -371,6 +373,12 @@ public final class Constants {
     public static final double kHoodFarArcAngle = 0.4; // Placeholder
     public static final double kHoodLaunchAngle = 0.73; // 0.73
     public static final double kHoodTolerance = 0.1; // placeholder
+    public static final Rotation2d autoRotation = new Rotation2d(0);
+    public static final Pose2d leftAutoPose = new Pose2d(4.479, 7.393, autoRotation);
+    public static final Pose2d middleAutoPose = new Pose2d(3.5, 4.0, autoRotation);
+    public static final Pose2d rightAutoPose = new Pose2d(4.466, 0.626, autoRotation);
+
+
 
     //auto constraints 
     public static final double kAutoDriveMaxMetersPerSecond = 3;
