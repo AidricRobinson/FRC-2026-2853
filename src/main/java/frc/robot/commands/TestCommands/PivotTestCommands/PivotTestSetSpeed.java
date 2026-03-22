@@ -26,7 +26,7 @@ public PivotTestSetSpeed(PivotSubsystem pivotSubsystem, GenericHID m_controller)
 
   @Override
   public void execute() {
-    pivotSubsystem.setTestOutput();
+    pivotSubsystem.setRightPivotPower(pivotSubsystem.getTestOutput());
   }
 
   @Override

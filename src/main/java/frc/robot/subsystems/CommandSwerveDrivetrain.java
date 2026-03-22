@@ -66,7 +66,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-        private static double maxSpeedThingy = 0.8;
+        private static double maxSpeedThingy = 0.9;
     private final Field2d field2d = new Field2d();
 
 
@@ -240,7 +240,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                // () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red
+                () -> false,
                 this // Subsystem for requirements
             );
         } catch (Exception ex) {
@@ -313,6 +314,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         SmartDashboard.putNumber("YSpeed", getState().Speeds.vyMetersPerSecond);
         SmartDashboard.putNumber("XSpeed", getState().Speeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("RotationalSpeed", getState().Speeds.omegaRadiansPerSecond);
         field2d.setRobotPose(super.getState().Pose);
         SmartDashboard.putData("field", field2d);
         // SmartDashboard.putNumber("Module 0 - Rotation Speed", super.getModule(0).getSteerMotor().get());
@@ -332,11 +334,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.updateValues();
     }
      public static void setSlowMode() {
-        maxSpeedThingy = 0.3;
+        maxSpeedThingy = 0.4;
     
     }
     public static void setNormalSpeed() {
-        maxSpeedThingy = 0.8;
+        maxSpeedThingy = 0.9;
     }
     public static double getMaxSpeedThingy() {
         return maxSpeedThingy;

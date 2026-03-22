@@ -24,13 +24,13 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Intake Right"
+                  "pathName": "RightIntakeAndLaunch"
                 }
               },
               {
@@ -43,21 +43,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Intake to Score Right"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "AutoScore"
+            "name": "Launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Score Right to Intake"
+            "pathName": "RightLaunchToAlliance"
           }
         }
       ]

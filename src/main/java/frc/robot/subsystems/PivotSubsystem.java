@@ -52,6 +52,13 @@ public class PivotSubsystem extends SubsystemBase {
     public double getPivotEncoder() {
         return encoder.get();
     }
+    public void setLeftPivotPower(double power) {
+        leftPivot.set(power);
+    }
+    public void setRightPivotPower(double power) {
+        rightPivot.set(power);
+    }
+
     public void setPower(double power) {
         leftPivot.set(power);
         rightPivot.set(power);
@@ -59,6 +66,9 @@ public class PivotSubsystem extends SubsystemBase {
     public void shutdown() {
         leftPivot.set(0);
         rightPivot.set(0);
+    }
+    public double getCurrent() {
+        return rightPivot.getOutputCurrent();    
     }
 
     public void setTestOutput() {
@@ -105,7 +115,9 @@ public class PivotSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pivot Encoder", getPivotEncoder());
         SmartDashboard.putNumber("Pivot SetPoint", getSetPoint());
         SmartDashboard.putNumber("Pivot Error", getError());
+        SmartDashboard.putNumber("Pivot current", getCurrent());
         SmartDashboard.updateValues();
+        
     }
     
 }

@@ -24,17 +24,24 @@ public void initialize(){
 }
 @Override
 public void execute(){
-    pivotSubsystem.setPower(-.2);
-    intakeSubsystem.setPower(-0.2);
+    if (pivotSubsystem.getPivotEncoder() <= AutoConstants.kPivotDownPosition) {
+        pivotSubsystem.setPower(-.2);
+        intakeSubsystem.setPower(-0.2); 
+    }
+    if ((pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition)) {
+        pivotSubsystem.setRightPivotPower(-0.05);
+        pivotSubsystem.setLeftPivotPower(0);
+    }
+    
 }
 @Override
 public void end(boolean interrupted){
     pivotSubsystem.shutdown();
-    intakeSubsystem.shutdown();
+    intakeSubsystem.shutdown(); 
 }
 @Override
 public boolean isFinished(){
-    return !controller.getRawButton(YuanConstants.BottomRight) || pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition;
+    return !controller.getRawButton(YuanConstants.BottomRight) || ((pivotSubsystem.getCurrent() >= AutoConstants.kCurrentLimit) && (pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition)) ;
     // return !controller.getRawButton(GamepadConstants.kLeftBumperPort) || pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition;
 }
 }

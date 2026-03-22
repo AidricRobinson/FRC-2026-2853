@@ -9,9 +9,11 @@ import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
 import frc.robot.commands.AutomaticCommands.AutoIntakeCommand;
+import frc.robot.commands.AutomaticCommands.AutoLaunchCommand;
 import frc.robot.commands.AutomaticCommands.AutoScoreCommand;
 import frc.robot.commands.AutomaticCommands.AutoShootCommand;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
+import frc.robot.commands.OperatorCommands.FastIntakeCommand;
 // import frc.robot.commands.AutonomousCommands.*;
 // import frc.robot.commands.OperatorCommands.AutoPivotDown;
 // import frc.robot.commands.OperatorCommands.AutoPivotUp;
@@ -20,6 +22,7 @@ import frc.robot.commands.OperatorCommands.IntakeCommand;
 import frc.robot.commands.OperatorCommands.LaunchFuelCommand;
 import frc.robot.commands.OperatorCommands.ManualPivotDown;
 import frc.robot.commands.OperatorCommands.ManualPivotUp;
+import frc.robot.commands.OperatorCommands.ShootCloseCommand;
 import frc.robot.commands.OperatorCommands.SlowPivotUp;
 import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.VisionCommands.AlignBackwardCommand;
@@ -126,7 +129,7 @@ public class RobotContainer {
     private final AutoScoreCommand autoScoreCommand = new AutoScoreCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_LimelightSubsystem);
     private final AutoPivotDown autoPivotDown = new AutoPivotDown(m_PivotSubsystem);
     private final AutoIntakeCommand autoIntakeCommand = new AutoIntakeCommand(m_IntakeSubsystem, m_PivotSubsystem, 3);
-
+    private final AutoLaunchCommand autoLaunchCommand = new AutoLaunchCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem);
     //controllers
     private final GenericHID controller0 = new GenericHID(0);
     private final GenericHID controller1 = new GenericHID(1);
@@ -162,6 +165,7 @@ public class RobotContainer {
     
     //Autonomous booting up
     NamedCommands.registerCommand("3000RPM", autoShootCommand3000RPM);
+    NamedCommands.registerCommand("Launch", autoLaunchCommand);
     NamedCommands.registerCommand("AutoScore", autoScoreCommand);
     // NamedCommands.registerCommand("4000RPM Shoot Command", autoShootCommand4000RPM);
     // NamedCommands.registerCommand("3000RPM Shoot Command",  autoShootCommand5000RPM);
@@ -204,10 +208,13 @@ public class RobotContainer {
         .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
         
     new JoystickButton(YuanCon, YuanConstants.BT_B)
-        .onTrue(new IntakeCommand(m_IntakeSubsystem, m_PivotSubsystem, YuanCon));
+        .onTrue(new IntakeCommand(m_IndexorSubsystem, m_IntakeSubsystem, m_PivotSubsystem, YuanCon));
     new JoystickButton(YuanCon, YuanConstants.BT_A)
         .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
         .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
+
+    new JoystickButton(YuanCon, YuanConstants.BT_D)
+        .onTrue(new ShootCloseCommand(m_ShooterSubsystem, YuanCon));
     //  new JoystickButton(YuanCon, YuanConstants.BT_D)
     //     .onTrue(new DistanceShootCommand(m_ShooterSubsystem, m_IndexorSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
     //     .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
@@ -358,27 +365,50 @@ public class RobotContainer {
         // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
         // drivetrain.registerTelemetry(logger::telemeterize);
     }  
-
+    /// ScoreMiddle
+    /// ScoreMiddleLeft
+    /// ScoreMiddleRight
+    /// ScoreMiddleOutpost
+    /// 
+    /// RightScoreMiddle
+    /// RightMiddle
+    /// 
+    /// LeftMiddle
+    /// LeftScoreMiddle
 
 
   public Command getAutonomousCommand() {
         String autoName = "ScoreMiddle";
-        if (autoName.equals("LeftIntakeAndDepot") || autoName.equals("LeftTwoCycle")) {
-            drivetrain.resetPose(AutoConstants.leftAutoPose);
-        }
-        if (autoName.equals("CenterDepotScore") || autoName.equals("ScoreMiddle")) {
-            drivetrain.resetPose(AutoConstants.middleAutoPose);
-        }
-        if (autoName.equals("RightTwoCycle")) {
-            drivetrain.resetPose(AutoConstants.rightAutoPose);
-        }
-        // return autoChooser.getSelected();
+        
+        resetAutoPose(autoName);
+         
         return new PathPlannerAuto(autoName);
-        /// CenterDepotScore
+        
+        ///  CenterDepotScore
         /// LeftTwoCycle
         /// TestAutoShoot
         /// LeftIntakeAndDepot
         /// RightTwoCycle
-        
-  }
+    }
+    // sets the pose of the robot based on the autonomous path name
+    public void resetAutoPose(String autoName) {
+        if (autoName.equals("ScoreMiddle") 
+        || autoName.equals("ScoreMiddleLeft")
+        || autoName.equals("ScoreMiddleRight")
+        || autoName.equals("ScoreMiddleOutpost")) {
+            drivetrain.resetPose(AutoConstants.middleAutoPose);
+        }
+        if (autoName.equals("LeftScoreMiddle")) {
+            drivetrain.resetPose(AutoConstants.middleLeftPose);
+        }
+        if (autoName.equals("RightScoreMiddle")) {
+            drivetrain.resetPose(AutoConstants.middleRightPose);
+        }
+        if (autoName.equals("LeftMiddle")) {
+            drivetrain.resetPose(AutoConstants.leftAutoPose);
+        }
+        if (autoName.equals("RightMiddle")) {
+            drivetrain.resetPose(AutoConstants.rightAutoPose);
+        }
+    }
 }

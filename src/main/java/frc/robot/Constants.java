@@ -82,9 +82,9 @@ public final class Constants {
 
   }
   public static class ShooterConstants {
-    public static final double steepA = 691;
-    public static final double steepB = -1776;
-    public static final double steepC = 3066;
+    public static final double steepA = 1188;
+    public static final double steepB = -2596;
+    public static final double steepC = 3396;
 
     public static final double distanceA = 0;
     public static final double distanceB = 0;
@@ -368,15 +368,20 @@ public final class Constants {
     public static final double kPivotMiddle = 0.7;
     public static final double kPivotDownPosition = 1.05; // placeholder
     public static final double kPivotTolerance = 0.5; // placeholder
+    public static final double kCurrentLimit = 10; // placeholder
 
     public static final double kHoodHighArcAngle = 0.009; // Placeholder // 0.009
     public static final double kHoodFarArcAngle = 0.4; // Placeholder
     public static final double kHoodLaunchAngle = 0.73; // 0.73
     public static final double kHoodTolerance = 0.1; // placeholder
-    public static final Rotation2d autoRotation = new Rotation2d(0);
-    public static final Pose2d leftAutoPose = new Pose2d(4.479, 7.393, autoRotation);
-    public static final Pose2d middleAutoPose = new Pose2d(3.5, 4.0, autoRotation);
-    public static final Pose2d rightAutoPose = new Pose2d(4.466, 0.626, autoRotation);
+    public static final Rotation2d middleRotation = new Rotation2d(0);
+    public static final Rotation2d rightRotation = new Rotation2d(Math.PI/4);
+    public static final Rotation2d leftRotation = new Rotation2d(-Math.PI/4);
+    public static final Pose2d leftAutoPose = new Pose2d(4.479, 7.393, middleRotation);
+    public static final Pose2d middleLeftPose = new Pose2d(3.5, 4, leftRotation);
+    public static final Pose2d middleAutoPose = new Pose2d(3.5, 4.0, middleRotation);
+    public static final Pose2d middleRightPose = new Pose2d(3.5, 4, rightRotation);
+    public static final Pose2d rightAutoPose = new Pose2d(4.466, 0.626, middleRotation);
 
 
 

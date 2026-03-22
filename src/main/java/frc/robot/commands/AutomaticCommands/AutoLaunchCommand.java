@@ -11,14 +11,12 @@ public class AutoLaunchCommand extends Command{
     private final ShooterSubsystem shooterSubsystem;
     private final IndexorSubsystem indexorSubsystem;
     private final HoodSubsystem hoodSubsystem;
-    private double duration;
     private boolean shoot = false;
     private final Timer timer = new Timer();
-    public AutoLaunchCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem, double duration) {
+    public AutoLaunchCommand (ShooterSubsystem shooterSubsystem, IndexorSubsystem indexorSubsystem, HoodSubsystem hoodSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.indexorSubsystem = indexorSubsystem;
         this.hoodSubsystem = hoodSubsystem;
-        this.duration = duration;
 
         addRequirements(shooterSubsystem, indexorSubsystem, hoodSubsystem);
     }

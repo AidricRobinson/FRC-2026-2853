@@ -16,16 +16,15 @@ public class IndexorBackwardCommand extends Command{
         addRequirements(indexorSubsystem);
     }
     public void initialize(){
-        indexorSubsystem.setPoint(-4000);
+        indexorSubsystem.setPoint(-5000);
     }
     public void execute(){
         // indexorSubsystem.updateError();
         // indexorSubsystem.setPower(
-        //     indexorSubsystem.getOutput() > 0 ? 0
-        //     : indexorSubsystem.getOutput() < -1 ? -1
-        //     : indexorSubsystem.getOutput()
+        //     indexorSubsystem.getOutput() 
         // );
-        indexorSubsystem.setPower(-0.75);
+        indexorSubsystem.setPower(-1);
+        
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();
