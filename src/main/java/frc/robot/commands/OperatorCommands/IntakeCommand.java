@@ -25,7 +25,7 @@ public class IntakeCommand  extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.setPoint(5000);
+        intakeSubsystem.setPoint(4000);
     }
 
     @Override
@@ -36,7 +36,6 @@ public class IntakeCommand  extends Command{
         //     : intakeSubsystem.getOutput() < 0 ? 0.25
         //     : intakeSubsystem.getOutput()
         // );
-        intakeSubsystem.setPower(1);
         if (pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition) {
             pivotSubsystem.setPower(0);
         }
