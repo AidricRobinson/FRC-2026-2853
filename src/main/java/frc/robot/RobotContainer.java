@@ -192,15 +192,15 @@ public class RobotContainer {
     ///                            SECONDARY CONTROLLER SCHEME                           ///
     ////////////////////////////////////////////////////////////////////////////////////////
     /// 
-    new JoystickButton(YuanCon, YuanConstants.BT_C)
-        .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_HoodSubsystem, YuanCon)
-        .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
+    // new JoystickButton(YuanCon, YuanConstants.BT_C)
+    //     .onTrue(new LaunchFuelCommand(m_ShooterSubsystem, m_HoodSubsystem, YuanCon)
+    //     .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
         
     new JoystickButton(YuanCon, YuanConstants.BT_B)
         .onTrue(new IntakeCommand(m_IndexorSubsystem, m_IntakeSubsystem, m_PivotSubsystem, YuanCon));
-    new JoystickButton(YuanCon, YuanConstants.BT_A)
-        .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
-        .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
+    // new JoystickButton(YuanCon, YuanConstants.BT_A)
+    //     .onTrue(new SteepShootCommand(m_ShooterSubsystem, m_HoodSubsystem, m_LimelightSubsystem, YuanCon)
+    //     .andThen(new AutoHoodDownCommand(m_HoodSubsystem)));
 
     new JoystickButton(YuanCon, YuanConstants.BT_D)
         .onTrue(new ShootCloseCommand(m_ShooterSubsystem, YuanCon));

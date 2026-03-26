@@ -25,7 +25,7 @@ public class IntakeCommand  extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.setPoint(4000); //5000
+        intakeSubsystem.setPoint(3000); //5000
     }
 
     @Override

@@ -16,7 +16,7 @@ public class IndexorForwardCommand extends Command{
         addRequirements(indexorSubsystem);
     }
     public void initialize(){
-        indexorSubsystem.setPoint(5000);
+        indexorSubsystem.setPoint(3500);
     }
     public void execute(){
         indexorSubsystem.updateError();
