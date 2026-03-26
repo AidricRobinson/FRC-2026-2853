@@ -19,11 +19,11 @@ public class IndexorBackwardCommand extends Command{
         indexorSubsystem.setPoint(-5000);
     }
     public void execute(){
-        // indexorSubsystem.updateError();
-        // indexorSubsystem.setPower(
-        //     indexorSubsystem.getOutput() 
-        // );
-        indexorSubsystem.setPower(-1);
+        indexorSubsystem.updateError();
+        indexorSubsystem.setPower(
+            indexorSubsystem.getOutput() 
+        );
+        // indexorSubsystem.setPower(-1);
         
     }
     public void end(boolean interupted){

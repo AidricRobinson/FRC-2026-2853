@@ -66,7 +66,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-        private static double maxSpeedThingy = 0.9;
+        private static double maxSpeedThingy = 0.85;
     private final Field2d field2d = new Field2d();
 
 
@@ -338,8 +338,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     
     }
     public static void setNormalSpeed() {
-        maxSpeedThingy = 0.9;
+        maxSpeedThingy = 0.85;
     }
+
     public static double getMaxSpeedThingy() {
         return maxSpeedThingy;
     }

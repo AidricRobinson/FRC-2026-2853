@@ -19,13 +19,13 @@ public class IndexorForwardCommand extends Command{
         indexorSubsystem.setPoint(5000);
     }
     public void execute(){
-        // indexorSubsystem.updateError();
-        // indexorSubsystem.setPower(
-        //     indexorSubsystem.getOutput() > 1 ? 1
-        //     : indexorSubsystem.getOutput() < 0 ? 0.75
-        //     : indexorSubsystem.getOutput()
-        // );
-        indexorSubsystem.setPower(1);
+        indexorSubsystem.updateError();
+        indexorSubsystem.setPower(
+            indexorSubsystem.getOutput() > 1 ? 1
+            : indexorSubsystem.getOutput() < 0 ? 0.75
+            : indexorSubsystem.getOutput()
+        );
+        // indexorSubsystem.setPower(1);
     }
     public void end(boolean interupted){
         indexorSubsystem.shutdown();

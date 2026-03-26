@@ -25,18 +25,18 @@ public class IntakeCommand  extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.setPoint(5000);
+        intakeSubsystem.setPoint(4500);
     }
 
     @Override
     public void execute(){
         intakeSubsystem.updateError();
-        // intakeSubsystem.setPower(
-        //     intakeSubsystem.getOutput() > 1 ? 1
-        //     : intakeSubsystem.getOutput() < 0 ? 0.25
-        //     : intakeSubsystem.getOutput()
-        // );
-        intakeSubsystem.setPower(1);
+        intakeSubsystem.setPower(
+            intakeSubsystem.getOutput() > 1 ? 1
+            : intakeSubsystem.getOutput() < 0 ? 0.25
+            : intakeSubsystem.getOutput()
+        );
+        // intakeSubsystem.setPower(1);
         if (pivotSubsystem.getPivotEncoder() >= AutoConstants.kPivotDownPosition) {
             pivotSubsystem.setPower(0);
         }

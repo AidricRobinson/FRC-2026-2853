@@ -21,6 +21,7 @@ public class IndexorSubsystem extends SubsystemBase {
     private double testRPM;
     private PIDController pidController;
     private SparkFlexConfig indexorMotorConfig;
+    private IdleMode idleMode;
 
     private double setPoint;
 
@@ -28,11 +29,12 @@ public class IndexorSubsystem extends SubsystemBase {
         indexor = new SparkFlex(PortConstants.indexorMotorPort, MotorType.kBrushless);
         testRPM = 0;
         pidController = pidConstants.indexorPID;
+        idleMode = IdleMode.kBrake;
 
         indexorMotorConfig = new SparkFlexConfig();
         indexorMotorConfig
             .inverted(true)
-            .idleMode(IdleMode.kBrake);
+            .idleMode(idleMode);
 
         indexor.configure(indexorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -73,11 +75,13 @@ public class IndexorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Indexor RPM", getRPM());
         SmartDashboard.updateValues();
 
-        if (Math.abs(getRPM()) >= 50) {
-            indexorMotorConfig.idleMode(IdleMode.kCoast);
+        if (Math.abs(getRPM()) >= 50 && idleMode == IdleMode.kBrake) {
+            idleMode = IdleMode.kCoast;
+            indexorMotorConfig.idleMode(idleMode);
         }
-        else {
-            indexorMotorConfig.idleMode(IdleMode.kBrake);
+        else if (idleMode == IdleMode.kCoast) {
+            idleMode = IdleMode.kBrake;
+            indexorMotorConfig.idleMode(idleMode);
         }
     }
 
