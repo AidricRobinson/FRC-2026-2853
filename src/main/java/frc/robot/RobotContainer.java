@@ -8,12 +8,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.YuanConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GamepadConstants;
-import frc.robot.commands.AutomaticCommands.AutoIntakeCommand;
-import frc.robot.commands.AutomaticCommands.AutoLaunchCommand;
-import frc.robot.commands.AutomaticCommands.AutoScoreCommand;
-import frc.robot.commands.AutomaticCommands.AutoShootCommand;
+import frc.robot.commands.AutomaticCommands.*;
 import frc.robot.commands.OperatorCommands.AutoPivotDown;
-import frc.robot.commands.OperatorCommands.FastIntakeCommand;
+import frc.robot.commands.OperatorCommands.*;
 // import frc.robot.commands.AutonomousCommands.*;
 // import frc.robot.commands.OperatorCommands.AutoPivotDown;
 // import frc.robot.commands.OperatorCommands.AutoPivotUp;
@@ -25,15 +22,11 @@ import frc.robot.commands.OperatorCommands.ManualPivotUp;
 import frc.robot.commands.OperatorCommands.ShootCloseCommand;
 import frc.robot.commands.OperatorCommands.SlowPivotUp;
 import frc.robot.commands.OperatorCommands.SteepShootCommand;
-import frc.robot.commands.VisionCommands.AlignBackwardCommand;
-import frc.robot.commands.VisionCommands.AlignForwardCommand;
-import frc.robot.commands.VisionCommands.AlignHubCommand;
+import frc.robot.commands.VisionCommands.*;
 import frc.robot.commands.TeleOpCommands.SwerveSlowModeCommand;
 // import frc.robot.commands.OperatorCommands.SteepShootCommand;
 import frc.robot.commands.TeleOpCommands.*;
-import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodDownCommand;
-import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodMiddleCommand;
-import frc.robot.commands.TestCommands.HoodTestCommands.AutoHoodUpCommand;
+import frc.robot.commands.TestCommands.HoodTestCommands.*;
 
 import frc.robot.commands.TestCommands.IndexorTestCommands.*;
 import frc.robot.commands.TestCommands.IntakeTestCommands.IntakeTestRPMDown;
@@ -48,10 +41,6 @@ import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSetSpeed;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestShutdown;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedDown;
 import frc.robot.commands.TestCommands.PivotTestCommands.PivotTestSpeedUp;
-import frc.robot.commands.TestCommands.ShooterPIDCommands.ShooterTestRPMDown;
-import frc.robot.commands.TestCommands.ShooterPIDCommands.ShooterTestRPMShutdown;
-import frc.robot.commands.TestCommands.ShooterPIDCommands.ShooterTestRPMUp;
-import frc.robot.commands.TestCommands.ShooterPIDCommands.ShooterTestSetRPM;
 import frc.robot.commands.TestCommands.ShooterTestCommands.*;
 // import frc.robot.commands.VisionCommands.AlignHubCommand;
 import frc.robot.subsystems.*;
@@ -248,14 +237,14 @@ public class RobotContainer {
 
         //RPM ADJUSTER SHOOTER
         
-    new JoystickButton(controller1, GamepadConstants.kYButtonPort)
-        .onTrue(new ShooterTestRPMUp(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kXButtonPort)
-        .onTrue(new ShooterTestSetRPM(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kBButtonPort)
-        .onTrue(new ShooterTestRPMShutdown(m_ShooterSubsystem, controller1));
-    new JoystickButton(controller1, GamepadConstants.kAButtonPort)
-        .onTrue(new ShooterTestRPMDown(m_ShooterSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kYButtonPort)
+    //     .onTrue(new ShooterTestRPMUp(m_ShooterSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kXButtonPort)
+    //     .onTrue(new ShooterTestSetRPM(m_ShooterSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kBButtonPort)
+    //     .onTrue(new ShooterTestRPMShutdown(m_ShooterSubsystem, controller1));
+    // new JoystickButton(controller1, GamepadConstants.kAButtonPort)
+    //     .onTrue(new ShooterTestRPMDown(m_ShooterSubsystem, controller1));
 
         //HOOD TESTING
 
